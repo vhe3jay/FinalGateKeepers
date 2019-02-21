@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<HBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.ListofAttendiesController">
+   <children>
+      <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="800.0" HBox.hgrow="ALWAYS">
+         <children>
+            <BorderPane prefHeight="400.0" prefWidth="600.0">
+               <top>
+                  <VBox BorderPane.alignment="CENTER">
+                     <children>
+                        <Pane prefHeight="60.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <JFXComboBox fx:id="lifegroup" focusTraversable="false" labelFloat="true" layoutX="14.0" layoutY="30.0" prefHeight="25.0" prefWidth="135.0" promptText="Life Group">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXComboBox>
+                              <JFXComboBox fx:id="sort_attendy" focusTraversable="false" labelFloat="true" layoutX="496.0" layoutY="30.0" prefHeight="25.0" prefWidth="90.0" promptText="Today">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </JFXComboBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
+               </top>
+               <center>
+                  <VBox BorderPane.alignment="CENTER">
+                     <children>
+                        <Pane prefHeight="500.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox layoutX="14.0">
+                                 <children>
+                                    <TableView fx:id="tb" prefHeight="535.0" prefWidth="770.0" VBox.vgrow="ALWAYS">
+                                      <columns>
+                                        <TableColumn fx:id="nameCol" prefWidth="174.0" text="Name" />
+                                          <TableColumn fx:id="lgCol" prefWidth="85.0" text="Lifegroup" />
+                                          <TableColumn fx:id="ageCol" prefWidth="39.0" text="Age" />
+                                          <TableColumn fx:id="bdayCol" prefWidth="88.0" text="Birthdate" />
+                                          <TableColumn fx:id="contactCol" prefWidth="87.0" text="Contact No." />
+                                          <TableColumn fx:id="addressCol" prefWidth="154.0" text="Address" />
+                                          <TableColumn fx:id="timeCol" prefWidth="142.0" text="Timelog" />
+                                      </columns>
+                                    </TableView>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>
