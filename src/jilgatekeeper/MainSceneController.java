@@ -14,14 +14,17 @@ import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -118,4 +121,35 @@ public class MainSceneController implements Initializable {
     public void showAttendyListForm(ActionEvent evt){
         JILGateKeeper.showAttendyListForm();
     }
+    
+    @FXML
+    public void lgfilter(ActionEvent evt){
+          FilteredList<String> filteredItems = new FilteredList(list, p -> true);
+
+        // Add a listener to the textProperty of the combobox editor. The
+        // listener will simply filter the list every time the input is changed
+        // as long as the user hasn't selected an item in the list.
+        lifegroupcombo.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            final TextField editor = lifegroupcombo.getEditor();
+            final String selected = (String) lifegroupcombo.getSelectionModel().getSelectedItem();
+
+            // This needs run on the GUI thread to avoid the error described
+            // here: https://bugs.openjdk.java.net/browse/JDK-8081700.
+            Platform.runLater(() -> {
+                // If the no item in the list is selected or the selected item
+                // isn't equal to the current input, we refilter the list.
+                if (selected == null || !selected.equals(editor.getText())) {
+                    filteredItems.setPredicate(item -> {
+                        // We return true for any items that starts with the
+                        // same letters as the input. We use toUpperCase to
+                        // avoid case sensitivity.
+                        return item.toUpperCase().startsWith(newValue.toUpperCase());
+                    });
+                }
+            });
+        });
+     }
+ 
 }
+
+
