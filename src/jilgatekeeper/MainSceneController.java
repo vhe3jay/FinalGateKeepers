@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -26,12 +27,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-/**
- * FXML Controller class
- *
- * @author TestSubject
- */
 
 public class MainSceneController implements Initializable {
 
@@ -75,42 +70,22 @@ public class MainSceneController implements Initializable {
             timeCol.setCellValueFactory(new PropertyValueFactory("timelog"));
             // TODO
             loadcomponent();
+            //searchFilter();
             tb.setItems(data);
         }catch(Exception er){
             //FRO CHECKING THE ERROR
             Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, er);
         }
-        
     }    
     
     public static void addAttendyToTable(AttendyModels attendy){
         data.add(attendy);
     }
     
-    public void adddata(){
-        /*
-      
-        addButton.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent e) {
-                data.add(new AttendyModels(
-                        //ADDING DATA 
-                        nameCol.getText(),
-                        (String) lgbox.getValue(),
-                        numberCol.getText(),
-                        timeCol.toString()
-       }
-        });
-        */
-        
-   }
-    
     private void loadcomponent(){
         //lifegroup.setValue("First Timers");
         lifegroupcombo.setItems(list);
     }
-    
        
     @FXML
     public void showAttendyForm(ActionEvent evt){
@@ -123,32 +98,26 @@ public class MainSceneController implements Initializable {
     }
     
     @FXML
-    public void lgfilter(ActionEvent evt){
-          FilteredList<String> filteredItems = new FilteredList(list, p -> true);
-
-        // Add a listener to the textProperty of the combobox editor. The
-        // listener will simply filter the list every time the input is changed
-        // as long as the user hasn't selected an item in the list.
-        lifegroupcombo.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-            final TextField editor = lifegroupcombo.getEditor();
-            final String selected = (String) lifegroupcombo.getSelectionModel().getSelectedItem();
-
-            // This needs run on the GUI thread to avoid the error described
-            // here: https://bugs.openjdk.java.net/browse/JDK-8081700.
-            Platform.runLater(() -> {
-                // If the no item in the list is selected or the selected item
-                // isn't equal to the current input, we refilter the list.
-                if (selected == null || !selected.equals(editor.getText())) {
-                    filteredItems.setPredicate(item -> {
-                        // We return true for any items that starts with the
-                        // same letters as the input. We use toUpperCase to
-                        // avoid case sensitivity.
-                        return item.toUpperCase().startsWith(newValue.toUpperCase());
-                    });
-                }
-            });
-        });
-     }
+    public void searchFilter(){
+	if(searchField.textProperty().get().isEmpty()){
+		tb.setItems(data);
+		return;
+	}
+	ObservableList<AttendyModels> tableItems = FXCollections.observableArrayList();
+	ObservableList<TableColumn<AttendyModels, ?>> cols = tb.getColumns();
+	for(int i=0; i<data.size(); i++){
+		for(int j = 0; j<data.size();j++){
+			TableColumn col = cols.get(j);
+			String cellValue = col.getCellData(data.get(i)).toString();
+			cellValue = cellValue.toLowerCase();
+			if(cellValue.contains(searchField.textProperty().get().toLowerCase())){
+				tableItems.add(data.get(i));
+				break;
+			}
+		}
+	}
+	tb.setItems(tableItems);
+}
  
 }
 
