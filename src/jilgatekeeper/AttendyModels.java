@@ -143,6 +143,13 @@ public final class AttendyModels {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return "AttendyModels{" + "id=" + id + ", name=" + name + ", age=" + age + ", dateofbirth=" + dateofbirth + ", contactnumber=" + contactnumber + ", address=" + address + ", timelog=" + timelog + ", lifegroup=" + lifegroup + '}';
+    }
+    
+    
+
     public enum lgList {
                    FIRST_TIMERS, GUEST, CHILDREN, KKB, YAN, MEN, WOMEN, SENIORS
         }

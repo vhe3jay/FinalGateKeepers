@@ -68,7 +68,7 @@ public class NewAttendyFormController implements Initializable {
         System.out.println(attendy.getName());
         System.out.println(attendy.getLifegroup());
         System.out.println(attendy.getAge());
-        System.out.println(attendy.getSQLDateofbirth());
+        //System.out.println(attendy.getSQLDateofbirth());
         System.out.println(attendy.getContactnumber());
         System.out.println(attendy.getAddress());
         System.out.println(Timestamp.valueOf(LocalDateTime.now()));

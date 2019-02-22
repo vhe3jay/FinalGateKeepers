@@ -147,7 +147,9 @@ public class MainSceneController implements Initializable {
     @FXML
     public void Add(AttendyModels attendy){
         //FilteredList<AttendyModels> model = (FilteredList)tb.getItems();
-        tb.getItems().add(attendy);
+        //tb.getItems().add(attendy);
+        
+        System.out.println(attendy.toString());
     }
 
 }
