@@ -26,7 +26,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXTextField fx:id="searchField" />
+            <JFXTextField fx:id="searchField" alignment="CENTER" />
             <Button fx:id="clearButton" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" style="-fx-border-color: blue;" styleClass="number-button" stylesheets="@bootstrap3.css" text="Clear Filter" GridPane.columnIndex="1">
                
             </Button>
@@ -36,6 +36,7 @@
             <Button mnemonicParsing="false" onAction="#showAttendyListForm" prefHeight="25.0" prefWidth="213.0" style="-fx-border-color: blue;" styleClass="menu-button" stylesheets="@bootstrap3.css" text="Attendance" GridPane.columnIndex="3">
                
             </Button>
+            <Button mnemonicParsing="false" text="Button" GridPane.columnIndex="5" />
          </children>
       </GridPane>
       <VBox>

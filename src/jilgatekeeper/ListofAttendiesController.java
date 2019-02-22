@@ -92,7 +92,7 @@ public class ListofAttendiesController implements Initializable {
     }
      
      private void lglist(){
-        lifegroup.setItems(lifegrouplist);
+        lifegroup.getItems().addAll(AttendyModels.lgList.values());
 
 }
 }

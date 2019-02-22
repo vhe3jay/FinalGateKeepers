@@ -36,7 +36,7 @@ public class MainSceneController implements Initializable {
     @FXML
     private JFXComboBox<AttendyModels.lgList> lgComboBox = new JFXComboBox();
     @FXML
-    private JFXTextField searchField ;
+    private JFXTextField searchField;
     @FXML
     private Button clearButton;
     @FXML
@@ -53,10 +53,10 @@ public class MainSceneController implements Initializable {
     private Button presButton;
     @FXML
     private Button addButton;
-    
+
     @FXML
-    ObservableList<String> list = FXCollections.observableArrayList("First Timers", "Guests", "Children","KKB","YAN","MEN", "WOMEN","Seniors");
-    
+    ObservableList<String> list = FXCollections.observableArrayList("First Timers", "Guests", "Children", "KKB", "YAN", "MEN", "WOMEN", "Seniors");
+
     /*
     //DATA BEING INPUT HERE
     private static final ObservableList<AttendyModels> data = FXCollections.observableArrayList(
@@ -64,20 +64,20 @@ public class MainSceneController implements Initializable {
             new AttendyModels ("mhar","YAN","09366948787",Timestamp.valueOf(LocalDateTime.now())),
             new AttendyModels (1,"asdasd", "YAN", 18, LocalDate.now(), "nbn", "address",Timestamp.valueOf(LocalDateTime.now()))
     );
-    */
+     */
     private List<AttendyModels> createData() {
         return Arrays.asList(
-                new AttendyModels("Jacob Smith", AttendyModels.lgList.CHILDREN, "123456",Timestamp.valueOf(LocalDateTime.now())),
-                new AttendyModels("Isabella Johnson", AttendyModels.lgList.FIRST_TIMERS, "123456",Timestamp.valueOf(LocalDateTime.now())),
-                new AttendyModels("Ethan Williams", AttendyModels.lgList.KKB, "123456",Timestamp.valueOf(LocalDateTime.now())),
-                new AttendyModels("Emma Jones", AttendyModels.lgList.WOMEN, "123456",Timestamp.valueOf(LocalDateTime.now())),
-                new AttendyModels("Michael Brown", AttendyModels.lgList.CHILDREN, "123456",Timestamp.valueOf(LocalDateTime.now()))
+                new AttendyModels("Jacob Smith", AttendyModels.lgList.CHILDREN, "123456", Timestamp.valueOf(LocalDateTime.now())),
+                new AttendyModels("Isabella Johnson", AttendyModels.lgList.FIRST_TIMERS, "123456", Timestamp.valueOf(LocalDateTime.now())),
+                new AttendyModels("Ethan Williams", AttendyModels.lgList.KKB, "123456", Timestamp.valueOf(LocalDateTime.now())),
+                new AttendyModels("Emma Jones", AttendyModels.lgList.WOMEN, "123456", Timestamp.valueOf(LocalDateTime.now())),
+                new AttendyModels("Michael Brown", AttendyModels.lgList.CHILDREN, "123456", Timestamp.valueOf(LocalDateTime.now()))
         );
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try{
+        try {
             nameCol.setCellValueFactory(new PropertyValueFactory("name"));
             lgCol.setCellValueFactory(new PropertyValueFactory("lifegroup"));
             numberCol.setCellValueFactory(new PropertyValueFactory("contactnumber"));
@@ -86,45 +86,53 @@ public class MainSceneController implements Initializable {
             //loadcomponent();
             searchFilter();
             //tb.setItems(data);
-        }catch(Exception er){
+        } catch (Exception er) {
             //FRO CHECKING THE ERROR
             Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, er);
         }
-    }    
-    
-    public static void addAttendyToTable(AttendyModels attendy){
-     //   data.add(attendy);
     }
-    
-    private void loadcomponent(){
+
+    @FXML
+    public static void addAttendyToTable(AttendyModels attendy) {
+        //createData.add(attendy);
+        //tb.getItems().add(attendy);
+    }
+
+    @FXML
+    public static void add(ActionEvent evt) {
+        //data.add(attendy);
+
+    }
+
+    private void loadcomponent() {
         //lifegroup.setValue("First Timers");
         //lifegroupcombo.setItems(list);
     }
-       
+
     @FXML
-    public void showAttendyForm(ActionEvent evt){
+    public void showAttendyForm(ActionEvent evt) {
         JILGateKeeper.showAttendyForm();
     }
-    
+
     @FXML
-    public void showAttendyListForm(ActionEvent evt){
+    public void showAttendyListForm(ActionEvent evt) {
         JILGateKeeper.showAttendyListForm();
     }
-    
+
     @FXML
-    public void searchFilter(){
+    public void searchFilter() {
         lgComboBox.getItems().addAll(AttendyModels.lgList.values());
         ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
         ObjectProperty<Predicate<AttendyModels>> genderFilter = new SimpleObjectProperty<>();
-        
-        nameFilter.bind(Bindings.createObjectBinding(() -> 
-            person -> person.getName().toLowerCase().contains(searchField.getText().toLowerCase()), 
-            searchField.textProperty()));
-        
-        genderFilter.bind(Bindings.createObjectBinding(() ->
-            person -> lgComboBox.getValue() == null || lgComboBox.getValue() == person.getLifegroup(), 
-            lgComboBox.valueProperty()));
-            
+
+        nameFilter.bind(Bindings.createObjectBinding(()
+                -> attendy -> attendy.getName().toLowerCase().contains(searchField.getText().toLowerCase()),
+                searchField.textProperty()));
+
+        genderFilter.bind(Bindings.createObjectBinding(()
+                -> attendy -> lgComboBox.getValue() == null || lgComboBox.getValue() == attendy.getLifegroup(),
+                lgComboBox.valueProperty()));
+
         FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(createData()));
         tb.setItems(filteredItems);
 
@@ -134,8 +142,12 @@ public class MainSceneController implements Initializable {
             lgComboBox.setValue(null);
             searchField.clear();
         });
-}
- 
-}
+    }
+    
+    @FXML
+    public void Add(AttendyModels attendy){
+        //FilteredList<AttendyModels> model = (FilteredList)tb.getItems();
+        tb.getItems().add(attendy);
+    }
 
-
+}

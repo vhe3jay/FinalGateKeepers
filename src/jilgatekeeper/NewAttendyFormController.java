@@ -11,8 +11,6 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,14 +59,10 @@ public class NewAttendyFormController implements Initializable {
     private JFXDatePicker bdatePicker ;
     @FXML
     private Spinner<Integer> ageSpinner;
-    
-    
-    
-    
+    /*
     @FXML
     ObservableList<String> list = FXCollections.observableArrayList("First Timers", "Guests", "Children","KKB","YAN","MEN", "WOMEN","Seniors");
-        
-    
+    */
     @FXML
     void newdata(ActionEvent event) {
         System.out.println(attendy.getName());
@@ -81,14 +75,11 @@ public class NewAttendyFormController implements Initializable {
         //COMMAND FOR DISPLAYING THE TIMESTAMP ON MAINSCENE TABLE
         attendy.setTimelog(Timestamp.valueOf(LocalDateTime.now()));
         //ADD COMMAND FOR THE DATA ON MAIN SCENE
-        MainSceneController.addAttendyToTable(attendy);
+        //MainSceneController.addAttendyToTable(attendy);
         ListofAttendiesController.addAttendyToTable(attendy);
         //DISPOSING OF THE ADD NEW ATTENDY FORM
+        JILGateKeeper.MAIN_CONTROLLER.Add(attendy);
         JILGateKeeper.Stage_1.close();
-    }
-    
-    void spinnerdata(){
-        
     }
     
     @Override
@@ -97,16 +88,11 @@ public class NewAttendyFormController implements Initializable {
         loadcomponent();
         //SETTING THE RANGE OR SPINNER
         ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100,1));
-        
-        
-
     }   
-    
-    
     
     @FXML
     private void loadcomponent(){
-        lgbox.setItems(list);
+        lgbox.getItems().addAll(AttendyModels.lgList.values());
         attendy.nameProperty().bind(nameField.textProperty());
         attendy.ageProperty().bind(ageSpinner.valueProperty());
         attendy.dateofbirthProperty().bind(bdatePicker.valueProperty());
@@ -129,6 +115,5 @@ public class NewAttendyFormController implements Initializable {
             }
         });
     }
-
     
 }

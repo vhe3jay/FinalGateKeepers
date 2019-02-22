@@ -6,6 +6,8 @@
 package jilgatekeeper;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -28,15 +30,26 @@ public class JILGateKeeper extends Application {
 
     public static final Stage Stage_1 = new Stage();
     public static final Stage Stage_2 = new Stage();
+    
+    public static MainSceneController MAIN_CONTROLLER = null;
+    
+    public static Map<String,FXMLLoader> Loaders = new HashMap();
 
     // NewAttendyFormController nafc = new NewAttendyFormController();
     @Override
     public void start(Stage stage) throws Exception {
-        Parent main_root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+        FXMLLoader MAIN_LOADER = new FXMLLoader(getClass().getResource("MainScene.fxml"));
+        Parent MAIN_ROOT = MAIN_LOADER.load();
+        MAIN_CONTROLLER = MAIN_LOADER.getController();
+        
+        //Parent main_root = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
         Parent attendy_root = FXMLLoader.load(getClass().getResource("NewAttendyForm.fxml"));
         Parent attendy_list = FXMLLoader.load(getClass().getResource("ListofAttendies.fxml"));
-
-        scene_main = new Scene(main_root);
+        
+        
+        
+        
+        scene_main = new Scene(MAIN_ROOT);
         scene_atendy = new Scene(attendy_root);
         scene_atendylist = new Scene(attendy_list);
 
