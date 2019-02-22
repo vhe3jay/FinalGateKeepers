@@ -30,7 +30,7 @@
             <Button fx:id="clearButton" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" style="-fx-border-color: blue;" styleClass="number-button" stylesheets="@bootstrap3.css" text="Clear Filter" GridPane.columnIndex="1">
                
             </Button>
-            <JFXComboBox fx:id="lifegroupcombo" focusTraversable="false" labelFloat="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="193.0" promptText="Life Group" GridPane.columnIndex="2">
+            <JFXComboBox fx:id="lgComboBox" focusTraversable="false" labelFloat="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="193.0" promptText="Life Group" GridPane.columnIndex="2">
                
             </JFXComboBox>
             <Button mnemonicParsing="false" onAction="#showAttendyListForm" prefHeight="25.0" prefWidth="213.0" style="-fx-border-color: blue;" styleClass="menu-button" stylesheets="@bootstrap3.css" text="Attendance" GridPane.columnIndex="3">

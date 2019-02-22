@@ -60,7 +60,7 @@ public class ListofAttendiesController implements Initializable {
     ObservableList<String> sort_list = FXCollections.observableArrayList("Today", "Last week", "Custom");
     
     private static final ObservableList<AttendyModels> completedata = FXCollections.observableArrayList(
-            new AttendyModels (1,"asdasd", "YAN", 18, LocalDate.now(), "nbn", "address",Timestamp.valueOf(LocalDateTime.now()))
+            new AttendyModels (1,"asdasd", AttendyModels.lgList.YAN, 18, LocalDate.now(), "nbn", "address",Timestamp.valueOf(LocalDateTime.now()))
             
     );
     

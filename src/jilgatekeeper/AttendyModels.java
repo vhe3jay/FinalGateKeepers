@@ -1,6 +1,5 @@
 package jilgatekeeper;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import javafx.beans.property.IntegerProperty;
@@ -10,25 +9,23 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class AttendyModels {
+public final class AttendyModels {
 
     public AttendyModels() {
         
     }
     
-    
-
-    public AttendyModels(String Aname, String Lgroup, String Cnumber, Timestamp Tlog) {
+    public AttendyModels(String Aname, Object Lgroup, String Cnumber, Timestamp Tlog) {
         this.setName(Aname);
-        this.setLifegroup(Lgroup);
+        this.setLifegroup((lgList) Lgroup);
         this.setContactnumber(Cnumber);
         this.setTimelog(Tlog);
     }
     
-    public AttendyModels(Integer id, String name, String lifegroup, Integer age, LocalDate dateofbirth, String contactnumber, String address, Timestamp timelog) {
+    public AttendyModels(Integer id, String name, Object lifegroup, Integer age, LocalDate dateofbirth, String contactnumber, String address, Timestamp timelog) {
         this.setId(id);
         this.setName(name);
-        this.setLifegroup((String) lifegroup);
+        this.setLifegroup((lgList) lifegroup);
         this.setAge(age);
         this.setDateofbirth(dateofbirth);
         this.setContactnumber(contactnumber);
@@ -38,12 +35,25 @@ public class AttendyModels {
 
     private final IntegerProperty id = new SimpleIntegerProperty(0);
     private final StringProperty name = new SimpleStringProperty("");
-    private final StringProperty lifegroup = new SimpleStringProperty("");
     private final IntegerProperty age = new SimpleIntegerProperty(0);
     private final ObjectProperty<LocalDate> dateofbirth = new SimpleObjectProperty(null);
     private final StringProperty contactnumber = new SimpleStringProperty("");
     private final StringProperty address = new SimpleStringProperty("");
     private final ObjectProperty<Timestamp> timelog = new SimpleObjectProperty(null);
+    private final ObjectProperty<lgList> lifegroup = new SimpleObjectProperty<>();
+
+    public lgList getLifegroup() {
+        return lifegroup.get();
+    }
+
+    public void setLifegroup(lgList value) {
+        lifegroup.set(value);
+    }
+
+    public ObjectProperty lifegroupProperty() {
+        return lifegroup;
+    }
+    
 
     public Timestamp getTimelog() {
         return timelog.get();
@@ -108,19 +118,7 @@ public class AttendyModels {
     public IntegerProperty ageProperty() {
         return age;
     }
-
-    public String getLifegroup() {
-        return lifegroup.get();
-    }
-
-    public final void setLifegroup(String value) {
-        lifegroup.set(value);
-    }
-
-    public StringProperty lifegroupProperty() {
-        return lifegroup;
-    }
-
+    
     public String getName() {
         return name.get();
     }
@@ -144,4 +142,8 @@ public class AttendyModels {
     public IntegerProperty idProperty() {
         return id;
     }
+
+    public enum lgList {
+                   FIRST_TIMERS, GUEST, CHILDREN, KKB, YAN, MEN, WOMEN, SENIORS
+        }
 }
