@@ -33,6 +33,7 @@ public class JILGateKeeper extends Application {
         LOADERS.put("MAIN", MAIN_LOADER);
         LOADERS.put("LIST", LIST_LOADER);
         LOADERS.put("NEW", NEW_LOADER);
+        
         VBox MAIN_ROOT = MAIN_LOADER.load();
         Scene mainsc = new Scene(MAIN_ROOT);
         primaryStage.setTitle("Hello World!");

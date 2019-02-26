@@ -81,7 +81,7 @@ public class NewAttendyFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        //loadcomponent();
+        loadcomponent();
         //SETTING THE RANGE OR SPINNER
         lgbox.getItems().addAll(AttendyModels.lgList.values());
         ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100,1));
@@ -114,10 +114,11 @@ public class NewAttendyFormController implements Initializable {
     }
     @FXML
     void doSomething(ActionEvent event) {
-        ((MainSceneController)JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(nameField.getText(),lgbox.getValue().toString(),contactField.getText(),Timestamp.valueOf(LocalDateTime.now()));
+        ((MainSceneController)JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(nameField.getText(), new AttendyModels(nameField.getText(),lgbox.getValue(),contactField.getText(),Timestamp.valueOf(LocalDateTime.now())));
         System.out.println(attendy.getName());
         System.out.println(attendy.getLifegroup());
         System.out.println(attendy.getAge());
+        System.out.println(attendy.getDateofbirth());
     }
     
 }

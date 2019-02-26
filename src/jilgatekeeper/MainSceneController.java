@@ -10,9 +10,7 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
@@ -34,8 +32,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import jilgatekeeper.AttendyModels;
 
 public class MainSceneController implements Initializable {
 
@@ -109,34 +107,7 @@ public class MainSceneController implements Initializable {
         tb.getColumns().add(column("Lifegroup", AttendyModels::lifegroupProperty));
         tb.getColumns().add(column("Contact Number", AttendyModels::contactnumberProperty));
         tb.getColumns().add(column("Timelogs", AttendyModels::timelogProperty));
-
-    }
-
-    @FXML
-    public static void addAttendyToTable(AttendyModels attendy) {
-        //createData.add(attendy);
-        //tb.getItems().add(attendy);
-    }
-
-    @FXML
-    public static void add(ActionEvent evt) {
-        //data.add(attendy);
-
-    }
-
-    private void loadcomponent() {
-        //lifegroup.setValue("First Timers");
-        //lifegroupcombo.setItems(list);
-    }
-
-    @FXML
-    public void showAttendyForm(ActionEvent evt) {
-        JILGateKeeper.showAttendyForm();
-    }
-
-    @FXML
-    public void showAttendyListForm(ActionEvent evt) {
-        JILGateKeeper.showAttendyListForm();
+        searchFilter();
     }
 
     @FXML
@@ -175,16 +146,6 @@ public class MainSceneController implements Initializable {
         col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
         return col ;
     }
-    public void changeSampleLabel(String test, AttendyModels person){        
-           System.out.println(person.toString());
-        createData.add(person);
-        refreshTable();
-    }
-
-      public void changeSampleLabel(String Aname, Object Lgroup, String Cnumber, Timestamp Tlog) {
-          
-      }
-      
       @FXML
     public void launchCompanyForm(ActionEvent event) {
         try {
@@ -198,5 +159,12 @@ public class MainSceneController implements Initializable {
             Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    void changeSampleLabel(String text, AttendyModels attendyModels) {
+        System.out.println(attendyModels.toString());
+        createData.add(attendyModels);
+        refreshTable();
+    }
+
 
 }

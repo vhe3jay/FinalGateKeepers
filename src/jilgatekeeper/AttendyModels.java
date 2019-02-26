@@ -15,6 +15,7 @@ public final class AttendyModels {
         
     }
     
+    
     public AttendyModels(String Aname, Object Lgroup, String Cnumber, Timestamp Tlog) {
         this.setName(Aname);
         this.setLifegroup((lgList) Lgroup);
@@ -141,11 +142,6 @@ public final class AttendyModels {
 
     public IntegerProperty idProperty() {
         return id;
-    }
-
-    @Override
-    public String toString() {
-        return "AttendyModels{" + "id=" + id + ", name=" + name + ", age=" + age + ", dateofbirth=" + dateofbirth + ", contactnumber=" + contactnumber + ", address=" + address + ", timelog=" + timelog + ", lifegroup=" + lifegroup + '}';
     }
     
     
