@@ -9,7 +9,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -22,7 +21,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,7 +31,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import jilgatekeeper.AttendyModels;
 
 public class MainSceneController implements Initializable {
 
@@ -62,46 +59,10 @@ public class MainSceneController implements Initializable {
        private ObjectProperty<Predicate<AttendyModels>> genderFilter = new SimpleObjectProperty<>();
        private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(createData));
 
-    @FXML
-    ObservableList<String> list = FXCollections.observableArrayList("First Timers", "Guests", "Children", "KKB", "YAN", "MEN", "WOMEN", "Seniors");
-
-    /*
-    //DATA BEING INPUT HERE
-    private static final ObservableList<AttendyModels> data = FXCollections.observableArrayList(
-            new AttendyModels ("bobby","YAN","09567255912",Timestamp.valueOf(LocalDateTime.now())),
-            new AttendyModels ("mhar","YAN","09366948787",Timestamp.valueOf(LocalDateTime.now())),
-            new AttendyModels (1,"asdasd", "YAN", 18, LocalDate.now(), "nbn", "address",Timestamp.valueOf(LocalDateTime.now()))
-    );
-     */
     private static List<AttendyModels> createData = new ArrayList(
     ); 
-        /*
-        return Arrays.asList(
-                new AttendyModels("Jacob Smith", AttendyModels.lgList.CHILDREN, "123456", Timestamp.valueOf(LocalDateTime.now())),
-                new AttendyModels("Isabella Johnson", AttendyModels.lgList.FIRST_TIMERS, "123456", Timestamp.valueOf(LocalDateTime.now())),
-                new AttendyModels("Ethan Williams", AttendyModels.lgList.KKB, "123456", Timestamp.valueOf(LocalDateTime.now())),
-                new AttendyModels("Emma Jones", AttendyModels.lgList.WOMEN, "123456", Timestamp.valueOf(LocalDateTime.now())),
-                new AttendyModels("Michael Brown", AttendyModels.lgList.CHILDREN, "123456", Timestamp.valueOf(LocalDateTime.now()))
-        );
-    */
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        /*
-        try {
-            nameCol.setCellValueFactory(new PropertyValueFactory("name"));
-            lgCol.setCellValueFactory(new PropertyValueFactory("lifegroup"));
-            numberCol.setCellValueFactory(new PropertyValueFactory("contactnumber"));
-            timeCol.setCellValueFactory(new PropertyValueFactory("timelog"));
-            // TODO
-            //loadcomponent();
-            searchFilter();
-            //tb.setItems(data);
-        } catch (Exception er) {
-            //FRO CHECKING THE ERROR
-            Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, er);
-        }
-*/
         
         tb.getColumns().add(column("Name", AttendyModels::nameProperty));
         tb.getColumns().add(column("Lifegroup", AttendyModels::lifegroupProperty));
@@ -152,7 +113,20 @@ public class MainSceneController implements Initializable {
             FXMLLoader COMPANYFORM_LOADER = new FXMLLoader(this.getClass().getResource("NewAttendyForm.fxml"));
             Scene mainsc = new Scene(COMPANYFORM_LOADER.load());
             Stage primaryStage = new Stage();
-            primaryStage.setTitle("Hello World!");
+            primaryStage.setTitle("Add New Attendy!");
+            primaryStage.setScene(mainsc);
+            primaryStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+      @FXML
+    public void launchAttendyListForm(ActionEvent event) {
+        try {
+            FXMLLoader COMPANYFORM_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
+            Scene mainsc = new Scene(COMPANYFORM_LOADER.load());
+            Stage primaryStage = new Stage();
+            primaryStage.setTitle("List of Attendies!");
             primaryStage.setScene(mainsc);
             primaryStage.show();
         } catch (IOException ex) {

@@ -39,8 +39,6 @@ public class NewAttendyFormController implements Initializable {
     public void setAttendy(AttendyModels attendy) {
         this.attendy = attendy;
     }
-    ListofAttendiesController loac = new ListofAttendiesController();
-
 
     @FXML
     private JFXComboBox lgbox ;
@@ -56,10 +54,8 @@ public class NewAttendyFormController implements Initializable {
     private JFXDatePicker bdatePicker ;
     @FXML
     private Spinner<Integer> ageSpinner;
+    
     /*
-    @FXML
-    ObservableList<String> list = FXCollections.observableArrayList("First Timers", "Guests", "Children","KKB","YAN","MEN", "WOMEN","Seniors");
-    */
     @FXML
     void newdata(ActionEvent event) {
         System.out.println(attendy.getName());
@@ -72,20 +68,18 @@ public class NewAttendyFormController implements Initializable {
         //COMMAND FOR DISPLAYING THE TIMESTAMP ON MAINSCENE TABLE
         attendy.setTimelog(Timestamp.valueOf(LocalDateTime.now()));
         //ADD COMMAND FOR THE DATA ON MAIN SCENE
-        //MainSceneController.addAttendyToTable(attendy);
         ListofAttendiesController.addAttendyToTable(attendy);
         //DISPOSING OF THE ADD NEW ATTENDY FORM
-        //JILGateKeeper.MAIN_CONTROLLER.Add(attendy);
     }
+*/
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         loadcomponent();
-        //SETTING THE RANGE OR SPINNER
-        lgbox.getItems().addAll(AttendyModels.lgList.values());
-        ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100,1));
         
+        lgbox.getItems().addAll(AttendyModels.lgList.values());
+        //SETTING THE RANGE OR SPINNER
+        ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100,1));
     }   
     
     @FXML
@@ -108,7 +102,6 @@ public class NewAttendyFormController implements Initializable {
                     int val = converter.fromString(text);
                     ageValFac.setValue(val);
                 }
-                
             }
         });
     }
@@ -118,7 +111,10 @@ public class NewAttendyFormController implements Initializable {
         System.out.println(attendy.getName());
         System.out.println(attendy.getLifegroup());
         System.out.println(attendy.getAge());
-        System.out.println(attendy.getDateofbirth());
+        System.out.println(attendy.getSQLDateofbirth());
+        System.out.println(attendy.getContactnumber());
+        System.out.println(attendy.getAddress());
+        System.out.println(Timestamp.valueOf(LocalDateTime.now()));
     }
     
 }

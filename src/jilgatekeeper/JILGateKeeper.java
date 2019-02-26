@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jilgatekeeper;
 
 import java.io.IOException;
@@ -17,10 +12,7 @@ import javafx.stage.Stage;
 import static javafx.application.Application.launch;
 import javafx.scene.layout.VBox;
 
-/**
- *
- * @author Duskmourne
- */
+
 public class JILGateKeeper extends Application {
 
     public static Map<String, FXMLLoader> LOADERS = new HashMap();
@@ -36,7 +28,7 @@ public class JILGateKeeper extends Application {
         
         VBox MAIN_ROOT = MAIN_LOADER.load();
         Scene mainsc = new Scene(MAIN_ROOT);
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Gate Keepers!");
         primaryStage.setScene(mainsc);
         primaryStage.show();
 
@@ -53,21 +45,8 @@ public class JILGateKeeper extends Application {
         //stage.setMaximized(true);
 
     }
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }
-
-    public static void showAttendyForm() {
-        JILGateKeeper.LOADERS.get("NEW").getController();
-    }
-
-    public static void showAttendyListForm() {
-
-        LOADERS.getClass().getResource("ListofAttendies.fxml");
-    }
-
+    
 }

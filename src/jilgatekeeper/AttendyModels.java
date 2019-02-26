@@ -144,8 +144,6 @@ public final class AttendyModels {
         return id;
     }
     
-    
-
     public enum lgList {
                    FIRST_TIMERS, GUEST, CHILDREN, KKB, YAN, MEN, WOMEN, SENIORS
         }
