@@ -40,7 +40,7 @@
                         <JFXComboBox fx:id="lgbox" focusTraversable="false" labelFloat="true" layoutX="21.0" layoutY="218.0" prefHeight="25.0" prefWidth="123.0" promptText="Life Group">
                             
                         </JFXComboBox>
-                        <Button fx:id="addButton" defaultButton="true" layoutX="162.0" layoutY="218.0" mnemonicParsing="false" onAction="#newdata" prefHeight="25.0" prefWidth="111.0" text="Add">
+                        <Button fx:id="addButton" defaultButton="true" layoutX="162.0" layoutY="218.0" mnemonicParsing="false" onAction="#doSomething" prefHeight="25.0" prefWidth="111.0" text="Add">
                             
                         </Button>
                         <Spinner fx:id="ageSpinner" editable="true" layoutX="21.0" layoutY="83.0" prefHeight="25.0" prefWidth="82.0" />

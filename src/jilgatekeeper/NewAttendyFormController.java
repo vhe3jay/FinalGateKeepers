@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package jilgatekeeper;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -43,6 +39,7 @@ public class NewAttendyFormController implements Initializable {
     public void setAttendy(AttendyModels attendy) {
         this.attendy = attendy;
     }
+    ListofAttendiesController loac = new ListofAttendiesController();
 
 
     @FXML
@@ -78,21 +75,21 @@ public class NewAttendyFormController implements Initializable {
         //MainSceneController.addAttendyToTable(attendy);
         ListofAttendiesController.addAttendyToTable(attendy);
         //DISPOSING OF THE ADD NEW ATTENDY FORM
-        JILGateKeeper.MAIN_CONTROLLER.Add(attendy);
-        JILGateKeeper.Stage_1.close();
+        //JILGateKeeper.MAIN_CONTROLLER.Add(attendy);
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        loadcomponent();
+        //loadcomponent();
         //SETTING THE RANGE OR SPINNER
+        lgbox.getItems().addAll(AttendyModels.lgList.values());
         ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100,1));
+        
     }   
     
     @FXML
     private void loadcomponent(){
-        lgbox.getItems().addAll(AttendyModels.lgList.values());
         attendy.nameProperty().bind(nameField.textProperty());
         attendy.ageProperty().bind(ageSpinner.valueProperty());
         attendy.dateofbirthProperty().bind(bdatePicker.valueProperty());
@@ -114,6 +111,13 @@ public class NewAttendyFormController implements Initializable {
                 
             }
         });
+    }
+    @FXML
+    void doSomething(ActionEvent event) {
+        ((MainSceneController)JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(nameField.getText(),lgbox.getValue().toString(),contactField.getText(),Timestamp.valueOf(LocalDateTime.now()));
+        System.out.println(attendy.getName());
+        System.out.println(attendy.getLifegroup());
+        System.out.println(attendy.getAge());
     }
     
 }
