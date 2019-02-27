@@ -23,13 +23,17 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 public class MainSceneController implements Initializable {
@@ -42,6 +46,8 @@ public class MainSceneController implements Initializable {
     private Button clearButton;
     @FXML
     private TableView tb;
+       @FXML
+    private Button deleteButton;
     
     public static Stage newStage = new Stage();
     public static Stage listStage = new Stage();
@@ -56,11 +62,53 @@ public class MainSceneController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //SETTING THE COLUMN EDITABLE
+        tb.setEditable(true);
+        TableColumn nameCol = column("Name", AttendyModels::nameProperty);
+        TableColumn lgCol = column("Lifegroup", AttendyModels::lifegroupProperty);
+        TableColumn contactCol = column("Contact Number", AttendyModels::contactnumberProperty);
+        TableColumn timeCol = column("Timelogs", AttendyModels::timelogProperty);
         
-        tb.getColumns().add(column("Name", AttendyModels::nameProperty));
-        tb.getColumns().add(column("Lifegroup", AttendyModels::lifegroupProperty));
-        tb.getColumns().add(column("Contact Number", AttendyModels::contactnumberProperty));
-        tb.getColumns().add(column("Timelogs", AttendyModels::timelogProperty));
+        tb.setEditable(true);
+        tb.getColumns().add(nameCol);
+        tb.getColumns().add(lgCol);
+        tb.getColumns().add(contactCol);
+        tb.getColumns().add(timeCol);
+        
+        nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        //lgCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        
+        nameCol.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<AttendyModels, String>>() {
+                @Override
+                public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
+                    AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    sel_attendy.setName(t.getNewValue());
+                }
+            }
+        );
+        lgCol.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<AttendyModels, String>>() {
+                @Override
+                public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
+                    AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    sel_attendy.setName(t.getNewValue());
+                }
+            }
+        );
+        contactCol.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<AttendyModels, String>>() {
+                @Override
+                public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
+                    AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
+                    sel_attendy.setName(t.getNewValue());
+                }
+            }
+        );
+        
+        
+        
         searchFilter();
         
     }
@@ -99,6 +147,7 @@ public class MainSceneController implements Initializable {
     private static <S,T> TableColumn<S,T> column(String title, Function<S, ObservableValue<T>> property) {
         TableColumn<S,T> col = new TableColumn<>(title);
         col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
+        col.setEditable(true);
         col.setMinWidth(20);
         col.setMaxWidth(800);
         col.setPrefWidth(351.1);
@@ -134,5 +183,13 @@ public class MainSceneController implements Initializable {
         createData.add(attendyModels);
         refreshTable();
     }
-
+    
+    @FXML
+    private void deleteButton(ActionEvent evt) {
+        AttendyModels sel_item = (AttendyModels)tb.getSelectionModel().getSelectedItem();
+        createData.remove(sel_item);
+        refreshTable();
+    }
 }
+
+

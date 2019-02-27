@@ -53,11 +53,16 @@
       </GridPane>
       <VBox>
          <children>
-            <TableView fx:id="tb" prefHeight="589.0" prefWidth="1280.0" VBox.vgrow="ALWAYS" />
+            <TableView fx:id="tb" editable="true" prefHeight="589.0" prefWidth="1280.0" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
          <children>
+            <Button fx:id="deleteButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteButton" prefHeight="32.0" prefWidth="93.0" style="-fx-border-color: red;" styleClass="tab-close-button" text="Delete">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#launchnewForm" prefHeight="32.0" style="-fx-border-color: blue;" stylesheets="@bootstrap3.css" text="New Attendy" HBox.hgrow="ALWAYS">
                
             </Button>

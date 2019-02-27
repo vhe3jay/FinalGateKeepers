@@ -103,7 +103,6 @@ public class NewAttendyFormController implements Initializable {
     void doSomething(ActionEvent event) {
         ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(nameField.getText(), new AttendyModels(nameField.getText(), lgbox.getValue(), contactField.getText(), Timestamp.valueOf(LocalDateTime.now())));
         //((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).changeSampleLabel1(new AttendyModels(nameField.getText(), lgbox.getValue(), ageSpinner.getValue(), bdatePicker.getValue(), contactField.getText(), addressField.getText(), Timestamp.valueOf(LocalDateTime.now())));
-
         System.out.println(attendy.getName());
         System.out.println(attendy.getLifegroup());
         System.out.println(attendy.getAge());

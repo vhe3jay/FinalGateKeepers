@@ -129,6 +129,11 @@ public final class AttendyModels {
     public StringProperty nameProperty() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "AttendyModels{" + "name=" + name + ", age=" + age + ", dateofbirth=" + dateofbirth + ", contactnumber=" + contactnumber + ", address=" + address + ", timelog=" + timelog + ", lifegroup=" + lifegroup + '}';
+    }
     
     
     public enum lgList {
