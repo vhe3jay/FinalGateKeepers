@@ -7,21 +7,15 @@ package jilgatekeeper;
 
 import com.jfoenix.controls.JFXComboBox;
 import java.net.URL;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * FXML Controller class
@@ -65,22 +59,9 @@ public class ListofAttendiesController implements Initializable {
         tb.getColumns().add(column("Contact No.", AttendyModels::contactnumberProperty));
         tb.getColumns().add(column("Address", AttendyModels::addressProperty));
         tb.getColumns().add(column("Time", AttendyModels::timelogProperty));
+        sort_attendy.getItems().addAll(AttendyModels.sortby.values());
+        lgcombo.getItems().addAll(AttendyModels.lgList.values());
         
-        /*
-        nameCol.setCellValueFactory(new PropertyValueFactory("name"));
-        lgCol.setCellValueFactory(new PropertyValueFactory("lifegroup"));
-        ageCol.setCellValueFactory(new PropertyValueFactory("age"));
-        bdayCol.setCellValueFactory(new PropertyValueFactory("dateofbirth"));
-        contactCol.setCellValueFactory(new PropertyValueFactory("contactnumber"));
-        addressCol.setCellValueFactory(new PropertyValueFactory("address"));
-        timeCol.setCellValueFactory(new PropertyValueFactory("timelog"));
-        */
-        //tb.setItems(data);
-        //tb.setEditable(true);
-        //tb.setItems(completedata);
-        sortlist();
-        lglist();
-        //log();
     }
     
     private static <S,T> TableColumn<S,T> column(String title, Function<S, ObservableValue<T>> property) {
@@ -91,14 +72,10 @@ public class ListofAttendiesController implements Initializable {
         col.setPrefWidth(205);
         return col ;
     }
-    
-    
-     private void sortlist(){
-        sort_attendy.getItems().addAll(AttendyModels.sortby.values());
-    }
-     
-     private void lglist(){
-        lgcombo.getItems().addAll(AttendyModels.lgList.values());
 
-}
+    void changeSampleLabel1(String text, AttendyModels attendyModels) {
+        System.out.println(attendyModels.toString());
+        createData.add(attendyModels);
+    }
+    
 }

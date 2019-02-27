@@ -23,8 +23,7 @@ public final class AttendyModels {
         this.setTimelog(Tlog);
     }
     
-    public AttendyModels(Integer id, String name, Object lifegroup, Integer age, LocalDate dateofbirth, String contactnumber, String address, Timestamp timelog) {
-        this.setId(id);
+    public AttendyModels(String name, Object lifegroup, Integer age, LocalDate dateofbirth, String contactnumber, String address, Timestamp timelog) {
         this.setName(name);
         this.setLifegroup((lgList) lifegroup);
         this.setAge(age);
@@ -34,7 +33,6 @@ public final class AttendyModels {
         this.setTimelog(timelog);
     }
 
-    private final IntegerProperty id = new SimpleIntegerProperty(0);
     private final StringProperty name = new SimpleStringProperty("");
     private final IntegerProperty age = new SimpleIntegerProperty(0);
     private final ObjectProperty<LocalDate> dateofbirth = new SimpleObjectProperty(null);
@@ -132,17 +130,6 @@ public final class AttendyModels {
         return name;
     }
     
-    public int getId() {
-        return id.get();
-    }
-
-    public final void setId(int value) {
-        id.set(value);
-    }
-
-    public IntegerProperty idProperty() {
-        return id;
-    }
     
     public enum lgList {
                    FIRST_TIMERS, GUEST, CHILDREN, KKB, YAN, MEN, WOMEN, SENIORS

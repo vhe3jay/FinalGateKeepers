@@ -30,9 +30,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableView.ResizeFeatures;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 public class MainSceneController implements Initializable {
 
@@ -44,18 +42,6 @@ public class MainSceneController implements Initializable {
     private Button clearButton;
     @FXML
     private TableView tb;
-    @FXML
-    private TableColumn nameCol;
-    @FXML
-    private TableColumn lgCol;
-    @FXML
-    private TableColumn numberCol;
-    @FXML
-    private TableColumn timeCol;
-    @FXML
-    private Button presButton;
-    @FXML
-    private Button addButton;
     
     public static Stage newStage = new Stage();
     public static Stage listStage = new Stage();
@@ -133,9 +119,9 @@ public class MainSceneController implements Initializable {
       @FXML
     public void launchAttendyListForm(ActionEvent event) {
         try {
-            FXMLLoader LIST_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
-            Scene listsc = new Scene(LIST_LOADER.load());
-            listStage.setTitle("List of Attendies!");
+            FXMLLoader LISTFORM_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
+            Scene listsc = new Scene(LISTFORM_LOADER.load());
+            listStage.setTitle("Add New Attendy!");
             listStage.setScene(listsc);
             listStage.show();
         } catch (IOException ex) {
