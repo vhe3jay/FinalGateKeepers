@@ -10,7 +10,11 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Function;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,36 +39,34 @@ public class ListofAttendiesController implements Initializable {
     @FXML
     private JFXComboBox sort_attendy;
     @FXML
-    private JFXComboBox lifegroup;
+    private JFXComboBox lgcombo;
     @FXML
     public TableView<AttendyModels> tb;
-    @FXML
-    private TableColumn nameCol;
-    @FXML
-    private TableColumn lgCol;
-    @FXML
-    private TableColumn ageCol;
-    @FXML
-    private TableColumn bdayCol;
-    @FXML
-    private TableColumn contactCol;
-    @FXML
-    private TableColumn addressCol;
-    @FXML
-    private TableColumn timeCol;
     
+    /*
     ObservableList<String> lifegrouplist = FXCollections.observableArrayList("First Timers", "Guests", "Children","KKB","YAN","MEN", "WOMEN","Seniors");
     ObservableList<String> sort_list = FXCollections.observableArrayList("Today", "Last week", "Custom");
     
     private static final ObservableList<AttendyModels> completedata = FXCollections.observableArrayList(
             new AttendyModels (1,"asdasd", AttendyModels.lgList.YAN, 18, LocalDate.now(), "nbn", "address",Timestamp.valueOf(LocalDateTime.now()))
-            
+    );
+    */
+    private static List<AttendyModels> createData = new ArrayList(
     );
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        tb.getColumns().add(column("Name", AttendyModels::nameProperty));
+        tb.getColumns().add(column("Lifegroup", AttendyModels::lifegroupProperty));
+        tb.getColumns().add(column("Age", AttendyModels::ageProperty));
+        tb.getColumns().add(column("Birthdate", AttendyModels::dateofbirthProperty));
+        tb.getColumns().add(column("Contact No.", AttendyModels::contactnumberProperty));
+        tb.getColumns().add(column("Address", AttendyModels::addressProperty));
+        tb.getColumns().add(column("Time", AttendyModels::timelogProperty));
+        
+        /*
         nameCol.setCellValueFactory(new PropertyValueFactory("name"));
         lgCol.setCellValueFactory(new PropertyValueFactory("lifegroup"));
         ageCol.setCellValueFactory(new PropertyValueFactory("age"));
@@ -72,24 +74,31 @@ public class ListofAttendiesController implements Initializable {
         contactCol.setCellValueFactory(new PropertyValueFactory("contactnumber"));
         addressCol.setCellValueFactory(new PropertyValueFactory("address"));
         timeCol.setCellValueFactory(new PropertyValueFactory("timelog"));
+        */
         //tb.setItems(data);
-        tb.setEditable(true);
-        tb.setItems(completedata);
+        //tb.setEditable(true);
+        //tb.setItems(completedata);
         sortlist();
         lglist();
         //log();
     }
-    public static void addAttendyToTable(AttendyModels attendy){
-        completedata.add(attendy);
+    
+    private static <S,T> TableColumn<S,T> column(String title, Function<S, ObservableValue<T>> property) {
+        TableColumn<S,T> col = new TableColumn<>(title);
+        col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
+        col.setMinWidth(20);
+        col.setMaxWidth(800);
+        col.setPrefWidth(205);
+        return col ;
     }
     
     
      private void sortlist(){
-        sort_attendy.setItems(sort_list);
+        sort_attendy.getItems().addAll(AttendyModels.sortby.values());
     }
      
      private void lglist(){
-        lifegroup.getItems().addAll(AttendyModels.lgList.values());
+        lgcombo.getItems().addAll(AttendyModels.lgList.values());
 
 }
 }

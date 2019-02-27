@@ -58,14 +58,16 @@ public class MainSceneController implements Initializable {
     private Button addButton;
     
     public static Stage newStage = new Stage();
+    public static Stage listStage = new Stage();
     
     
        private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
-       private ObjectProperty<Predicate<AttendyModels>> genderFilter = new SimpleObjectProperty<>();
+       private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
        private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(createData));
 
     private static List<AttendyModels> createData = new ArrayList(
     ); 
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -73,7 +75,6 @@ public class MainSceneController implements Initializable {
         tb.getColumns().add(column("Lifegroup", AttendyModels::lifegroupProperty));
         tb.getColumns().add(column("Contact Number", AttendyModels::contactnumberProperty));
         tb.getColumns().add(column("Timelogs", AttendyModels::timelogProperty));
-        colAutoFit();
         searchFilter();
         
     }
@@ -87,7 +88,7 @@ public class MainSceneController implements Initializable {
             searchField.textProperty()));
 
 
-        genderFilter.bind(Bindings.createObjectBinding(() ->
+        lgFilter.bind(Bindings.createObjectBinding(() ->
             person -> lgComboBox.getValue() == null || lgComboBox.getValue() == person.getLifegroup(), 
             lgComboBox.valueProperty()));
 
@@ -99,23 +100,26 @@ public class MainSceneController implements Initializable {
             searchField.clear();
         });
 
-        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(genderFilter.get()), nameFilter, genderFilter));
+        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
         
     }    
     
     private void refreshTable(){
         filteredItems = new FilteredList<>(FXCollections.observableList(createData));
-        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(genderFilter.get()), nameFilter, genderFilter));
+        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
         tb.setItems((FilteredList)filteredItems);
     }
     
     private static <S,T> TableColumn<S,T> column(String title, Function<S, ObservableValue<T>> property) {
         TableColumn<S,T> col = new TableColumn<>(title);
         col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
+        col.setMinWidth(20);
+        col.setMaxWidth(800);
+        col.setPrefWidth(351.1);
         return col ;
     }
       @FXML
-    public void launchCompanyForm(ActionEvent event) {
+    public void launchnewForm(ActionEvent event) {
         try {
             FXMLLoader COMPANYFORM_LOADER = new FXMLLoader(this.getClass().getResource("NewAttendyForm.fxml"));
             Scene mainsc = new Scene(COMPANYFORM_LOADER.load());
@@ -129,11 +133,10 @@ public class MainSceneController implements Initializable {
       @FXML
     public void launchAttendyListForm(ActionEvent event) {
         try {
-            FXMLLoader COMPANYFORM_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
-            Scene mainsc = new Scene(COMPANYFORM_LOADER.load());
-            Stage listStage = new Stage();
+            FXMLLoader LIST_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
+            Scene listsc = new Scene(LIST_LOADER.load());
             listStage.setTitle("List of Attendies!");
-            listStage.setScene(mainsc);
+            listStage.setScene(listsc);
             listStage.show();
         } catch (IOException ex) {
             Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
@@ -146,13 +149,4 @@ public class MainSceneController implements Initializable {
         refreshTable();
     }
 
-    public void colAutoFit(){
-        tb.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
-    
-  @Override
-  public Boolean call(ResizeFeatures p) {
-     return true;
-  }
-});
-    }
 }

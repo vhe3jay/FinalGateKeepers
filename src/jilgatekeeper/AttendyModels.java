@@ -147,4 +147,7 @@ public final class AttendyModels {
     public enum lgList {
                    FIRST_TIMERS, GUEST, CHILDREN, KKB, YAN, MEN, WOMEN, SENIORS
         }
+    public enum sortby{
+                    TODAY, LASTWEEK, CUSTOM, ALLTIME
+    }
 }
