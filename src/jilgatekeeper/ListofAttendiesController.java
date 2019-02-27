@@ -11,7 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -36,6 +42,10 @@ public class ListofAttendiesController implements Initializable {
     private JFXComboBox lgcombo;
     @FXML
     public TableView<AttendyModels> tb;
+    
+    private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
+       private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
+       private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(createData));
     
     /*
     ObservableList<String> lifegrouplist = FXCollections.observableArrayList("First Timers", "Guests", "Children","KKB","YAN","MEN", "WOMEN","Seniors");
@@ -70,12 +80,19 @@ public class ListofAttendiesController implements Initializable {
         col.setMinWidth(20);
         col.setMaxWidth(800);
         col.setPrefWidth(205);
+        col.resizableProperty();
         return col ;
     }
+    private void refreshTable(){
+        filteredItems = new FilteredList<>(FXCollections.observableList(createData));
+        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
+        tb.setItems((FilteredList)filteredItems);
+    }
 
-    void changeSampleLabel1(String text, AttendyModels attendyModels) {
+    void changeSampleLabel1(AttendyModels attendyModels) {
         System.out.println(attendyModels.toString());
         createData.add(attendyModels);
+        refreshTable();
     }
     
 }

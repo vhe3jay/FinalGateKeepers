@@ -1,4 +1,3 @@
-
 package jilgatekeeper;
 
 import com.jfoenix.controls.JFXComboBox;
@@ -15,10 +14,8 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 
-
-    
 public class NewAttendyFormController implements Initializable {
-    
+
     private AttendyModels attendy = new AttendyModels();
 
     /**
@@ -40,7 +37,7 @@ public class NewAttendyFormController implements Initializable {
     }
 
     @FXML
-    private JFXComboBox lgbox ;
+    private JFXComboBox lgbox;
     @FXML
     private TextField nameField;
     @FXML
@@ -48,10 +45,10 @@ public class NewAttendyFormController implements Initializable {
     @FXML
     private TextField addressField;
     @FXML
-    private JFXDatePicker bdatePicker ;
+    private JFXDatePicker bdatePicker;
     @FXML
     private Spinner<Integer> ageSpinner;
-    
+
     /*
     @FXML
     void newdata(ActionEvent event) {
@@ -68,19 +65,18 @@ public class NewAttendyFormController implements Initializable {
         ListofAttendiesController.addAttendyToTable(attendy);
         //DISPOSING OF THE ADD NEW ATTENDY FORM
     }
-*/
-    
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadcomponent();
-        
+
         lgbox.getItems().addAll(AttendyModels.lgList.values());
         //SETTING THE RANGE OR SPINNER
-        ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100,1));
-    }   
-    
+        ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
+    }
+
     @FXML
-    private void loadcomponent(){
+    private void loadcomponent() {
         attendy.nameProperty().bind(nameField.textProperty());
         attendy.ageProperty().bind(ageSpinner.valueProperty());
         attendy.dateofbirthProperty().bind(bdatePicker.valueProperty());
@@ -88,25 +84,26 @@ public class NewAttendyFormController implements Initializable {
         attendy.contactnumberProperty().bind(contactField.textProperty());
         attendy.addressProperty().bind(addressField.textProperty());
         attendy.ageProperty().bind(ageSpinner.valueProperty());
-        
+
         //CONVERTER OF FOR THE VALUE ON SPINNER
         ageSpinner.focusedProperty().addListener((observable, oldValue, newValue) -> {
             SpinnerValueFactory<Integer> ageValFac = ageSpinner.getValueFactory();
             String text = ageSpinner.getEditor().getText();
-            if(ageValFac != null){
+            if (ageValFac != null) {
                 StringConverter<Integer> converter = ageValFac.getConverter();
-                if(text != null && !text.isEmpty()){
+                if (text != null && !text.isEmpty()) {
                     int val = converter.fromString(text);
                     ageValFac.setValue(val);
                 }
             }
         });
     }
+
     @FXML
     void doSomething(ActionEvent event) {
-        ((MainSceneController)JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(nameField.getText(), new AttendyModels(nameField.getText(),lgbox.getValue(),contactField.getText(),Timestamp.valueOf(LocalDateTime.now())));
-        ((ListofAttendiesController)JILGateKeeper.LOADERS.get("LIST").getController()).changeSampleLabel1(nameField.getText(), new AttendyModels(nameField.getText(),lgbox.getValue(),ageSpinner.getValue(),bdatePicker.getValue(),contactField.getText(),addressField.getText(),Timestamp.valueOf(LocalDateTime.now())));
-        
+        ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(nameField.getText(), new AttendyModels(nameField.getText(), lgbox.getValue(), contactField.getText(), Timestamp.valueOf(LocalDateTime.now())));
+        //((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).changeSampleLabel1(new AttendyModels(nameField.getText(), lgbox.getValue(), ageSpinner.getValue(), bdatePicker.getValue(), contactField.getText(), addressField.getText(), Timestamp.valueOf(LocalDateTime.now())));
+
         System.out.println(attendy.getName());
         System.out.println(attendy.getLifegroup());
         System.out.println(attendy.getAge());
@@ -116,5 +113,5 @@ public class NewAttendyFormController implements Initializable {
         System.out.println(Timestamp.valueOf(LocalDateTime.now()));
         MainSceneController.newStage.close();
     }
-    
+
 }
