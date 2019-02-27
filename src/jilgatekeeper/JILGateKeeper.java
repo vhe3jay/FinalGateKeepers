@@ -26,6 +26,10 @@ public class JILGateKeeper extends Application {
         LOADERS.put("LIST", LIST_LOADER);
         LOADERS.put("NEW", NEW_LOADER);
         
+        Stage addFormStage = new Stage();
+        
+        
+        
         VBox MAIN_ROOT = MAIN_LOADER.load();
         Scene mainsc = new Scene(MAIN_ROOT);
         primaryStage.setTitle("Gate Keepers!");

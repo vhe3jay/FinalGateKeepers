@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="287.0" prefWidth="294.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.NewAttendyFormController">
+<AnchorPane id="AnchorPane" fx:id="parentPane" prefHeight="287.0" prefWidth="294.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.NewAttendyFormController">
     <children>
         <BorderPane prefHeight="299.0" prefWidth="294.0">
             <top>

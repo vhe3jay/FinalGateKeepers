@@ -14,11 +14,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
 
     
 public class NewAttendyFormController implements Initializable {
+    
+    @FXML
+    private AnchorPane parentPane;
 
     private AttendyModels attendy = new AttendyModels();
 
@@ -115,6 +119,7 @@ public class NewAttendyFormController implements Initializable {
         System.out.println(attendy.getContactnumber());
         System.out.println(attendy.getAddress());
         System.out.println(Timestamp.valueOf(LocalDateTime.now()));
+        MainSceneController.newStage.close();
     }
     
 }

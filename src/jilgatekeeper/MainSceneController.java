@@ -30,7 +30,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.ResizeFeatures;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class MainSceneController implements Initializable {
 
@@ -55,6 +57,9 @@ public class MainSceneController implements Initializable {
     @FXML
     private Button addButton;
     
+    public static Stage newStage = new Stage();
+    
+    
        private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
        private ObjectProperty<Predicate<AttendyModels>> genderFilter = new SimpleObjectProperty<>();
        private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(createData));
@@ -68,7 +73,9 @@ public class MainSceneController implements Initializable {
         tb.getColumns().add(column("Lifegroup", AttendyModels::lifegroupProperty));
         tb.getColumns().add(column("Contact Number", AttendyModels::contactnumberProperty));
         tb.getColumns().add(column("Timelogs", AttendyModels::timelogProperty));
+        colAutoFit();
         searchFilter();
+        
     }
 
     @FXML
@@ -112,10 +119,9 @@ public class MainSceneController implements Initializable {
         try {
             FXMLLoader COMPANYFORM_LOADER = new FXMLLoader(this.getClass().getResource("NewAttendyForm.fxml"));
             Scene mainsc = new Scene(COMPANYFORM_LOADER.load());
-            Stage primaryStage = new Stage();
-            primaryStage.setTitle("Add New Attendy!");
-            primaryStage.setScene(mainsc);
-            primaryStage.show();
+            newStage.setTitle("Add New Attendy!");
+            newStage.setScene(mainsc);
+            newStage.show();
         } catch (IOException ex) {
             Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -125,10 +131,10 @@ public class MainSceneController implements Initializable {
         try {
             FXMLLoader COMPANYFORM_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
             Scene mainsc = new Scene(COMPANYFORM_LOADER.load());
-            Stage primaryStage = new Stage();
-            primaryStage.setTitle("List of Attendies!");
-            primaryStage.setScene(mainsc);
-            primaryStage.show();
+            Stage listStage = new Stage();
+            listStage.setTitle("List of Attendies!");
+            listStage.setScene(mainsc);
+            listStage.show();
         } catch (IOException ex) {
             Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -140,5 +146,13 @@ public class MainSceneController implements Initializable {
         refreshTable();
     }
 
-
+    public void colAutoFit(){
+        tb.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
+    
+  @Override
+  public Boolean call(ResizeFeatures p) {
+     return true;
+  }
+});
+    }
 }
