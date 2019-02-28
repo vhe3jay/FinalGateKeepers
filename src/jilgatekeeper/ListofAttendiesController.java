@@ -91,9 +91,9 @@ public class ListofAttendiesController implements Initializable {
     }
     
     @FXML
-    public void changeSampleLabel(String text,AttendyModels attendyModels) {
+    public void changeSampleLabel(AttendyModels attendyModels) {
         //System.out.println(attendyModels.toString());
-        JILGateKeeper.createData.add(attendyModels);
+        //JILGateKeeper.createData.add(attendyModels);
         refreshTable();
     }
     

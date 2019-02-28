@@ -35,6 +35,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import static jilgatekeeper.JILGateKeeper.LOADERS;
 
 public class MainSceneController implements Initializable {
 
@@ -169,6 +170,7 @@ public class MainSceneController implements Initializable {
         try {
             FXMLLoader LISTFORM_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
             Scene listsc = new Scene(LISTFORM_LOADER.load());
+            JILGateKeeper.LOADERS.put("LIST", LISTFORM_LOADER);
             listStage.setTitle("List of Attendies!");
             listStage.setScene(listsc);
             listStage.show();
