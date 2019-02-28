@@ -51,9 +51,10 @@
       <VBox VBox.vgrow="ALWAYS">
          <children>
             <TableView fx:id="tb" editable="true" prefHeight="589.0" prefWidth="1280.0" VBox.vgrow="ALWAYS" />
+                
          </children>
       </VBox>
-      <HBox alignment="CENTER_RIGHT" prefHeight="48.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
+      <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
          <children>
             <Button mnemonicParsing="false" onAction="#launchAttendyListForm" prefHeight="25.0" prefWidth="213.0" style="-fx-border-color: blue;" styleClass="menu-button" stylesheets="@bootstrap3.css" text="Attendance List">
                <HBox.margin>

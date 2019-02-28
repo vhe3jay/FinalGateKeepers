@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -12,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import static javafx.application.Application.launch;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
 public class JILGateKeeper extends Application {
@@ -49,8 +51,8 @@ public class JILGateKeeper extends Application {
         primaryStage.setY(bounds.getMinY());
         primaryStage.setWidth(bounds.getWidth());
         primaryStage.setHeight(bounds.getHeight());
-        //stage.setMinHeight(600);
-        //stage.setMinWidth(800);
+        primaryStage.setMinWidth(1080);
+        primaryStage.setMinHeight(600);
         //FOR MAXIMIZED WINDOW SIZE
         // MUST BE PLACE BEFORE THE SHOW COMMAND
         //stage.setMaximized(true);
@@ -59,6 +61,22 @@ public class JILGateKeeper extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public static void customResize(TableView<?> view) {
+        /*
+        AtomicLong width = new AtomicLong();
+        view.getColumns().forEach(col -> {
+            width.addAndGet((long) col.getWidth());
+        });
+        double tableWidth = view.getWidth();
+
+        if (tableWidth > width.get()) {
+            view.getColumns().forEach(col -> {
+                col.setPrefWidth(col.getWidth()+((tableWidth-width.get())/view.getColumns().size()));
+            });
+        }
+*/
     }
 
 }

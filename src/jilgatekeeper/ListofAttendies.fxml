@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<HBox stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.ListofAttendiesController">
+<HBox minHeight="600.0" minWidth="800.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.ListofAttendiesController">
    <children>
       <BorderPane prefHeight="600.0" prefWidth="800.0" HBox.hgrow="ALWAYS">
          <top>
@@ -31,7 +31,10 @@
             </Pane>
          </top>
          <center>
-            <TableView fx:id="tb" prefHeight="535.0" prefWidth="770.0" />
+            <TableView fx:id="tb" editable="true" prefHeight="535.0" prefWidth="770.0">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy></TableView>
          </center>
       </BorderPane>
    </children>

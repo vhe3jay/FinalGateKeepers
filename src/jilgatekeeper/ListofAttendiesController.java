@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -21,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import static jilgatekeeper.JILGateKeeper.customResize;
 
 /**
  * FXML Controller class
@@ -69,6 +71,7 @@ public class ListofAttendiesController implements Initializable {
         tb.getColumns().add(column("Contact No.", AttendyModels::contactnumberProperty));
         tb.getColumns().add(column("Address", AttendyModels::addressProperty));
         tb.getColumns().add(column("Time", AttendyModels::timelogProperty));
+        tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         sort_attendy.getItems().addAll(AttendyModels.sortby.values());
         lgcombo.getItems().addAll(AttendyModels.lgList.values());
         
