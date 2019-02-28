@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -73,6 +74,7 @@ public class NewAttendyFormController implements Initializable {
         lgbox.getItems().addAll(AttendyModels.lgList.values());
         //SETTING THE RANGE OR SPINNER
         ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
+        bdatePicker.setValue(LocalDate.now());
     }
 
     @FXML
@@ -102,7 +104,9 @@ public class NewAttendyFormController implements Initializable {
     @FXML
     void doSomething(ActionEvent event) {
         ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(nameField.getText(), new AttendyModels(nameField.getText(), lgbox.getValue(), contactField.getText(), Timestamp.valueOf(LocalDateTime.now())));
-        //((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).changeSampleLabel1(new AttendyModels(nameField.getText(), lgbox.getValue(), ageSpinner.getValue(), bdatePicker.getValue(), contactField.getText(), addressField.getText(), Timestamp.valueOf(LocalDateTime.now())));
+        ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).textsample();
+        /*
+        ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).changeSampleLabel(new AttendyModels(nameField.getText(), lgbox.getValue(), ageSpinner.getValue(), bdatePicker.getValue(), contactField.getText(), addressField.getText(), Timestamp.valueOf(LocalDateTime.now())));
         System.out.println(attendy.getName());
         System.out.println(attendy.getLifegroup());
         System.out.println(attendy.getAge());
@@ -110,7 +114,7 @@ public class NewAttendyFormController implements Initializable {
         System.out.println(attendy.getContactnumber());
         System.out.println(attendy.getAddress());
         System.out.println(Timestamp.valueOf(LocalDateTime.now()));
-        MainSceneController.newStage.close();
+*/      MainSceneController.newStage.close();
     }
 
 }

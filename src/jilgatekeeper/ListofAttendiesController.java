@@ -43,9 +43,12 @@ public class ListofAttendiesController implements Initializable {
     @FXML
     public TableView<AttendyModels> tb;
     
+    
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
        private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
-       private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(createData));
+       
+       //private List<AttendyModels> createData = new ArrayList();
+       private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
     
     /*
     ObservableList<String> lifegrouplist = FXCollections.observableArrayList("First Timers", "Guests", "Children","KKB","YAN","MEN", "WOMEN","Seniors");
@@ -55,13 +58,11 @@ public class ListofAttendiesController implements Initializable {
             new AttendyModels (1,"asdasd", AttendyModels.lgList.YAN, 18, LocalDate.now(), "nbn", "address",Timestamp.valueOf(LocalDateTime.now()))
     );
     */
-    private static List<AttendyModels> createData = new ArrayList(
-    );
+    
     
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
+    public void initialize(URL url, ResourceBundle rb) {        
         tb.getColumns().add(column("Name", AttendyModels::nameProperty));
         tb.getColumns().add(column("Lifegroup", AttendyModels::lifegroupProperty));
         tb.getColumns().add(column("Age", AttendyModels::ageProperty));
@@ -84,15 +85,20 @@ public class ListofAttendiesController implements Initializable {
         return col ;
     }
     private void refreshTable(){
-        filteredItems = new FilteredList<>(FXCollections.observableList(createData));
+        filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
         tb.setItems((FilteredList)filteredItems);
     }
-
-    void changeSampleLabel1(AttendyModels attendyModels) {
-        System.out.println(attendyModels.toString());
-        createData.add(attendyModels);
+    
+    @FXML
+    public void changeSampleLabel(String text,AttendyModels attendyModels) {
+        //System.out.println(attendyModels.toString());
+        JILGateKeeper.createData.add(attendyModels);
         refreshTable();
+    }
+    
+    public void textsample(){
+        System.out.println("print this to test");
     }
     
 }

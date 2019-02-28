@@ -1,7 +1,9 @@
 package jilgatekeeper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +18,7 @@ import javafx.scene.layout.VBox;
 public class JILGateKeeper extends Application {
 
     public static Map<String, FXMLLoader> LOADERS = new HashMap();
+    public static List<AttendyModels> createData = new ArrayList(); 
 
     @Override
     public void start(Stage primaryStage) throws IOException {
