@@ -38,6 +38,8 @@ public class JILGateKeeper extends Application {
         LOADERS.put("MAIN", MAIN_LOADER);
         LOADERS.put("LIST", LIST_LOADER);
         LOADERS.put("NEW", NEW_LOADER);
+        
+        
 
         VBox MAIN_ROOT = MAIN_LOADER.load();
         Scene mainsc = new Scene(MAIN_ROOT);
@@ -52,7 +54,7 @@ public class JILGateKeeper extends Application {
         primaryStage.setWidth(bounds.getWidth());
         primaryStage.setHeight(bounds.getHeight());
         primaryStage.setMinWidth(1080);
-        primaryStage.setMinHeight(600);
+        primaryStage.setMinHeight(800);
         //FOR MAXIMIZED WINDOW SIZE
         // MUST BE PLACE BEFORE THE SHOW COMMAND
         //stage.setMaximized(true);

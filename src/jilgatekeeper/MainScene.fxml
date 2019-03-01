@@ -41,7 +41,7 @@
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" prefHeight="55.0" prefWidth="66.0" style="-fx-background-color: gray;" text="0" GridPane.columnIndex="5">
+            <Label fx:id="countLabel" alignment="CENTER" prefHeight="55.0" prefWidth="66.0" style="-fx-background-color: gray;" text="0" GridPane.columnIndex="5">
                <font>
                   <Font name="Garamond Bold" size="24.0" />
                </font>

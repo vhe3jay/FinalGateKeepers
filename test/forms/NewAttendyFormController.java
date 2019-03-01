@@ -18,21 +18,11 @@ import javafx.util.StringConverter;
 public class NewAttendyFormController implements Initializable {
 
     private AttendyModels attendy = new AttendyModels();
-
-    /**
-     * Get the value of attendy
-     *
-     * @return the value of attendy
-     */
+    
     public AttendyModels getAttendy() {
         return attendy;
     }
-
-    /**
-     * Set the value of attendy
-     *
-     * @param attendy new value of attendy
-     */
+    
     public void setAttendy(AttendyModels attendy) {
         this.attendy = attendy;
     }
@@ -50,23 +40,6 @@ public class NewAttendyFormController implements Initializable {
     @FXML
     private Spinner<Integer> ageSpinner;
 
-    /*
-    @FXML
-    void newdata(ActionEvent event) {
-        System.out.println(attendy.getName());
-        System.out.println(attendy.getLifegroup());
-        System.out.println(attendy.getAge());
-        //System.out.println(attendy.getSQLDateofbirth());
-        System.out.println(attendy.getContactnumber());
-        System.out.println(attendy.getAddress());
-        System.out.println(Timestamp.valueOf(LocalDateTime.now()));
-        //COMMAND FOR DISPLAYING THE TIMESTAMP ON MAINSCENE TABLE
-        attendy.setTimelog(Timestamp.valueOf(LocalDateTime.now()));
-        //ADD COMMAND FOR THE DATA ON MAIN SCENE
-        ListofAttendiesController.addAttendyToTable(attendy);
-        //DISPOSING OF THE ADD NEW ATTENDY FORM
-    }
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadcomponent();
@@ -104,7 +77,8 @@ public class NewAttendyFormController implements Initializable {
     @FXML
     void doSomething(ActionEvent event) {
         ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(nameField.getText(), new AttendyModels(nameField.getText(), lgbox.getValue(), contactField.getText(), Timestamp.valueOf(LocalDateTime.now())));
-        ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).changeSampleLabel(new AttendyModels(nameField.getText(), lgbox.getValue(), ageSpinner.getValue(), bdatePicker.getValue(), contactField.getText(), addressField.getText(), Timestamp.valueOf(LocalDateTime.now())));
+        //((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).textsample();
+        JILGateKeeper.getListController().changeSampleLabel(new AttendyModels(nameField.getText(), lgbox.getValue(), ageSpinner.getValue(), bdatePicker.getValue(), contactField.getText(), addressField.getText(), Timestamp.valueOf(LocalDateTime.now())));
        /*
         System.out.println(attendy.getName());
         System.out.println(attendy.getLifegroup());

@@ -9,13 +9,13 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -28,13 +28,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import static jilgatekeeper.JILGateKeeper.customResize;
 
 public class MainSceneController implements Initializable {
 
@@ -55,12 +54,9 @@ public class MainSceneController implements Initializable {
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
     private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
     //public List<AttendyModels> createData = new ArrayList();
-   
+
     private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
 
-    
-    
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //SETTING THE COLUMN EDITABLE
@@ -69,19 +65,25 @@ public class MainSceneController implements Initializable {
         TableColumn lgCol = column("Lifegroup", AttendyModels::lifegroupProperty);
         TableColumn contactCol = column("Contact Number", AttendyModels::contactnumberProperty);
         TableColumn timeCol = column("Timelogs", AttendyModels::timelogProperty);
-
-        tb.setEditable(true);
         tb.getColumns().add(nameCol);
         tb.getColumns().add(lgCol);
         tb.getColumns().add(contactCol);
         tb.getColumns().add(timeCol);
-        tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         //lgCol.setCellFactory(TextFieldTableCell.forTableColumn());
         contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
         nameCol.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<AttendyModels, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
+                AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
+                sel_attendy.setName(t.getNewValue());
+            }
+        }
+        );
+        lgCol.setOnEditCommit(
                 new EventHandler<TableColumn.CellEditEvent<AttendyModels, String>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
@@ -99,7 +101,7 @@ public class MainSceneController implements Initializable {
             }
         }
         );
-
+       tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         searchFilter();
 
     }
@@ -107,43 +109,43 @@ public class MainSceneController implements Initializable {
     @FXML
     public void searchFilter() {
         lgComboBox.getItems().addAll(AttendyModels.lgList.values());
-
         nameFilter.bind(Bindings.createObjectBinding(()
                 -> person -> person.getName().toLowerCase().contains(searchField.getText().toLowerCase()),
                 searchField.textProperty()));
-
         lgFilter.bind(Bindings.createObjectBinding(()
                 -> person -> lgComboBox.getValue() == null || lgComboBox.getValue() == person.getLifegroup(),
                 lgComboBox.valueProperty()));
-
         //filteredItems = new FilteredList<>(FXCollections.observableList(createData));
         tb.setItems(filteredItems);
-
         clearButton.setOnAction(e -> {
             lgComboBox.setValue(null);
             searchField.clear();
         });
-
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
-
     }
 
+    
     private void refreshTable() {
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
         tb.setItems((FilteredList) filteredItems);
     }
 
+    
     private static <S, T> TableColumn<S, T> column(String title, Function<S, ObservableValue<T>> property) {
         TableColumn<S, T> col = new TableColumn<>(title);
         col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
-        col.setEditable(true);
+        
+        col.setMaxWidth(400);
         col.setMinWidth(20);
-        col.setMaxWidth(800);
         col.setPrefWidth(351.1);
+        col.setEditable(true);
+        col.setResizable(true);
+        
         return col;
     }
 
+    
     @FXML
     public void launchnewForm(ActionEvent event) {
         try {
@@ -157,6 +159,7 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    
     @FXML
     public void launchAttendyListForm(ActionEvent event) {
         try {
@@ -165,6 +168,8 @@ public class MainSceneController implements Initializable {
             JILGateKeeper.LOADERS.put("LIST", LISTFORM_LOADER);
             //JILGateKeeper.setListController(LISTFORM_LOADER.getController());
             listStage.setTitle("List of Attendies!");
+            listStage.setMinWidth(800);
+            listStage.setMinHeight(600);
             listStage.setScene(listsc);
             listStage.show();
         } catch (IOException ex) {
@@ -172,16 +177,19 @@ public class MainSceneController implements Initializable {
         }
     }
 
+    
     void changeSampleLabel(String text, AttendyModels attendyModels) {
         //System.out.println(attendyModels.toString());
         JILGateKeeper.createData.add(attendyModels);
         refreshTable();
     }
 
+    
     @FXML
     private void deleteButton(ActionEvent evt) {
         AttendyModels sel_item = (AttendyModels) tb.getSelectionModel().getSelectedItem();
         JILGateKeeper.createData.remove(sel_item);
         refreshTable();
     }
+    
 }

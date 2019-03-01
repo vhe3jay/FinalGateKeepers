@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import javafx.beans.binding.Bindings;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import static jilgatekeeper.JILGateKeeper.customResize;
 
 /**
  * FXML Controller class
@@ -47,8 +48,8 @@ public class ListofAttendiesController implements Initializable {
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
     private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
        
-    //private List<AttendyModels> createData = new ArrayList();
-    private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
+    private List<AttendyModels> createData = new ArrayList();
+    private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(createData));
     
     /*
     ObservableList<String> lifegrouplist = FXCollections.observableArrayList("First Timers", "Guests", "Children","KKB","YAN","MEN", "WOMEN","Seniors");
@@ -89,7 +90,7 @@ public class ListofAttendiesController implements Initializable {
     private void refreshTable(){
         //filteredItems = new FilteredList<>(FXCollections.observableList(createData));
         //filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
-        tb.setItems(FXCollections.observableList(JILGateKeeper.createData));
+        tb.setItems(FXCollections.observableList(createData));
     }
         
     public void changeSampleLabel(AttendyModels attendyModels) {
@@ -97,4 +98,9 @@ public class ListofAttendiesController implements Initializable {
         //createData.add(attendyModels);
         refreshTable();
     }
+    
+    public void textsample(){
+        System.out.println("print this to test");
+    }
+    
 }
