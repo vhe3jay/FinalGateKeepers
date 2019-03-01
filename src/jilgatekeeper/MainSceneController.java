@@ -35,6 +35,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import static jilgatekeeper.JILGateKeeper.listStage;
 
 public class MainSceneController implements Initializable {
 
@@ -50,7 +51,7 @@ public class MainSceneController implements Initializable {
     private Button deleteButton;
 
     public static Stage newStage = new Stage();
-    public static Stage listStage = new Stage();
+    
 
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
     private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
@@ -76,6 +77,7 @@ public class MainSceneController implements Initializable {
         tb.getColumns().add(contactCol);
         tb.getColumns().add(timeCol);
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
 
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         //lgCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -159,6 +161,9 @@ public class MainSceneController implements Initializable {
 
     @FXML
     public void launchAttendyListForm(ActionEvent event) {
+        listStage.show();
+        
+        /*
         try {
             FXMLLoader LISTFORM_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
             Scene listsc = new Scene(LISTFORM_LOADER.load());
@@ -170,9 +175,10 @@ public class MainSceneController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        */
     }
 
-    void changeSampleLabel(String text, AttendyModels attendyModels) {
+    void changeSampleLabel( AttendyModels attendyModels) {
         //System.out.println(attendyModels.toString());
         JILGateKeeper.createData.add(attendyModels);
         refreshTable();

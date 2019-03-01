@@ -21,6 +21,7 @@ public class JILGateKeeper extends Application {
     public static Map<String, FXMLLoader> LOADERS = new HashMap();
     public static List<AttendyModels> createData = new ArrayList();
     public static ListofAttendiesController ListController = null;
+    public static Stage listStage = new Stage();
 
     public static ListofAttendiesController getListController() {
         return ListController;
@@ -39,7 +40,11 @@ public class JILGateKeeper extends Application {
         LOADERS.put("LIST", LIST_LOADER);
         LOADERS.put("NEW", NEW_LOADER);
         
-        
+        Scene listsc = new Scene(LIST_LOADER.load());
+        listStage.setTitle("List of Attendies!");
+        listStage.setScene(listsc);
+        listStage.setMinWidth(800);
+        listStage.setMinHeight(600);
 
         VBox MAIN_ROOT = MAIN_LOADER.load();
         Scene mainsc = new Scene(MAIN_ROOT);

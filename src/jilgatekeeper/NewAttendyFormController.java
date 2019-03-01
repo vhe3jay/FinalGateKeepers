@@ -6,6 +6,7 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
 import javafx.util.StringConverter;
 
 public class NewAttendyFormController implements Initializable {
@@ -50,26 +52,8 @@ public class NewAttendyFormController implements Initializable {
     @FXML
     private Spinner<Integer> ageSpinner;
 
-    /*
-    @FXML
-    void newdata(ActionEvent event) {
-        System.out.println(attendy.getName());
-        System.out.println(attendy.getLifegroup());
-        System.out.println(attendy.getAge());
-        //System.out.println(attendy.getSQLDateofbirth());
-        System.out.println(attendy.getContactnumber());
-        System.out.println(attendy.getAddress());
-        System.out.println(Timestamp.valueOf(LocalDateTime.now()));
-        //COMMAND FOR DISPLAYING THE TIMESTAMP ON MAINSCENE TABLE
-        attendy.setTimelog(Timestamp.valueOf(LocalDateTime.now()));
-        //ADD COMMAND FOR THE DATA ON MAIN SCENE
-        ListofAttendiesController.addAttendyToTable(attendy);
-        //DISPOSING OF THE ADD NEW ATTENDY FORM
-    }
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        loadcomponent();
 
         lgbox.getItems().addAll(AttendyModels.lgList.values());
         //SETTING THE RANGE OR SPINNER
@@ -103,9 +87,19 @@ public class NewAttendyFormController implements Initializable {
 
     @FXML
     void doSomething(ActionEvent event) {
-        ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(nameField.getText(), new AttendyModels(nameField.getText(), lgbox.getValue(), contactField.getText(), Timestamp.valueOf(LocalDateTime.now())));
-        ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).changeSampleLabel(new AttendyModels(nameField.getText(), lgbox.getValue(), ageSpinner.getValue(), bdatePicker.getValue(), contactField.getText(), addressField.getText(), Timestamp.valueOf(LocalDateTime.now())));
-       /*
+        AttendyModels attendy = new AttendyModels();
+        attendy.setName(nameField.getText());
+        attendy.setLifegroup((AttendyModels.lgList) lgbox.getValue());
+        attendy.setAge(ageSpinner.getValue());
+        attendy.setDateofbirth(bdatePicker.getValue());
+        attendy.setContactnumber(contactField.getText());
+        attendy.setAddress(addressField.getText());
+        attendy.setTimelog(Timestamp.valueOf(LocalDateTime.now()));
+        
+        ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(attendy);
+        ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).changeSampleLabel(attendy);
+       //JILGateKeeper.getListController().changeSampleLabel(new AttendyModels(nameField.getText(), lgbox.getValue(), ageSpinner.getValue(), bdatePicker.getValue(), contactField.getText(), addressField.getText(), Timestamp.valueOf(LocalDateTime.now())));
+        loadcomponent();
         System.out.println(attendy.getName());
         System.out.println(attendy.getLifegroup());
         System.out.println(attendy.getAge());
@@ -113,7 +107,20 @@ public class NewAttendyFormController implements Initializable {
         System.out.println(attendy.getContactnumber());
         System.out.println(attendy.getAddress());
         System.out.println(Timestamp.valueOf(LocalDateTime.now()));
-*/      MainSceneController.newStage.close();
+        MainSceneController.newStage.close();
     }
+    
+    @FXML
+    void parseDate(InputMethodEvent event) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        try{
+            LocalDate d = (LocalDate) formatter.parse(bdatePicker.getEditor().getText());
+            bdatePicker.setValue(d);
+        }catch(Exception er){
+            
+        }
+        
+    }
+
 
 }
