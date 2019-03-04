@@ -9,6 +9,8 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -31,10 +33,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import static jilgatekeeper.JILGateKeeper.listStage;
 
 public class MainSceneController implements Initializable {
@@ -49,8 +54,12 @@ public class MainSceneController implements Initializable {
     private TableView tb;
     @FXML
     private Button deleteButton;
+    @FXML
+    private Label countLabel;
+    
 
     public static Stage newStage = new Stage();
+    private List dataList = JILGateKeeper.createData;
     
 
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
@@ -76,6 +85,7 @@ public class MainSceneController implements Initializable {
         tb.getColumns().add(lgCol);
         tb.getColumns().add(contactCol);
         tb.getColumns().add(timeCol);
+        
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
 
@@ -89,6 +99,7 @@ public class MainSceneController implements Initializable {
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 sel_attendy.setName(t.getNewValue());
+                refreshTable();
             }
         }
         );
@@ -96,14 +107,15 @@ public class MainSceneController implements Initializable {
                 new EventHandler<TableColumn.CellEditEvent<AttendyModels, String>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
-                AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
-                sel_attendy.setName(t.getNewValue());
+                AttendyModels contact = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
+                contact.setName(t.getNewValue());
+                refreshTable();
             }
         }
         );
 
         searchFilter();
-
+        addButtonToTable();
     }
 
     @FXML
@@ -134,10 +146,12 @@ public class MainSceneController implements Initializable {
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
         tb.setItems((FilteredList) filteredItems);
+        countLabel.setText(String.valueOf(dataList.size()));
     }
 
     private static <S, T> TableColumn<S, T> column(String title, Function<S, ObservableValue<T>> property) {
         TableColumn<S, T> col = new TableColumn<>(title);
+        
         col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
         col.setEditable(true);
         col.setMinWidth(20);
@@ -190,4 +204,42 @@ public class MainSceneController implements Initializable {
         JILGateKeeper.createData.remove(sel_item);
         refreshTable();
     }
+    private void addButtonToTable() {
+        TableColumn<AttendyModels, Void> colBtn = new TableColumn("Time In");
+        colBtn.setMinWidth(20);
+        colBtn.setMaxWidth(200);
+
+        Callback<TableColumn<AttendyModels, Void>, TableCell<AttendyModels, Void>> cellFactory = new Callback<TableColumn<AttendyModels, Void>, TableCell<AttendyModels, Void>>() {
+            @Override
+            public TableCell<AttendyModels, Void> call(final TableColumn<AttendyModels, Void> param) {
+                final TableCell<AttendyModels, Void> cell = new TableCell<AttendyModels, Void>() {
+
+                    private final Button btn = new Button("Log In");
+                    
+
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            AttendyModels data = getTableView().getItems().get(getIndex());
+                            data.setTimelog(Timestamp.valueOf(LocalDateTime.now()));
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+
+        tb.getColumns().add(colBtn);
+    }
+        
 }

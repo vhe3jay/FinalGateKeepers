@@ -25,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.StringConverter;
 
 /**
  * FXML Controller class
@@ -94,12 +95,17 @@ public class ListofAttendiesController implements Initializable {
         contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
         addressCol.setCellFactory(TextFieldTableCell.forTableColumn());
         
+        timeCol.setMinWidth(110);
+        addressCol.setMinWidth(130);
+        ageCol.setMaxWidth(90);
+        
         nameCol.setOnEditCommit(
                 new EventHandler<TableColumn.CellEditEvent<AttendyModels, String>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 sel_attendy.setName(t.getNewValue());
+                refreshTable();
             }
         }
         );
@@ -107,8 +113,9 @@ public class ListofAttendiesController implements Initializable {
                 new EventHandler<TableColumn.CellEditEvent<AttendyModels, String>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
-                AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
-                sel_attendy.setName(t.getNewValue());
+                AttendyModels contact = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
+                contact.setName(t.getNewValue());
+                refreshTable();
             }
         }
         );
@@ -116,8 +123,9 @@ public class ListofAttendiesController implements Initializable {
                 new EventHandler<TableColumn.CellEditEvent<AttendyModels, String>>() {
             @Override
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
-                AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
-                sel_attendy.setName(t.getNewValue());
+                AttendyModels address = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
+                address.setName(t.getNewValue());
+                refreshTable();
             }
         }
         );
@@ -146,13 +154,21 @@ public class ListofAttendiesController implements Initializable {
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
     }
     
-    private static <S,T> TableColumn<S,T> column(String title, Function<S, ObservableValue<T>> property) {
+    private static <S,T> TableColumn<S,T> column(String title, Function<S, ObservableValue<T>> property//,boolean editable,
+            //StringConverter<T> converter
+    ) {
         TableColumn<S,T> col = new TableColumn<>(title);
         col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
         col.setMinWidth(20);
         col.setMaxWidth(800);
         col.setPrefWidth(205);
         col.resizableProperty();
+        /*col.setEditable(editable);
+        
+        if (editable) {
+            col.setCellFactory(TextFieldTableCell.forTableColumn(converter));
+        }
+        */
         return col ;
     }
     

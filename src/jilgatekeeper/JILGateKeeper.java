@@ -43,7 +43,7 @@ public class JILGateKeeper extends Application {
         Scene listsc = new Scene(LIST_LOADER.load());
         listStage.setTitle("List of Attendies!");
         listStage.setScene(listsc);
-        listStage.setMinWidth(800);
+        listStage.setMinWidth(900);
         listStage.setMinHeight(600);
 
         VBox MAIN_ROOT = MAIN_LOADER.load();
@@ -62,7 +62,7 @@ public class JILGateKeeper extends Application {
         primaryStage.setMinHeight(800);
         //FOR MAXIMIZED WINDOW SIZE
         // MUST BE PLACE BEFORE THE SHOW COMMAND
-        //stage.setMaximized(true);
+        primaryStage.setMaximized(true);
 
     }
 

@@ -20,6 +20,7 @@ import javafx.util.StringConverter;
 public class NewAttendyFormController implements Initializable {
 
     private AttendyModels attendy = new AttendyModels();
+    
 
     /**
      * Get the value of attendy
@@ -57,6 +58,7 @@ public class NewAttendyFormController implements Initializable {
 
         lgbox.getItems().addAll(AttendyModels.lgList.values());
         //SETTING THE RANGE OR SPINNER
+        loadcomponent();
         ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
         bdatePicker.setValue(LocalDate.now());
     }
@@ -99,7 +101,7 @@ public class NewAttendyFormController implements Initializable {
         ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(attendy);
         ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).changeSampleLabel(attendy);
        //JILGateKeeper.getListController().changeSampleLabel(new AttendyModels(nameField.getText(), lgbox.getValue(), ageSpinner.getValue(), bdatePicker.getValue(), contactField.getText(), addressField.getText(), Timestamp.valueOf(LocalDateTime.now())));
-        loadcomponent();
+        
         System.out.println(attendy.getName());
         System.out.println(attendy.getLifegroup());
         System.out.println(attendy.getAge());

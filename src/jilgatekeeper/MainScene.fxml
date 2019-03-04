@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="702.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.MainSceneController">
+<VBox prefHeight="702.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.MainSceneController">
    <children>
       <GridPane alignment="CENTER" prefHeight="65.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
         <columnConstraints>
@@ -22,8 +22,8 @@
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.0" minWidth="10.0" prefWidth="184.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="10.0" prefWidth="220.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="238.0" minWidth="10.0" prefWidth="238.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.0" minWidth="10.0" prefWidth="178.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="371.0" minWidth="10.0" prefWidth="371.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="203.0" minWidth="10.0" prefWidth="76.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -36,15 +36,18 @@
             <JFXComboBox fx:id="lgComboBox" focusTraversable="false" labelFloat="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="204.0" promptText="Life Group" GridPane.columnIndex="2" GridPane.halignment="CENTER">
                
             </JFXComboBox>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="237.0" text="Total Number of Attendies Today :" GridPane.columnIndex="4">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="204.0" text="Total Number of Attendies Today :" GridPane.columnIndex="4" GridPane.halignment="RIGHT">
                <font>
                   <Font size="13.0" />
                </font>
             </Label>
-            <Label fx:id="countLabel" alignment="CENTER" prefHeight="55.0" prefWidth="66.0" style="-fx-background-color: gray;" text="0" GridPane.columnIndex="5">
+            <Label fx:id="countLabel" alignment="CENTER" prefHeight="55.0" prefWidth="66.0" style="-fx-background-color: gray;" text="0" GridPane.columnIndex="5" GridPane.halignment="CENTER">
                <font>
                   <Font name="Garamond Bold" size="24.0" />
                </font>
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
             </Label>
          </children>
       </GridPane>
@@ -54,18 +57,18 @@
                 
          </children>
       </VBox>
-      <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
+      <HBox alignment="CENTER_LEFT" prefHeight="48.0" prefWidth="1280.0" spacing="80.0" VBox.vgrow="ALWAYS">
          <children>
             <Button mnemonicParsing="false" onAction="#launchAttendyListForm" prefHeight="25.0" prefWidth="213.0" style="-fx-border-color: blue;" styleClass="menu-button" stylesheets="@bootstrap3.css" text="Attendance List">
                <HBox.margin>
                   <Insets right="820.0" />
                </HBox.margin></Button>
-            <Button fx:id="deleteButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteButton" prefHeight="32.0" prefWidth="93.0" style="-fx-border-color: red;" styleClass="tab-close-button" text="Delete">
+            <Button fx:id="deleteButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#deleteButton" prefHeight="32.0" prefWidth="110.0" style="-fx-border-color: red;" styleClass="tab-close-button" text="Delete">
                <HBox.margin>
-                  <Insets right="10.0" />
+                  <Insets right="20.0" />
                </HBox.margin>
             </Button>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#launchnewForm" prefHeight="32.0" style="-fx-border-color: blue;" stylesheets="@bootstrap3.css" text="New Attendy">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#launchnewForm" prefHeight="32.0" prefWidth="110.0" style="-fx-border-color: blue;" stylesheets="@bootstrap3.css" text="New Attendy">
                <HBox.margin>
                   <Insets />
                </HBox.margin></Button>
