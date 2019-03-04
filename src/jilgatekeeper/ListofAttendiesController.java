@@ -114,7 +114,7 @@ public class ListofAttendiesController implements Initializable {
             @Override
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels contact = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
-                contact.setName(t.getNewValue());
+                contact.setContactnumber(t.getNewValue());
                 refreshTable();
             }
         }
@@ -124,7 +124,7 @@ public class ListofAttendiesController implements Initializable {
             @Override
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels address = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
-                address.setName(t.getNewValue());
+                address.setAddress(t.getNewValue());
                 refreshTable();
             }
         }

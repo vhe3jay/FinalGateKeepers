@@ -108,7 +108,7 @@ public class MainSceneController implements Initializable {
             @Override
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels contact = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
-                contact.setName(t.getNewValue());
+                contact.setContactnumber(t.getNewValue());
                 refreshTable();
             }
         }
