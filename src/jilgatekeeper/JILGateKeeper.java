@@ -1,5 +1,8 @@
 package jilgatekeeper;
 
+import com.nakpilse.sql.SQLConnectionFactory;
+import com.nakpilse.sql.SQLConnectionPool;
+import com.nakpilse.sql.SQLServer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +25,7 @@ public class JILGateKeeper extends Application {
     public static List<AttendyModels> createData = new ArrayList();
     public static ListofAttendiesController ListController = null;
     public static Stage listStage = new Stage();
+    public static final SQLConnectionPool CONNECTION_POOL = new SQLConnectionPool("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/jilgatekeepers", "root", "dwr2rufd7ezj", 50);
 
     public static ListofAttendiesController getListController() {
         return ListController;
@@ -63,27 +67,13 @@ public class JILGateKeeper extends Application {
         //FOR MAXIMIZED WINDOW SIZE
         // MUST BE PLACE BEFORE THE SHOW COMMAND
         primaryStage.setMaximized(true);
+        SQLConnectionFactory.setConnectionPool(CONNECTION_POOL);
+        SQLConnectionFactory.setServerType(SQLServer.MYSQL);
 
     }
 
     public static void main(String[] args) {
         launch(args);
-    }
-    
-    public static void customResize(TableView<?> view) {
-        /*
-        AtomicLong width = new AtomicLong();
-        view.getColumns().forEach(col -> {
-            width.addAndGet((long) col.getWidth());
-        });
-        double tableWidth = view.getWidth();
-
-        if (tableWidth > width.get()) {
-            view.getColumns().forEach(col -> {
-                col.setPrefWidth(col.getWidth()+((tableWidth-width.get())/view.getColumns().size()));
-            });
-        }
-*/
     }
 
 }

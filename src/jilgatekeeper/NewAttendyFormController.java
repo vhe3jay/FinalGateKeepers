@@ -19,7 +19,7 @@ import javafx.util.StringConverter;
 
 public class NewAttendyFormController implements Initializable {
 
-    private AttendyModels attendy = new AttendyModels();
+    AttendyModels attendy = new AttendyModels();
     
 
     /**
@@ -89,7 +89,6 @@ public class NewAttendyFormController implements Initializable {
 
     @FXML
     void doSomething(ActionEvent event) {
-        AttendyModels attendy = new AttendyModels();
         attendy.setName(nameField.getText());
         attendy.setLifegroup((AttendyModels.lgList) lgbox.getValue());
         attendy.setAge(ageSpinner.getValue());
@@ -100,7 +99,6 @@ public class NewAttendyFormController implements Initializable {
         
         ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(attendy);
         ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).changeSampleLabel(attendy);
-       //JILGateKeeper.getListController().changeSampleLabel(new AttendyModels(nameField.getText(), lgbox.getValue(), ageSpinner.getValue(), bdatePicker.getValue(), contactField.getText(), addressField.getText(), Timestamp.valueOf(LocalDateTime.now())));
         
         System.out.println(attendy.getName());
         System.out.println(attendy.getLifegroup());
@@ -109,6 +107,7 @@ public class NewAttendyFormController implements Initializable {
         System.out.println(attendy.getContactnumber());
         System.out.println(attendy.getAddress());
         System.out.println(Timestamp.valueOf(LocalDateTime.now()));
+        //attendy.save();
         MainSceneController.newStage.close();
     }
     
