@@ -25,6 +25,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,10 +34,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -57,7 +61,6 @@ public class MainSceneController implements Initializable {
     @FXML
     private Label countLabel;
     
-
     public static Stage newStage = new Stage();
     private List dataList = JILGateKeeper.createData;
     
@@ -67,12 +70,10 @@ public class MainSceneController implements Initializable {
     //public List<AttendyModels> createData = new ArrayList();
    
     private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
-
-    
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         //SETTING THE COLUMN EDITABLE
         tb.setEditable(true);
         TableColumn nameCol = column("Name", AttendyModels::nameProperty);
@@ -85,10 +86,8 @@ public class MainSceneController implements Initializable {
         tb.getColumns().add(lgCol);
         tb.getColumns().add(contactCol);
         tb.getColumns().add(timeCol);
-        
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
-
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         //lgCol.setCellFactory(TextFieldTableCell.forTableColumn());
         contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -113,6 +112,7 @@ public class MainSceneController implements Initializable {
             }
         }
         );
+        
 
         searchFilter();
         addButtonToTable();
@@ -220,6 +220,10 @@ public class MainSceneController implements Initializable {
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             AttendyModels data = getTableView().getItems().get(getIndex());
+                            System.out.println(data.getDebugInfo());
+                            data.setLatestLog(Timestamp.valueOf(LocalDateTime.now()));
+                            System.out.println(data.getLatestLog());
+                            System.out.println(data.getDebugInfo());
                             data.setTimelog(Timestamp.valueOf(LocalDateTime.now()));
                         });
                     }
@@ -241,5 +245,7 @@ public class MainSceneController implements Initializable {
 
         tb.getColumns().add(colBtn);
     }
+    
+    
         
 }

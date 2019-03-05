@@ -15,6 +15,10 @@ import javafx.beans.property.StringProperty;
 
 public final class AttendyModels extends SQLTableController<AttendyModels>{
 
+    
+    AttendyModels() {
+    }
+    
     public AttendyModels(String Aname, Object Lgroup, String Cnumber, Timestamp Tlog) {
         this.setName(Aname);
         this.setLifegroup((lgList) Lgroup);
@@ -22,7 +26,7 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
         this.setTimelog(Tlog);
     }
     
-    public AttendyModels(Integer id, String name, Object lifegroup, Integer age, LocalDate dateofbirth, String contactnumber, String address, Timestamp timelog) {
+    public AttendyModels(int id, String name, Object lifegroup, int age, LocalDate dateofbirth, String contactnumber, String address, Timestamp timelog) {
         this.setId(id);
         this.setName(name);
         this.setLifegroup((lgList) lifegroup);
@@ -31,32 +35,30 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
         this.setContactnumber(contactnumber);
         this.setAddress(address);
         this.setTimelog(timelog);
+        
     }
 
-    private final IntegerProperty id = new SimpleIntegerProperty(0);
-    private final StringProperty name = new SimpleStringProperty("");
-    private final ObjectProperty<lgList> lifegroup = new SimpleObjectProperty();
-    private final IntegerProperty age = new SimpleIntegerProperty(0);
-    private final ObjectProperty<LocalDate> dateofbirth = new SimpleObjectProperty(null);
-    private final StringProperty contactnumber = new SimpleStringProperty("");
-    private final StringProperty address = new SimpleStringProperty("");
-    private final ObjectProperty<Timestamp> timelog = new SimpleObjectProperty(null);
-    private final ObjectProperty<Timestamp> latestlog = new SimpleObjectProperty(null);
+    private IntegerProperty id = new SimpleIntegerProperty(0);
+    private StringProperty name = new SimpleStringProperty("");
+    private ObjectProperty<lgList> lifegroup = new SimpleObjectProperty();
+    private IntegerProperty age = new SimpleIntegerProperty(0);
+    private ObjectProperty<LocalDate> dateofbirth = new SimpleObjectProperty(null);
+    private StringProperty contactnumber = new SimpleStringProperty("");
+    private StringProperty address = new SimpleStringProperty("");
+    private ObjectProperty<Timestamp> timelog = new SimpleObjectProperty(null);
+    private ObjectProperty<Timestamp> latestLog = new SimpleObjectProperty(null);
     
     private final SQLColumnFX<Integer> ID_COL = new SQLColumnFX("id",id,"Id",int.class);
     private final SQLColumnFX<String> NAME_COL = new SQLColumnFX("name",name,"Name",String.class);
-    private final SQLColumnFX<String> LG_COL = new SQLColumnFX("ligegroup", lifegroup, "LifeGroup",String.class);
+    private final SQLColumnFX<Object> LG_COL = new SQLColumnFX("lifegroup", lifegroup, "LifeGroup",Object.class);
     private final SQLColumnFX<Integer> AGE_COL = new SQLColumnFX("age",age,"Age",Integer.class);
     private final SQLColumnFX<LocalDate> DOB_COL = new SQLColumnFX("dateofbirth", dateofbirth, "DateofBirth", LocalDate.class);
     private final SQLColumnFX<String> CONTACT_COL = new SQLColumnFX("contactnumber",contactnumber,"ContactNumber",String.class);
     private final SQLColumnFX<String> ADDRESS_COL = new SQLColumnFX("address",address,"Address",String.class);
     private final SQLColumnFX<Timestamp> TIMELOG_COL = new SQLColumnFX("timelog",timelog,"Timelog",Timestamp.class);
-    private final SQLColumnFX<Timestamp> LATESTLOG_COL = new SQLColumnFX("latestlog",latestlog,"Latestlog",Timestamp.class);
+    private final SQLColumnFX<Timestamp> LATESTLOG_COL = new SQLColumnFX("latestlog",latestLog,"LatestLog",Timestamp.class);
     private final SQLColumnFX<Integer> JOIN_COL = new SQLColumnFX("AttendiesTable_Id",id,"",int.class);
     public static final String TableName = "attendiestable";
-    
-    AttendyModels() {
-    }
     
     public int getId() {
         return id.get();
@@ -71,15 +73,15 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
     }
 
     public Timestamp getLatestLog() {
-        return latestlog.get();
+        return latestLog.get();
     }
 
     public void setLatestLog(Timestamp value) {
-        latestlog.set(value);
+        latestLog.set(value);
     }
 
     public ObjectProperty latestLogProperty() {
-        return latestlog;
+        return latestLog;
     }
 
     public lgList getLifegroup() {
