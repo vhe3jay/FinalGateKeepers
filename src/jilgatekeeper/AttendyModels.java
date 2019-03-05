@@ -233,6 +233,6 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
                    FIRST_TIMERS, GUEST, CHILDREN, KKB, YAN, MEN, WOMEN, SENIORS
         }
     public enum sortby{
-                    TODAY, LASTWEEK, CUSTOM, ALLTIME
+                    TODAY, LASTWEEK, CUSTOM, ALL
     }
 }

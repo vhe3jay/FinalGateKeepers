@@ -176,6 +176,8 @@ public class MainSceneController implements Initializable {
 
     @FXML
     public void launchAttendyListForm(ActionEvent event) {
+        ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).loadAttendies();
+        
         listStage.show();
     }
 
