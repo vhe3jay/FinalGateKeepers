@@ -84,6 +84,7 @@ public class ListofAttendiesController implements Initializable {
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 sel_attendy.setName(t.getNewValue());
+                sel_attendy.update();
                 refresh();
             }
         }
@@ -94,6 +95,7 @@ public class ListofAttendiesController implements Initializable {
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels contact = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 contact.setContactnumber(t.getNewValue());
+                contact.update();
                 refresh();
             }
         }
@@ -104,6 +106,7 @@ public class ListofAttendiesController implements Initializable {
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels address = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 address.setAddress(t.getNewValue());
+                address.update();
                 refresh();
             }
         }
@@ -114,23 +117,22 @@ public class ListofAttendiesController implements Initializable {
 
     @FXML
     public void searchFilter() {
-        lgcombo.getItems().addAll(AttendyModels.lgList.values());
-
         nameFilter.bind(Bindings.createObjectBinding(()
                 -> person -> person.getName().toLowerCase().contains(searchField.getText().toLowerCase()),
                 searchField.textProperty()));
 
         lgFilter.bind(Bindings.createObjectBinding(()
-                -> person -> lgcombo.getValue() == null || lgcombo.getValue() == person.getLifegroup(),
+                -> person -> lgcombo.getValue() == null || lgcombo.getValue().toString().equals(person.getLifegroup()),
                 lgcombo.valueProperty()));
-
         tb.setItems(filteredItems);
 
         clearButton.setOnAction(e -> {
             lgcombo.setValue(null);
             searchField.clear();
         });
+
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
+
     }
 
     private static <S, T> TableColumn<S, T> column(String title, Function<S, ObservableValue<T>> property//,boolean editable,

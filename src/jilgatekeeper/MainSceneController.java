@@ -79,6 +79,7 @@ public class MainSceneController implements Initializable {
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        lgCol.setCellFactory(TextFieldTableCell.forTableColumn());
         contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
         nameCol.setOnEditCommit(
@@ -87,6 +88,18 @@ public class MainSceneController implements Initializable {
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 sel_attendy.setName(t.getNewValue());
+                sel_attendy.update();
+                refreshTable();
+            }
+        }
+        );
+        lgCol.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<AttendyModels, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
+                AttendyModels lg = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
+                lg.setLifegroup(t.getNewValue());
+                lg.update();
                 refreshTable();
             }
         }
@@ -97,11 +110,11 @@ public class MainSceneController implements Initializable {
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels contact = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 contact.setContactnumber(t.getNewValue());
+                contact.update();
                 refreshTable();
             }
         }
         );
-
         searchFilter();
         addButtonToTable();
         refreshTable();
@@ -118,8 +131,6 @@ public class MainSceneController implements Initializable {
         lgFilter.bind(Bindings.createObjectBinding(()
                 -> person -> lgComboBox.getValue() == null || lgComboBox.getValue().toString().equals(person.getLifegroup()),
                 lgComboBox.valueProperty()));
-
-        //filteredItems = new FilteredList<>(FXCollections.observableList(createData));
         tb.setItems(filteredItems);
 
         clearButton.setOnAction(e -> {
