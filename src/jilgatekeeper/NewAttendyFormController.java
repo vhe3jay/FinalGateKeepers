@@ -68,7 +68,7 @@ public class NewAttendyFormController implements Initializable {
     private void loadcomponent() {
         attendy.nameProperty().bind(nameField.textProperty());
         attendy.dateofbirthProperty().bind(bdatePicker.valueProperty());
-        attendy.lifegroupProperty().bind(lgbox.valueProperty());
+        attendy.lifegroupProperty().bind(lgbox.valueProperty().asString());
         attendy.contactnumberProperty().bind(contactField.textProperty());
         attendy.addressProperty().bind(addressField.textProperty());
         //attendy.ageProperty().bind(ageSpinner.valueProperty());

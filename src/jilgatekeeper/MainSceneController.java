@@ -7,6 +7,8 @@ package jilgatekeeper;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.mysql.jdbc.Connection;
+import com.nakpilse.sql.SQLTable;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -60,20 +62,23 @@ public class MainSceneController implements Initializable {
     private Button deleteButton;
     @FXML
     private Label countLabel;
-    
+
     public static Stage newStage = new Stage();
     private List dataList = JILGateKeeper.createData;
-    
 
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
     private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
     //public List<AttendyModels> createData = new ArrayList();
-   
-    private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
-    
+
+    private FilteredList<AttendyModels> filteredItems = null;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        JILGateKeeper.createData = SQLTable.list(AttendyModels.class);
+        for(AttendyModels model:JILGateKeeper.createData){
+            System.out.println(model.getDebugInfo());
+        }
+        filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         //SETTING THE COLUMN EDITABLE
         tb.setEditable(true);
         TableColumn nameCol = column("Name", AttendyModels::nameProperty);
@@ -87,7 +92,7 @@ public class MainSceneController implements Initializable {
         tb.getColumns().add(contactCol);
         tb.getColumns().add(timeCol);
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
+
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         //lgCol.setCellFactory(TextFieldTableCell.forTableColumn());
         contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -112,7 +117,6 @@ public class MainSceneController implements Initializable {
             }
         }
         );
-        
 
         searchFilter();
         addButtonToTable();
@@ -127,7 +131,7 @@ public class MainSceneController implements Initializable {
                 searchField.textProperty()));
 
         lgFilter.bind(Bindings.createObjectBinding(()
-                -> person -> lgComboBox.getValue() == null || lgComboBox.getValue() == person.getLifegroup(),
+                -> person -> lgComboBox.getValue() == null || lgComboBox.getValue().toString().equals(person.getLifegroup()),
                 lgComboBox.valueProperty()));
 
         //filteredItems = new FilteredList<>(FXCollections.observableList(createData));
@@ -143,6 +147,7 @@ public class MainSceneController implements Initializable {
     }
 
     private void refreshTable() {
+        JILGateKeeper.createData = SQLTable.list(AttendyModels.class);
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
         tb.setItems((FilteredList) filteredItems);
@@ -151,7 +156,7 @@ public class MainSceneController implements Initializable {
 
     private static <S, T> TableColumn<S, T> column(String title, Function<S, ObservableValue<T>> property) {
         TableColumn<S, T> col = new TableColumn<>(title);
-        
+
         col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
         col.setEditable(true);
         col.setMinWidth(20);
@@ -176,7 +181,7 @@ public class MainSceneController implements Initializable {
     @FXML
     public void launchAttendyListForm(ActionEvent event) {
         listStage.show();
-        
+
         /*
         try {
             FXMLLoader LISTFORM_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
@@ -189,12 +194,12 @@ public class MainSceneController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
+         */
     }
 
-    void changeSampleLabel( AttendyModels attendyModels) {
+    void changeSampleLabel(AttendyModels attendyModels) {
         //System.out.println(attendyModels.toString());
-        JILGateKeeper.createData.add(attendyModels);
+        //JILGateKeeper.createData.add(attendyModels);
         refreshTable();
     }
 
@@ -204,6 +209,7 @@ public class MainSceneController implements Initializable {
         JILGateKeeper.createData.remove(sel_item);
         refreshTable();
     }
+
     private void addButtonToTable() {
         TableColumn<AttendyModels, Void> colBtn = new TableColumn("Time In");
         colBtn.setMinWidth(20);
@@ -215,16 +221,12 @@ public class MainSceneController implements Initializable {
                 final TableCell<AttendyModels, Void> cell = new TableCell<AttendyModels, Void>() {
 
                     private final Button btn = new Button("Log In");
-                    
 
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            AttendyModels data = getTableView().getItems().get(getIndex());
-                            System.out.println(data.getDebugInfo());
+                            AttendyModels data = getTableView().getItems().get(getIndex());                            
                             data.setLatestLog(Timestamp.valueOf(LocalDateTime.now()));
-                            System.out.println(data.getLatestLog());
-                            System.out.println(data.getDebugInfo());
-                            data.setTimelog(Timestamp.valueOf(LocalDateTime.now()));
+                            data.update();
                         });
                     }
 
@@ -245,7 +247,5 @@ public class MainSceneController implements Initializable {
 
         tb.getColumns().add(colBtn);
     }
-    
-    
-        
+
 }

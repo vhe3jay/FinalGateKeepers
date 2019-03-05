@@ -19,17 +19,17 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
     AttendyModels() {
     }
     
-    public AttendyModels(String Aname, Object Lgroup, String Cnumber, Timestamp Tlog) {
+    public AttendyModels(String Aname, String Lgroup, String Cnumber, Timestamp Tlog) {
         this.setName(Aname);
-        this.setLifegroup((lgList) Lgroup);
+        this.setLifegroup(Lgroup);
         this.setContactnumber(Cnumber);
         this.setTimelog(Tlog);
     }
     
-    public AttendyModels(int id, String name, Object lifegroup, int age, LocalDate dateofbirth, String contactnumber, String address, Timestamp timelog) {
+    public AttendyModels(int id, String name, String lifegroup, int age, LocalDate dateofbirth, String contactnumber, String address, Timestamp timelog) {
         this.setId(id);
         this.setName(name);
-        this.setLifegroup((lgList) lifegroup);
+        this.setLifegroup(lifegroup);
         this.setAge(age);
         this.setDateofbirth(dateofbirth);
         this.setContactnumber(contactnumber);
@@ -40,7 +40,7 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
 
     private IntegerProperty id = new SimpleIntegerProperty(0);
     private StringProperty name = new SimpleStringProperty("");
-    private ObjectProperty<lgList> lifegroup = new SimpleObjectProperty();
+    private StringProperty lifegroup = new SimpleStringProperty("");
     private IntegerProperty age = new SimpleIntegerProperty(0);
     private ObjectProperty<LocalDate> dateofbirth = new SimpleObjectProperty(null);
     private StringProperty contactnumber = new SimpleStringProperty("");
@@ -50,7 +50,7 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
     
     private final SQLColumnFX<Integer> ID_COL = new SQLColumnFX("id",id,"Id",int.class);
     private final SQLColumnFX<String> NAME_COL = new SQLColumnFX("name",name,"Name",String.class);
-    private final SQLColumnFX<Object> LG_COL = new SQLColumnFX("lifegroup", lifegroup, "LifeGroup",Object.class);
+    private final SQLColumnFX<String> LG_COL = new SQLColumnFX("lifegroup", lifegroup, "LifeGroup",String.class);
     private final SQLColumnFX<Integer> AGE_COL = new SQLColumnFX("age",age,"Age",Integer.class);
     private final SQLColumnFX<LocalDate> DOB_COL = new SQLColumnFX("dateofbirth", dateofbirth, "DateofBirth", LocalDate.class);
     private final SQLColumnFX<String> CONTACT_COL = new SQLColumnFX("contactnumber",contactnumber,"ContactNumber",String.class);
@@ -59,6 +59,19 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
     private final SQLColumnFX<Timestamp> LATESTLOG_COL = new SQLColumnFX("latestlog",latestLog,"LatestLog",Timestamp.class);
     private final SQLColumnFX<Integer> JOIN_COL = new SQLColumnFX("AttendiesTable_Id",id,"",int.class);
     public static final String TableName = "attendiestable";
+    
+
+    public String getLifegroup() {
+        return lifegroup.get();
+    }
+
+    public void setLifegroup(String value) {
+        lifegroup.set(value);
+    }
+
+    public StringProperty lifegroupProperty() {
+        return lifegroup;
+    }
     
     public int getId() {
         return id.get();
@@ -83,19 +96,6 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
     public ObjectProperty latestLogProperty() {
         return latestLog;
     }
-
-    public lgList getLifegroup() {
-        return lifegroup.get();
-    }
-
-    public void setLifegroup(lgList value) {
-        lifegroup.set(value);
-    }
-
-    public ObjectProperty lifegroupProperty() {
-        return lifegroup;
-    }
-    
 
     public Timestamp getTimelog() {
         return timelog.get();

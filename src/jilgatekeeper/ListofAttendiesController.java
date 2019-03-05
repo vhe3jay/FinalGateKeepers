@@ -151,7 +151,9 @@ public class ListofAttendiesController implements Initializable {
             lgcombo.setValue(null);
             searchField.clear();
         });
+
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
+
     }
     
     private static <S,T> TableColumn<S,T> column(String title, Function<S, ObservableValue<T>> property//,boolean editable,
