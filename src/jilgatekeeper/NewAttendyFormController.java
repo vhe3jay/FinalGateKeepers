@@ -43,10 +43,10 @@ public class NewAttendyFormController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         lgbox.getItems().addAll(AttendyModels.lgList.values());
-        //SETTING THE RANGE OR SPINNER
         loadcomponent();
-        //ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
         bdatePicker.setValue(LocalDate.now());
+        //SETTING THE RANGE OR SPINNER
+        //ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
     }
 
     @FXML
@@ -75,13 +75,9 @@ public class NewAttendyFormController implements Initializable {
 
     @FXML
     void doSomething(ActionEvent event) {
-        //age = Period.between(attendy.getDateofbirth(), LocalDate.now()).getYears();
         //attendy.setName(nameField.getText());
         //attendy.setLifegroup((AttendyModels.lgList) lgbox.getValue());
         attendy.setAge(Period.between(attendy.getDateofbirth(), LocalDate.now()).getYears());
-        //attendy.setDateofbirth(bdatePicker.getValue());
-        //attendy.setContactnumber(contactField.getText());
-        //attendy.setAddress(addressField.getText());
         attendy.setTimelog(Timestamp.valueOf(LocalDateTime.now()));
         
 

@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jilgatekeeper;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import com.nakpilse.sql.SQLTable;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.Function;
@@ -25,16 +21,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 
-/**
- * FXML Controller class
- *
- * @author TestSubject
- */
 public class ListofAttendiesController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
     @FXML
     private JFXComboBox sort_attendy;
     @FXML
@@ -45,10 +33,10 @@ public class ListofAttendiesController implements Initializable {
     private JFXTextField searchField;
     @FXML
     public TableView<AttendyModels> tb;
-
+    
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
     private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
-    private FilteredList<AttendyModels> filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
+    private FilteredList<AttendyModels> filteredItems = null;
 
     /*
     ObservableList<String> lifegrouplist = FXCollections.observableArrayList("First Timers", "Guests", "Children","KKB","YAN","MEN", "WOMEN","Seniors");
@@ -60,13 +48,15 @@ public class ListofAttendiesController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
+        
         TableColumn nameCol = column("Name", AttendyModels::nameProperty);
         TableColumn lgCol = column("Lifegroup", AttendyModels::lifegroupProperty);
         TableColumn ageCol = column("Age", AttendyModels::ageProperty);
         TableColumn birthCol = column("Birthdate", AttendyModels::dateofbirthProperty);
         TableColumn contactCol = column("Contact No.", AttendyModels::contactnumberProperty);
         TableColumn addressCol = column("Address", AttendyModels::addressProperty);
-        TableColumn timeCol = column("Time", AttendyModels::timelogProperty);
+        TableColumn latestCol = column("Time", AttendyModels::latestLogProperty);
 
         tb.getColumns().add(nameCol);
         tb.getColumns().add(lgCol);
@@ -74,9 +64,9 @@ public class ListofAttendiesController implements Initializable {
         tb.getColumns().add(birthCol);
         tb.getColumns().add(contactCol);
         tb.getColumns().add(addressCol);
-        tb.getColumns().add(timeCol);
-
+        tb.getColumns().add(latestCol);
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
         sort_attendy.getItems().addAll(AttendyModels.sortby.values());
         lgcombo.getItems().addAll(AttendyModels.lgList.values());
 
@@ -84,7 +74,7 @@ public class ListofAttendiesController implements Initializable {
         contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
         addressCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        timeCol.setMinWidth(110);
+        latestCol.setMinWidth(110);
         addressCol.setMinWidth(130);
         ageCol.setMaxWidth(90);
 
@@ -94,7 +84,7 @@ public class ListofAttendiesController implements Initializable {
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels sel_attendy = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 sel_attendy.setName(t.getNewValue());
-                refreshTable();
+                refresh();
             }
         }
         );
@@ -104,7 +94,7 @@ public class ListofAttendiesController implements Initializable {
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels contact = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 contact.setContactnumber(t.getNewValue());
-                refreshTable();
+                refresh();
             }
         }
         );
@@ -114,12 +104,12 @@ public class ListofAttendiesController implements Initializable {
             public void handle(TableColumn.CellEditEvent<AttendyModels, String> t) {
                 AttendyModels address = (AttendyModels) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 address.setAddress(t.getNewValue());
-                refreshTable();
+                refresh();
             }
         }
         );
         searchFilter();
-
+        refresh();
     }
 
     @FXML
@@ -134,7 +124,6 @@ public class ListofAttendiesController implements Initializable {
                 -> person -> lgcombo.getValue() == null || lgcombo.getValue() == person.getLifegroup(),
                 lgcombo.valueProperty()));
 
-        //filteredItems = new FilteredList<>(FXCollections.observableList(createData));
         tb.setItems(filteredItems);
 
         clearButton.setOnAction(e -> {
@@ -156,14 +145,16 @@ public class ListofAttendiesController implements Initializable {
         return col;
     }
 
-    private void refreshTable() {
-        tb.setItems(FXCollections.observableList(JILGateKeeper.createData));
-    }
-
     public void changeSampleLabel(AttendyModels attendyModels) {
-        //System.out.println(attendyModels.toString());
         //createData.add(attendyModels);
-        refreshTable();
+        ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).refreshTable();
+    }
+    public void refresh(){
+        //((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).refreshTable();
+        JILGateKeeper.createData = SQLTable.list(AttendyModels.class);
+        filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
+        filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
+        tb.setItems((FilteredList) filteredItems);
     }
 
 }

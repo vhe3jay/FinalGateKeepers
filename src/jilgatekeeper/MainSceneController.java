@@ -42,7 +42,7 @@ import static jilgatekeeper.JILGateKeeper.listStage;
 public class MainSceneController implements Initializable {
 
     @FXML
-    private JFXComboBox<AttendyModels.lgList> lgComboBox = new JFXComboBox();
+    private JFXComboBox<AttendyModels.lgList> lgComboBox;
     @FXML
     private JFXTextField searchField;
     @FXML
@@ -58,8 +58,6 @@ public class MainSceneController implements Initializable {
 
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
     private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
-    //public List<AttendyModels> createData = new ArrayList();
-
     private FilteredList<AttendyModels> filteredItems = null;
 
     @Override
@@ -81,7 +79,6 @@ public class MainSceneController implements Initializable {
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        //lgCol.setCellFactory(TextFieldTableCell.forTableColumn());
         contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
         nameCol.setOnEditCommit(
@@ -169,24 +166,9 @@ public class MainSceneController implements Initializable {
     @FXML
     public void launchAttendyListForm(ActionEvent event) {
         listStage.show();
-
-        /*
-        try {
-            FXMLLoader LISTFORM_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
-            Scene listsc = new Scene(LISTFORM_LOADER.load());
-            JILGateKeeper.LOADERS.put("LIST", LISTFORM_LOADER);
-            //JILGateKeeper.setListController(LISTFORM_LOADER.getController());
-            listStage.setTitle("List of Attendies!");
-            listStage.setScene(listsc);
-            listStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
     }
 
     void changeSampleLabel(AttendyModels attendyModels) {
-        //System.out.println(attendyModels.toString());
         //JILGateKeeper.createData.add(attendyModels);
         refreshTable();
     }
@@ -216,7 +198,7 @@ public class MainSceneController implements Initializable {
                             java.sql.Timestamp d = Timestamp.valueOf(LocalDateTime.now());
                             data.setLatestLog(d);
                             data.update();
-                            System.out.println(data.getDebugInfo());
+                            //System.out.println(data.getDebugInfo());
                             timelogsheet timelog = new timelogsheet();
                             timelog.setAttendy_id(data.getId());
                             timelog.setTimelog(d);

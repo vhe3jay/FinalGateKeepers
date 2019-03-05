@@ -26,15 +26,14 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
         this.setTimelog(Tlog);
     }
     
-    public AttendyModels(int id, String name, String lifegroup, int age, LocalDate dateofbirth, String contactnumber, String address, Timestamp timelog) {
-        this.setId(id);
+    public AttendyModels(String name, String lifegroup, int age, LocalDate dateofbirth, String contactnumber, String address, Timestamp latestlog) {
         this.setName(name);
         this.setLifegroup(lifegroup);
         this.setAge(age);
         this.setDateofbirth(dateofbirth);
         this.setContactnumber(contactnumber);
         this.setAddress(address);
-        this.setTimelog(timelog);
+        this.setTimelog(latestlog);
     }
 
     private IntegerProperty id = new SimpleIntegerProperty(0);

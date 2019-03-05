@@ -65,7 +65,6 @@ public class JILGateKeeper extends Application {
         primaryStage.setMinWidth(1130);
         primaryStage.setMinHeight(700);
         //FOR MAXIMIZED WINDOW SIZE
-        // MUST BE PLACE BEFORE THE SHOW COMMAND
         primaryStage.setMaximized(true);
         
         
