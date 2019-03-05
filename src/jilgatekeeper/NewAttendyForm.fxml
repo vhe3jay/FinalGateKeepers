@@ -34,7 +34,7 @@
                         <Label layoutX="21.0" layoutY="114.0" prefHeight="17.0" prefWidth="97.0" text="Contact Number" />
                         <TextField fx:id="addressField" layoutX="21.0" layoutY="181.0" prefHeight="25.0" prefWidth="252.0" />
                         <Label layoutX="21.0" layoutY="164.0" prefHeight="17.0" prefWidth="60.0" text="Address" />
-                        <JFXDatePicker fx:id="bdatePicker" layoutX="21.0" layoutY="80.0" onInputMethodTextChanged="#parseDate" prefHeight="25.0" prefWidth="250.0" promptText="YYYY/MM/DD" />
+                        <JFXDatePicker fx:id="bdatePicker" layoutX="21.0" layoutY="80.0" onInputMethodTextChanged="#parseDate" prefHeight="25.0" prefWidth="250.0" promptText="YYYY/MM/DD" showWeekNumbers="true" />
                         <JFXComboBox fx:id="lgbox" focusTraversable="false" labelFloat="true" layoutX="21.0" layoutY="218.0" prefHeight="25.0" prefWidth="123.0" promptText="Life Group">
                             
                         </JFXComboBox>

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -16,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import static javafx.application.Application.launch;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 
 public class JILGateKeeper extends Application {
@@ -37,6 +35,8 @@ public class JILGateKeeper extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        SQLConnectionFactory.setConnectionPool(CONNECTION_POOL);
+        SQLConnectionFactory.setServerType(SQLServer.MYSQL);
         FXMLLoader MAIN_LOADER = new FXMLLoader(this.getClass().getResource("MainScene.fxml"));
         FXMLLoader LIST_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
         FXMLLoader NEW_LOADER = new FXMLLoader(this.getClass().getResource("NewAttendyForm.fxml"));
@@ -67,9 +67,8 @@ public class JILGateKeeper extends Application {
         //FOR MAXIMIZED WINDOW SIZE
         // MUST BE PLACE BEFORE THE SHOW COMMAND
         primaryStage.setMaximized(true);
-        SQLConnectionFactory.setConnectionPool(CONNECTION_POOL);
-        SQLConnectionFactory.setServerType(SQLServer.MYSQL);
-
+        
+        
     }
 
     public static void main(String[] args) {

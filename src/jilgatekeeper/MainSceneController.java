@@ -7,14 +7,11 @@ package jilgatekeeper;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-import com.mysql.jdbc.Connection;
 import com.nakpilse.sql.SQLTable;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -27,22 +24,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -64,7 +55,6 @@ public class MainSceneController implements Initializable {
     private Label countLabel;
 
     public static Stage newStage = new Stage();
-    private List dataList = JILGateKeeper.createData;
 
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
     private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
@@ -74,23 +64,20 @@ public class MainSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        JILGateKeeper.createData = SQLTable.list(AttendyModels.class);
-        for(AttendyModels model:JILGateKeeper.createData){
-            System.out.println(model.getDebugInfo());
-        }
+        
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         //SETTING THE COLUMN EDITABLE
         tb.setEditable(true);
         TableColumn nameCol = column("Name", AttendyModels::nameProperty);
         TableColumn lgCol = column("Lifegroup", AttendyModels::lifegroupProperty);
         TableColumn contactCol = column("Contact Number", AttendyModels::contactnumberProperty);
-        TableColumn timeCol = column("Timelogs", AttendyModels::timelogProperty);
+        TableColumn latestCol = column("Latest Log", AttendyModels::latestLogProperty);
 
         tb.setEditable(true);
         tb.getColumns().add(nameCol);
         tb.getColumns().add(lgCol);
         tb.getColumns().add(contactCol);
-        tb.getColumns().add(timeCol);
+        tb.getColumns().add(latestCol);
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -120,6 +107,7 @@ public class MainSceneController implements Initializable {
 
         searchFilter();
         addButtonToTable();
+        refreshTable();
     }
 
     @FXML
@@ -146,12 +134,12 @@ public class MainSceneController implements Initializable {
 
     }
 
-    private void refreshTable() {
+    public void refreshTable() {
         JILGateKeeper.createData = SQLTable.list(AttendyModels.class);
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
         tb.setItems((FilteredList) filteredItems);
-        countLabel.setText(String.valueOf(dataList.size()));
+        countLabel.setText(String.valueOf(JILGateKeeper.createData.size()));
     }
 
     private static <S, T> TableColumn<S, T> column(String title, Function<S, ObservableValue<T>> property) {
@@ -224,9 +212,16 @@ public class MainSceneController implements Initializable {
 
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            AttendyModels data = getTableView().getItems().get(getIndex());                            
-                            data.setLatestLog(Timestamp.valueOf(LocalDateTime.now()));
+                            AttendyModels data = getTableView().getItems().get(getIndex());     
+                            java.sql.Timestamp d = Timestamp.valueOf(LocalDateTime.now());
+                            data.setLatestLog(d);
                             data.update();
+                            System.out.println(data.getDebugInfo());
+                            timelogsheet timelog = new timelogsheet();
+                            timelog.setAttendy_id(data.getId());
+                            timelog.setTimelog(d);
+                            timelog.save();
+                            refreshTable();
                         });
                     }
 

@@ -15,8 +15,8 @@ import javafx.beans.property.StringProperty;
 
 public final class AttendyModels extends SQLTableController<AttendyModels>{
 
-    
-    AttendyModels() {
+    public AttendyModels() {
+        this("","","",null);
     }
     
     public AttendyModels(String Aname, String Lgroup, String Cnumber, Timestamp Tlog) {
@@ -35,7 +35,6 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
         this.setContactnumber(contactnumber);
         this.setAddress(address);
         this.setTimelog(timelog);
-        
     }
 
     private IntegerProperty id = new SimpleIntegerProperty(0);
@@ -50,10 +49,10 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
     
     private final SQLColumnFX<Integer> ID_COL = new SQLColumnFX("id",id,"Id",int.class);
     private final SQLColumnFX<String> NAME_COL = new SQLColumnFX("name",name,"Name",String.class);
-    private final SQLColumnFX<String> LG_COL = new SQLColumnFX("lifegroup", lifegroup, "LifeGroup",String.class);
-    private final SQLColumnFX<Integer> AGE_COL = new SQLColumnFX("age",age,"Age",Integer.class);
-    private final SQLColumnFX<LocalDate> DOB_COL = new SQLColumnFX("dateofbirth", dateofbirth, "DateofBirth", LocalDate.class);
-    private final SQLColumnFX<String> CONTACT_COL = new SQLColumnFX("contactnumber",contactnumber,"ContactNumber",String.class);
+    private final SQLColumnFX<String> LG_COL = new SQLColumnFX("lifegroup", lifegroup, "Lifegroup",String.class);
+    private final SQLColumnFX<Integer> AGE_COL = new SQLColumnFX("age",age,"Age",int.class);
+    private final SQLColumnFX<LocalDate> DOB_COL = new SQLColumnFX("dateofbirth", dateofbirth, "Dateofbirth", LocalDate.class);
+    private final SQLColumnFX<String> CONTACT_COL = new SQLColumnFX("contactnumber",contactnumber,"Contactnumber",String.class);
     private final SQLColumnFX<String> ADDRESS_COL = new SQLColumnFX("address",address,"Address",String.class);
     private final SQLColumnFX<Timestamp> TIMELOG_COL = new SQLColumnFX("timelog",timelog,"Timelog",Timestamp.class);
     private final SQLColumnFX<Timestamp> LATESTLOG_COL = new SQLColumnFX("latestlog",latestLog,"LatestLog",Timestamp.class);
@@ -196,7 +195,6 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
     public SQLColumns getDuplicateReferenceColumns() {
         SQLColumns COLS = new SQLColumns(this);
         COLS.put(1, NAME_COL);
-        
         return COLS;
     }
 
@@ -212,7 +210,6 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
         COLS.put(7, ADDRESS_COL);
         COLS.put(8, TIMELOG_COL);
         COLS.put(9, LATESTLOG_COL);
-        
         return COLS;
         
     }
