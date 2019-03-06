@@ -21,6 +21,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -54,7 +55,8 @@ public class ListofAttendiesController implements Initializable {
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
     private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
     private FilteredList<AttendyModels> filteredItems = null;
-    private List<AttendyModels> sortedDataList = new ArrayList();
+    
+    private List<AttendyModels> AttendyList = new ArrayList();
 
     /*
     ObservableList<String> lifegrouplist = FXCollections.observableArrayList("First Timers", "Guests", "Children","KKB","YAN","MEN", "WOMEN","Seniors");
@@ -84,6 +86,7 @@ public class ListofAttendiesController implements Initializable {
         tb.getColumns().add(addressCol);
         tb.getColumns().add(latestCol);
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
         latestCol.setSortable(true);
         
         sort_attendy.getItems().addAll(AttendyModels.sortby.values());
@@ -173,13 +176,15 @@ public class ListofAttendiesController implements Initializable {
     public void refresh(){
         //((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).refreshTable();
         
-        filteredItems = new FilteredList<>(FXCollections.observableList(sortedDataList));
+        filteredItems = new FilteredList<>(FXCollections.observableList(AttendyList));
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
-        tb.setItems((FilteredList) filteredItems);
+        SortedList<AttendyModels> sortedlist = new SortedList<>(filteredItems);
+        tb.setItems(sortedlist);
+        sortedlist.comparatorProperty().bind(tb.comparatorProperty());
     }
     
     public void loadAttendies(){
-        sortedDataList = SQLTable.list(AttendyModels.class);
+        AttendyList = SQLTable.list(AttendyModels.class);
         refresh();
     }
     
@@ -190,13 +195,13 @@ public class ListofAttendiesController implements Initializable {
         java.sql.Timestamp to = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
         switch (sel_period) {
              case TODAY:
-                sortedDataList = SQLTable.list(AttendyModels.class,"latestlog",from,to);
+                AttendyList = SQLTable.list(AttendyModels.class,"latestlog",from,to);
                 refresh();
                 break;
             case LASTWEEK:
                 from = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now().minusDays(7), LocalTime.of(0, 0, 0)));
                 to = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
-                sortedDataList = SQLTable.list(AttendyModels.class,"latestlog",from,to);
+                AttendyList = SQLTable.list(AttendyModels.class,"latestlog",from,to);
                 refresh();
                 break;
             case CUSTOM:
@@ -215,7 +220,7 @@ public class ListofAttendiesController implements Initializable {
                     public void handle(ActionEvent event) {
                         java.sql.Timestamp from1 = java.sql.Timestamp.valueOf(LocalDateTime.of(customFrom.getValue(), LocalTime.of(0, 0, 0)));
                         java.sql.Timestamp to1 = java.sql.Timestamp.valueOf(LocalDateTime.of(customTo.getValue(), LocalTime.of(23, 59, 59)));
-                        sortedDataList = SQLTable.list(AttendyModels.class,"latestlog",from1,to1);
+                        AttendyList = SQLTable.list(AttendyModels.class,"latestlog",from1,to1);
                         refresh();
                         dialog.close();
                     }
@@ -224,7 +229,7 @@ public class ListofAttendiesController implements Initializable {
                 dialog.show();                
                 break;
             default:
-                sortedDataList = SQLTable.list(AttendyModels.class);
+                AttendyList = SQLTable.list(AttendyModels.class);
                 refresh();
                 break;
         }

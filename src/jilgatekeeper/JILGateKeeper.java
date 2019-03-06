@@ -35,6 +35,7 @@ public class JILGateKeeper extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        //FOR CONNECTION
         SQLConnectionFactory.setConnectionPool(CONNECTION_POOL);
         SQLConnectionFactory.setServerType(SQLServer.MYSQL);
         FXMLLoader MAIN_LOADER = new FXMLLoader(this.getClass().getResource("MainScene.fxml"));

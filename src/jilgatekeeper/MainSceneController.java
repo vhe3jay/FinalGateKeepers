@@ -23,6 +23,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -77,6 +78,7 @@ public class MainSceneController implements Initializable {
         tb.getColumns().add(contactCol);
         tb.getColumns().add(latestCol);
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
 
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         lgCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -146,7 +148,9 @@ public class MainSceneController implements Initializable {
         JILGateKeeper.createData = SQLTable.list(AttendyModels.class);
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
-        tb.setItems((FilteredList) filteredItems);
+        SortedList<AttendyModels> sortedlist = new SortedList<>(filteredItems);
+        tb.setItems(sortedlist);
+        sortedlist.comparatorProperty().bind(tb.comparatorProperty());
         countLabel.setText(String.valueOf(JILGateKeeper.createData.size()));
     }
 
