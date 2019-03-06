@@ -84,6 +84,7 @@ public class ListofAttendiesController implements Initializable {
         tb.getColumns().add(addressCol);
         tb.getColumns().add(latestCol);
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        latestCol.setSortable(true);
         
         sort_attendy.getItems().addAll(AttendyModels.sortby.values());
         lgcombo.getItems().addAll(AttendyModels.lgList.values());
