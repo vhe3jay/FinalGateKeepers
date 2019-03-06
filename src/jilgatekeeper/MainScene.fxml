@@ -64,7 +64,7 @@
                      <children>
                         <ImageView fx:id="jilImage" fitHeight="60.0" fitWidth="1071.0" layoutX="-8.0" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="-78.0" AnchorPane.topAnchor="0.0">
                            <image>
-                              <Image url="file:/C:/Users/TestSubject/Desktop/JIL%20Gatekeepers/rescaled.jpg" />
+                              <Image url="@rescaled.jpg" />
                            </image>
                         </ImageView>
                      </children>
