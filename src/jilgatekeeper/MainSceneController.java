@@ -11,7 +11,9 @@ import com.nakpilse.sql.SQLTable;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -54,6 +56,8 @@ public class MainSceneController implements Initializable {
     private Button deleteButton;
     @FXML
     private Label countLabel;
+    @FXML
+    private Label dateLabel;
 
     public static Stage newStage = new Stage();
 
@@ -152,11 +156,12 @@ public class MainSceneController implements Initializable {
         tb.setItems(sortedlist);
         sortedlist.comparatorProperty().bind(tb.comparatorProperty());
         countLabel.setText(String.valueOf(JILGateKeeper.createData.size()));
+        dateLabel.setText(String.valueOf(LocalDate.now().format(DateTimeFormatter.ofPattern("MMM dd, YYYY"))));
     }
 
     private static <S, T> TableColumn<S, T> column(String title, Function<S, ObservableValue<T>> property) {
         TableColumn<S, T> col = new TableColumn<>(title);
-
+ 
         col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
         col.setEditable(true);
         col.setMinWidth(20);
@@ -194,6 +199,7 @@ public class MainSceneController implements Initializable {
     private void deleteButton(ActionEvent evt) {
         AttendyModels sel_item = (AttendyModels) tb.getSelectionModel().getSelectedItem();
         JILGateKeeper.createData.remove(sel_item);
+        sel_item.delete();
         refreshTable();
     }
 
@@ -220,6 +226,7 @@ public class MainSceneController implements Initializable {
                             timelog.setAttendy_id(data.getId());
                             timelog.setTimelog(d);
                             timelog.save();
+                        btn.setStyle("-fx-background-color: Red");
                             refreshTable();
                         });
                     }
