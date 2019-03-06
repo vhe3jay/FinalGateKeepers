@@ -35,9 +35,12 @@ public class JILGateKeeper extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        //FOR CONNECTION
+        //FOR SQL CONNECTION 
+        //NOTE: MUST CONNECT FIRST BEFORE LOAD OF FORMS
         SQLConnectionFactory.setConnectionPool(CONNECTION_POOL);
         SQLConnectionFactory.setServerType(SQLServer.MYSQL);
+        
+        //LOADING OF FORMS
         FXMLLoader MAIN_LOADER = new FXMLLoader(this.getClass().getResource("MainScene.fxml"));
         FXMLLoader LIST_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
         FXMLLoader NEW_LOADER = new FXMLLoader(this.getClass().getResource("NewAttendyForm.fxml"));
