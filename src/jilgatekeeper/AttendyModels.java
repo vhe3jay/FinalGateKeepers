@@ -44,7 +44,7 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
     private StringProperty contactnumber = new SimpleStringProperty("");
     private StringProperty address = new SimpleStringProperty("");
     private ObjectProperty<Timestamp> timelog = new SimpleObjectProperty(null);
-    private ObjectProperty<Timestamp> latestLog = new SimpleObjectProperty(null);
+    public ObjectProperty<Timestamp> latestLog = new SimpleObjectProperty(null);
     
     private final SQLColumnFX<Integer> ID_COL = new SQLColumnFX("id",id,"Id",int.class);
     private final SQLColumnFX<String> NAME_COL = new SQLColumnFX("name",name,"Name",String.class);

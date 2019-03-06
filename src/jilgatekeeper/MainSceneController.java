@@ -13,6 +13,7 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.function.Function;
@@ -38,6 +39,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import static jilgatekeeper.JILGateKeeper.listStage;
@@ -58,8 +60,11 @@ public class MainSceneController implements Initializable {
     private Label countLabel;
     @FXML
     private Label dateLabel;
+    @FXML
+    private ImageView jilImage;
 
     public static Stage newStage = new Stage();
+    AttendyModels atndy = new AttendyModels();
 
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
     private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
@@ -67,7 +72,8 @@ public class MainSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        jilImage.setFitHeight(100);
+        jilImage.fitWidthProperty().bind(JILGateKeeper.mainstage.widthProperty());
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         //SETTING THE COLUMN EDITABLE
         tb.setEditable(true);
@@ -214,7 +220,6 @@ public class MainSceneController implements Initializable {
                 final TableCell<AttendyModels, Void> cell = new TableCell<AttendyModels, Void>() {
 
                     private final Button btn = new Button("Log In");
-
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             AttendyModels data = getTableView().getItems().get(getIndex());     
@@ -226,7 +231,9 @@ public class MainSceneController implements Initializable {
                             timelog.setAttendy_id(data.getId());
                             timelog.setTimelog(d);
                             timelog.save();
-                        btn.setStyle("-fx-background-color: Red");
+                            btn.disableProperty().setValue(true);
+                        //btn.setStyle("-fx-background-color: Red");
+                        
                             refreshTable();
                         });
                     }
@@ -237,7 +244,14 @@ public class MainSceneController implements Initializable {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            setGraphic(btn);
+                            AttendyModels data = getTableView().getItems().get(getIndex());
+                            boolean hasLog = false;
+                            if(data.getLatestLog() != null){
+                                if(data.getLatestLog().toLocalDateTime().toLocalDate().equals(LocalDate.now())){
+                                    hasLog = true;
+                                }
+                            }                            
+                            setGraphic(((hasLog)? null:btn));
                         }
                     }
                 };

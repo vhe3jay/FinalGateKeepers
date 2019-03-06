@@ -30,7 +30,7 @@ public class JILGateKeeper extends Application {
     public static ListofAttendiesController ListController = null;
     public static Stage listStage = new Stage();
     public static final SQLConnectionPool CONNECTION_POOL = new SQLConnectionPool("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/jilgatekeepers", "root", "dwr2rufd7ezj", 50);
-
+    public static Stage mainstage = null;
     public static ListofAttendiesController getListController() {
         return ListController;
     }
@@ -41,6 +41,7 @@ public class JILGateKeeper extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        mainstage = primaryStage;
         //FOR SQL CONNECTION 
         //NOTE: MUST CONNECT FIRST BEFORE LOAD OF FORMS
         SQLConnectionFactory.setConnectionPool(CONNECTION_POOL);
