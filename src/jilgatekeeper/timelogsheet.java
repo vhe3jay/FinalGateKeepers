@@ -12,8 +12,8 @@ import javafx.beans.property.SimpleObjectProperty;
 
 public class timelogsheet extends SQLTableController<timelogsheet>{
 
-    private final ObjectProperty<Timestamp> timelog = new SimpleObjectProperty(null);
-    private final IntegerProperty attendy_id = new SimpleIntegerProperty(0);
+    public static final ObjectProperty<Timestamp> timelog = new SimpleObjectProperty(null);
+    public static final IntegerProperty attendy_id = new SimpleIntegerProperty(0);
     private final IntegerProperty id = new SimpleIntegerProperty(0);
     
     private final SQLColumnFX<Integer> ID_COL = new SQLColumnFX("id",id,"Id",int.class);

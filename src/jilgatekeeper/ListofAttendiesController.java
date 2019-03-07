@@ -1,6 +1,7 @@
 package jilgatekeeper;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
@@ -30,6 +31,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.SortType;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.StackPane;
@@ -49,14 +51,17 @@ public class ListofAttendiesController implements Initializable {
     private JFXTextField searchField;
     @FXML
     public TableView<AttendyModels> tb;
-        @FXML
+    @FXML
     private StackPane stackPane;
+    @FXML
+    private JFXCheckBox cBox;
     
     private ObjectProperty<Predicate<AttendyModels>> nameFilter = new SimpleObjectProperty<>();
     private ObjectProperty<Predicate<AttendyModels>> lgFilter = new SimpleObjectProperty<>();
     private FilteredList<AttendyModels> filteredItems = null;
     
     private List<AttendyModels> AttendyList = new ArrayList();
+    AttendyModels atndy = new AttendyModels();
 
     /*
     ObservableList<String> lifegrouplist = FXCollections.observableArrayList("First Timers", "Guests", "Children","KKB","YAN","MEN", "WOMEN","Seniors");
@@ -76,7 +81,8 @@ public class ListofAttendiesController implements Initializable {
         TableColumn birthCol = column("Birthdate", AttendyModels::dateofbirthProperty);
         TableColumn contactCol = column("Contact No.", AttendyModels::contactnumberProperty);
         TableColumn addressCol = column("Address", AttendyModels::addressProperty);
-        TableColumn latestCol = column("Time", AttendyModels::latestLogProperty);
+        TableColumn timelogCol = column("First Time Attended", AttendyModels::timelogProperty);
+        TableColumn latestCol = column("Latest Time Attended", AttendyModels::latestLogProperty);
 
         tb.getColumns().add(nameCol);
         tb.getColumns().add(lgCol);
@@ -84,10 +90,15 @@ public class ListofAttendiesController implements Initializable {
         tb.getColumns().add(birthCol);
         tb.getColumns().add(contactCol);
         tb.getColumns().add(addressCol);
+        tb.getColumns().add(timelogCol);
         tb.getColumns().add(latestCol);
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
+        latestCol.setSortType(SortType.DESCENDING);
         latestCol.setSortable(true);
+        timelogCol.setMinWidth(90);
+        ageCol.setMinWidth(25);
+        ageCol.setStyle("-fx-alignment: CENTER;");
+        birthCol.setStyle("-fx-alignment: CENTER;");
         
         sort_attendy.getItems().addAll(AttendyModels.sortby.values());
         lgcombo.getItems().addAll(AttendyModels.lgList.values());
@@ -149,8 +160,8 @@ public class ListofAttendiesController implements Initializable {
         
         clearButton.setOnAction(e -> {
             lgcombo.setValue(null);
-            searchField.clear();
             sort_attendy.setValue(sortby.ALL);
+            searchField.clear();
         });
 
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
@@ -187,14 +198,16 @@ public class ListofAttendiesController implements Initializable {
         AttendyList = SQLTable.list(AttendyModels.class);
         refresh();
     }
+    java.sql.Timestamp from = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)));
+    java.sql.Timestamp to = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
     
     @FXML
     public void querybyDate(ActionEvent event) {
         sortby sel_period = (sortby)sort_attendy.getValue();
-        java.sql.Timestamp from = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)));
-        java.sql.Timestamp to = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
         switch (sel_period) {
              case TODAY:
+                from = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)));
+                to = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
                 AttendyList = SQLTable.list(AttendyModels.class,"latestlog",from,to);
                 refresh();
                 break;
@@ -211,16 +224,16 @@ public class ListofAttendiesController implements Initializable {
                 contentBox.getChildren().addAll(new Label("From"),customFrom,new Label("To"),customTo);
                 contentBox.autosize();
                 JFXDialogLayout content = new JFXDialogLayout();
-                content.setHeading(new Text("Information"));
+                content.setHeading(new Text("Custom"));
                 content.setBody(contentBox);
                 JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
                 JFXButton button = new JFXButton("Okay");
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        java.sql.Timestamp from1 = java.sql.Timestamp.valueOf(LocalDateTime.of(customFrom.getValue(), LocalTime.of(0, 0, 0)));
-                        java.sql.Timestamp to1 = java.sql.Timestamp.valueOf(LocalDateTime.of(customTo.getValue(), LocalTime.of(23, 59, 59)));
-                        AttendyList = SQLTable.list(AttendyModels.class,"latestlog",from1,to1);
+                        from = java.sql.Timestamp.valueOf(LocalDateTime.of(customFrom.getValue(), LocalTime.of(0, 0, 0)));
+                        to = java.sql.Timestamp.valueOf(LocalDateTime.of(customTo.getValue(), LocalTime.of(23, 59, 59)));
+                        AttendyList = SQLTable.list(AttendyModels.class,"latestlog",from,to);
                         refresh();
                         dialog.close();
                     }
@@ -234,6 +247,24 @@ public class ListofAttendiesController implements Initializable {
                 break;
         }
         
+    }
+    
+    public void forFirstTimers(){
+        if(cBox.isSelected()){
+            List<AttendyModels> firsttimers = new ArrayList();
+            for(AttendyModels attendy:AttendyList){
+                if((attendy.getTimelog().after(from) || attendy.getTimelog().equals(from)) && (attendy.getTimelog().before(to) || attendy.getTimelog().equals(to))){
+                    firsttimers.add(attendy);
+                }
+            }
+            filteredItems = new FilteredList<>(FXCollections.observableList(firsttimers));
+            filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
+            SortedList<AttendyModels> sortedlist = new SortedList<>(filteredItems);
+            tb.setItems(sortedlist);
+            sortedlist.comparatorProperty().bind(tb.comparatorProperty());
+        }else{
+            refresh();
+        }
     }
 
 }

@@ -36,14 +36,14 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
         this.setTimelog(latestlog);
     }
 
-    private IntegerProperty id = new SimpleIntegerProperty(0);
+    public IntegerProperty id = new SimpleIntegerProperty(0);
     private StringProperty name = new SimpleStringProperty("");
     private StringProperty lifegroup = new SimpleStringProperty("");
     private IntegerProperty age = new SimpleIntegerProperty(0);
     private ObjectProperty<LocalDate> dateofbirth = new SimpleObjectProperty(null);
     private StringProperty contactnumber = new SimpleStringProperty("");
     private StringProperty address = new SimpleStringProperty("");
-    private ObjectProperty<Timestamp> timelog = new SimpleObjectProperty(null);
+    public ObjectProperty<Timestamp> timelog = new SimpleObjectProperty(null);
     public ObjectProperty<Timestamp> latestLog = new SimpleObjectProperty(null);
     
     private final SQLColumnFX<Integer> ID_COL = new SQLColumnFX("id",id,"Id",int.class);
@@ -230,7 +230,7 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
     
     
     public enum lgList {
-                   FIRST_TIMERS, GUEST, CHILDREN, KKB, YAN, MEN, WOMEN, SENIORS
+                   GUEST, CHILDREN, KKB, YAN, MEN, WOMEN, SENIORS
         }
     public enum sortby{
                     TODAY, LASTWEEK, CUSTOM, ALL

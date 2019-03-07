@@ -88,6 +88,7 @@ public class MainSceneController implements Initializable {
         tb.getColumns().add(contactCol);
         tb.getColumns().add(latestCol);
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        latestCol.setSortType(TableColumn.SortType.DESCENDING);
         
 
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -262,5 +263,4 @@ public class MainSceneController implements Initializable {
 
         tb.getColumns().add(colBtn);
     }
-
 }

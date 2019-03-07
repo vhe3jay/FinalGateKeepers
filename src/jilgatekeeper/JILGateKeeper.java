@@ -78,7 +78,6 @@ public class JILGateKeeper extends Application {
         //FOR MAXIMIZED WINDOW SIZE
         primaryStage.setMaximized(true);
         
-        
     }
 
     public static void main(String[] args) {
