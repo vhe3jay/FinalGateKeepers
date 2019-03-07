@@ -3,14 +3,26 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="jilgatekeeper.LoginFormController">
+<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.LoginFormController">
    <children>
-      <JFXPasswordField layoutX="76.0" layoutY="198.0" promptText="Password" />
-      <JFXTextField layoutX="76.0" layoutY="150.0" promptText="Username" />
-      <JFXButton layoutX="175.0" layoutY="246.0" prefHeight="25.0" prefWidth="90.0" />
-      <JFXButton layoutX="24.0" layoutY="246.0" prefHeight="25.0" prefWidth="90.0" />
+      <AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: white;">
+         <children>
+            <JFXPasswordField fx:id="pwTextField" focusTraversable="false" labelFloat="true" layoutX="83.0" layoutY="213.0" promptText="Password" />
+            <JFXTextField fx:id="userTextField" focusTraversable="false" labelFloat="true" layoutX="83.0" layoutY="171.0" promptText="Username" />
+            <JFXButton fx:id="loginButton" defaultButton="true" layoutX="173.0" layoutY="262.0" onAction="#loginForm" prefHeight="25.0" prefWidth="90.0" style="-fx-border-color: black;" text="Log in" />
+            <JFXButton fx:id="cancelButton" cancelButton="true" layoutX="38.0" layoutY="262.0" onAction="#cancelButton" prefHeight="25.0" prefWidth="90.0" style="-fx-border-color: black;" text="Cancel" />
+            <ImageView fitHeight="159.0" fitWidth="300.0">
+               <image>
+                  <Image url="@Logo%20Portrait.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</StackPane>

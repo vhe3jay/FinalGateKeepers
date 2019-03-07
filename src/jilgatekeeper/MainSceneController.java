@@ -81,7 +81,7 @@ public class MainSceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         jilImage.setFitHeight(100);
-        jilImage.fitWidthProperty().bind(JILGateKeeper.mainstage.widthProperty());
+        jilImage.fitWidthProperty().bind(LoginFormController.mainScene.widthProperty());
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         //SETTING THE COLUMN EDITABLE
         tb.setEditable(true);

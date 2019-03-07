@@ -51,9 +51,11 @@ public class JILGateKeeper extends Application {
         FXMLLoader MAIN_LOADER = new FXMLLoader(this.getClass().getResource("MainScene.fxml"));
         FXMLLoader LIST_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
         FXMLLoader NEW_LOADER = new FXMLLoader(this.getClass().getResource("NewAttendyForm.fxml"));
+        FXMLLoader LOGIN_LOADER = new FXMLLoader(this.getClass().getResource("LoginForm.fxml"));
         LOADERS.put("MAIN", MAIN_LOADER);
         LOADERS.put("LIST", LIST_LOADER);
         LOADERS.put("NEW", NEW_LOADER);
+        LOADERS.put("LOGIN", LOGIN_LOADER);
         
         Scene listsc = new Scene(LIST_LOADER.load());
         listStage.setTitle("List of Attendies!");
@@ -61,12 +63,12 @@ public class JILGateKeeper extends Application {
         listStage.setMinWidth(900);
         listStage.setMinHeight(600);
 
-        VBox MAIN_ROOT = MAIN_LOADER.load();
-        Scene mainsc = new Scene(MAIN_ROOT);
+        //VBox MAIN_ROOT = LOGIN_LOADER.load();
+        Scene mainsc = new Scene(LOGIN_LOADER.load());
         primaryStage.setTitle("Gate Keepers!");
         primaryStage.setScene(mainsc);
         primaryStage.show();
-
+        /*
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
         primaryStage.setX(bounds.getMinX());
@@ -77,6 +79,7 @@ public class JILGateKeeper extends Application {
         primaryStage.setMinHeight(700);
         //FOR MAXIMIZED WINDOW SIZE
         primaryStage.setMaximized(true);
+        */
         
     }
 
