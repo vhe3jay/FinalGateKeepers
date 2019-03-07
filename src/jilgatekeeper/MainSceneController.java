@@ -220,13 +220,13 @@ public class MainSceneController implements Initializable {
         */
         VBox contentBox = new VBox();
                 
-        contentBox.getChildren().add(new Label("Confirm Delete"));
+        contentBox.getChildren().add(new Label("Do you want to delete this Information?"));
         contentBox.autosize();
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Custom"));
+        content.setHeading(new Text("Confirmation Diaglog"));
         content.setBody(contentBox);
         JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        JFXButton okButton = new JFXButton("Okay");
+        JFXButton okButton = new JFXButton("Delete");
         JFXButton cancelButton = new JFXButton("Cancel");
 
         okButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -246,7 +246,7 @@ public class MainSceneController implements Initializable {
                 dialog.close();
             }
         });
-        content.setActions(okButton);
+        content.setActions(okButton, cancelButton);
         dialog.show();                
     }
 

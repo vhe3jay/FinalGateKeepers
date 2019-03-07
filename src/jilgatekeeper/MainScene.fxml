@@ -20,72 +20,76 @@
 
 <VBox maxWidth="1.7976931348623157E308" prefHeight="702.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.MainSceneController">
    <children>
-      <BorderPane prefHeight="747.0" prefWidth="1064.0">
-         <top>
-            <GridPane alignment="CENTER" prefHeight="120.0" prefWidth="1064.0" BorderPane.alignment="CENTER">
-              <columnConstraints>
-                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="184.0" />
-                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="220.0" />
-                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="249.0" />
-                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="225.0" />
-                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="76.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <JFXTextField fx:id="searchField" alignment="CENTER" GridPane.rowIndex="1" />
-                  <Button fx:id="clearButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#searchFilter" prefHeight="25.0" prefWidth="133.0" style="-fx-border-color: blue;" styleClass="number-button" stylesheets="@bootstrap3.css" text="Clear Filter" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+      <StackPane fx:id="stackPane">
+         <children>
+            <BorderPane prefHeight="747.0" prefWidth="1064.0">
+               <top>
+                  <GridPane alignment="CENTER" prefHeight="120.0" prefWidth="1064.0" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="184.0" />
+                      <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="220.0" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="249.0" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="225.0" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="76.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <JFXTextField fx:id="searchField" alignment="CENTER" GridPane.rowIndex="1" />
+                        <Button fx:id="clearButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#searchFilter" prefHeight="25.0" prefWidth="133.0" style="-fx-border-color: blue;" styleClass="number-button" stylesheets="@bootstrap3.css" text="Clear Filter" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                
             </Button>
-                  <JFXComboBox fx:id="lgComboBox" focusTraversable="false" labelFloat="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="204.0" promptText="Life Group" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                        <JFXComboBox fx:id="lgComboBox" focusTraversable="false" labelFloat="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="204.0" promptText="Life Group" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                
             </JFXComboBox>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="204.0" text="Total Number of Attendies Today :" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="13.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="countLabel" alignment="CENTER" prefHeight="29.0" prefWidth="81.0" style="-fx-background-color: gray;" text="0" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Garamond Bold" size="24.0" />
-                     </font>
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </Label>
-                  <Label fx:id="dateLabel" alignment="BOTTOM_CENTER" prefHeight="17.0" prefWidth="245.0" text="Date" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                     <font>
-                        <Font name="System Bold" size="22.0" />
-                     </font>
-                  </Label>
-                  <AnchorPane GridPane.hgrow="ALWAYS">
+                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="62.0" prefWidth="204.0" text="Total Number of Attendies Today :" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="countLabel" alignment="CENTER" prefHeight="29.0" prefWidth="81.0" style="-fx-background-color: gray;" text="0" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Garamond Bold" size="24.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Label>
+                        <Label fx:id="dateLabel" alignment="BOTTOM_CENTER" prefHeight="17.0" prefWidth="245.0" text="Date" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <AnchorPane GridPane.hgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="jilImage" fitHeight="60.0" fitWidth="1071.0" layoutX="-8.0" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="-78.0" AnchorPane.topAnchor="0.0">
+                                 <image>
+                                    <Image url="@rescaled.jpg" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </GridPane>
+               </top>
+               <center>
+                  <StackPane BorderPane.alignment="CENTER">
                      <children>
-                        <ImageView fx:id="jilImage" fitHeight="60.0" fitWidth="1071.0" layoutX="-8.0" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-8.0" AnchorPane.rightAnchor="-78.0" AnchorPane.topAnchor="0.0">
+                        <ImageView fitHeight="567.0" fitWidth="1064.0" opacity="0.99" StackPane.alignment="CENTER">
                            <image>
-                              <Image url="@rescaled.jpg" />
+                              <Image url="@jilbackdrop.JPG" />
                            </image>
                         </ImageView>
+                        <TableView fx:id="tb" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" opacity="0.8" prefHeight="567.0" prefWidth="1064.0" StackPane.alignment="CENTER" />
                      </children>
-                  </AnchorPane>
-               </children>
-            </GridPane>
-         </top>
-         <center>
-            <StackPane BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="567.0" fitWidth="1064.0" opacity="0.99" StackPane.alignment="CENTER">
-                     <image>
-                        <Image url="@jilbackdrop.JPG" />
-                     </image>
-                  </ImageView>
-                  <TableView fx:id="tb" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" opacity="0.8" prefHeight="567.0" prefWidth="1064.0" StackPane.alignment="CENTER" />
-               </children>
-            </StackPane>
-         </center>
-      </BorderPane>
+                  </StackPane>
+               </center>
+            </BorderPane>
+         </children>
+      </StackPane>
       <VBox prefHeight="40.0" prefWidth="1073.0" style="-fx-background-color: rgb(27, 49, 93);">
          <children>
             <GridPane alignment="TOP_CENTER" maxHeight="50.0" minHeight="40.0" prefHeight="40.0" prefWidth="1071.0">
