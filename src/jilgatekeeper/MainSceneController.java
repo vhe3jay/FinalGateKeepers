@@ -5,7 +5,10 @@
  */
 package jilgatekeeper;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
 import com.nakpilse.sql.SQLTable;
 import java.io.IOException;
@@ -13,7 +16,6 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.function.Function;
@@ -34,12 +36,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import static jilgatekeeper.JILGateKeeper.listStage;
@@ -62,6 +68,8 @@ public class MainSceneController implements Initializable {
     private Label dateLabel;
     @FXML
     private ImageView jilImage;
+    @FXML
+    private StackPane stackPane;
 
     public static Stage newStage = new Stage();
     AttendyModels atndy = new AttendyModels();
@@ -204,10 +212,42 @@ public class MainSceneController implements Initializable {
 
     @FXML
     private void deleteButton(ActionEvent evt) {
+        /*
         AttendyModels sel_item = (AttendyModels) tb.getSelectionModel().getSelectedItem();
         JILGateKeeper.createData.remove(sel_item);
         sel_item.delete();
         refreshTable();
+        */
+        VBox contentBox = new VBox();
+                
+        contentBox.getChildren().add(new Label("Confirm Delete"));
+        contentBox.autosize();
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("Custom"));
+        content.setBody(contentBox);
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        JFXButton okButton = new JFXButton("Okay");
+        JFXButton cancelButton = new JFXButton("Cancel");
+
+        okButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                AttendyModels sel_item = (AttendyModels) tb.getSelectionModel().getSelectedItem();
+                JILGateKeeper.createData.remove(sel_item);
+                sel_item.delete();
+                refreshTable();
+                dialog.close();
+            }
+        });
+
+        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(okButton);
+        dialog.show();                
     }
 
     private void addButtonToTable() {
