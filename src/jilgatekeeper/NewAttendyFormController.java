@@ -18,7 +18,6 @@ import javafx.scene.input.InputMethodEvent;
 public class NewAttendyFormController implements Initializable {
 
     AttendyModels attendy = new AttendyModels();
-    
 
     public AttendyModels getAttendy() {
         return attendy;

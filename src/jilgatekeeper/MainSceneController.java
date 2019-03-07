@@ -70,6 +70,8 @@ public class MainSceneController implements Initializable {
     private ImageView jilImage;
     @FXML
     private StackPane stackPane;
+    @FXML
+    private Button adduserButton;
 
     public static Stage newStage = new Stage();
     AttendyModels atndy = new AttendyModels();

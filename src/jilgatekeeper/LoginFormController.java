@@ -14,11 +14,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import static jilgatekeeper.JILGateKeeper.mainstage;
-import static jilgatekeeper.MainSceneController.newStage;
 
 
 public class LoginFormController implements Initializable {

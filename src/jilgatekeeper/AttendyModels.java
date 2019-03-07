@@ -58,7 +58,6 @@ public final class AttendyModels extends SQLTableController<AttendyModels>{
     private final SQLColumnFX<Integer> JOIN_COL = new SQLColumnFX("AttendiesTable_Id",id,"",int.class);
     public static final String TableName = "attendiestable";
     
-
     public String getLifegroup() {
         return lifegroup.get();
     }

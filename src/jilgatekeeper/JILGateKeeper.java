@@ -65,7 +65,7 @@ public class JILGateKeeper extends Application {
 
         //VBox MAIN_ROOT = LOGIN_LOADER.load();
         Scene mainsc = new Scene(LOGIN_LOADER.load());
-        primaryStage.setTitle("Gate Keepers!");
+        primaryStage.setTitle("Jesus Is Lord Noveleta");
         primaryStage.setScene(mainsc);
         primaryStage.show();
         /*
