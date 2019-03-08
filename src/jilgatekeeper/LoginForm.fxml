@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-
-<StackPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.LoginFormController">
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.LoginFormController">
    <children>
       <AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: white;">
          <children>

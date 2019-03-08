@@ -17,13 +17,13 @@ import javafx.scene.input.InputMethodEvent;
 
 public class NewAttendyFormController implements Initializable {
 
-    AttendyModels attendy = new AttendyModels();
+    AttendyModel attendy = new AttendyModel();
 
-    public AttendyModels getAttendy() {
+    public AttendyModel getAttendy() {
         return attendy;
     }
 
-    public void setAttendy(AttendyModels attendy) {
+    public void setAttendy(AttendyModel attendy) {
         this.attendy = attendy;
     }
 
@@ -41,7 +41,7 @@ public class NewAttendyFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        lgbox.getItems().addAll(AttendyModels.lgList.values());
+        lgbox.getItems().addAll(AttendyModel.lgList.values());
         loadcomponent();
         bdatePicker.setValue(LocalDate.now());
         //SETTING THE RANGE OR SPINNER
@@ -75,7 +75,7 @@ public class NewAttendyFormController implements Initializable {
     @FXML
     void doSomething(ActionEvent event) {
         //attendy.setName(nameField.getText());
-        //attendy.setLifegroup((AttendyModels.lgList) lgbox.getValue());
+        //attendy.setLifegroup((AttendyModel.lgList) lgbox.getValue());
         attendy.setAge(Period.between(attendy.getDateofbirth(), LocalDate.now()).getYears());
         attendy.setTimelog(Timestamp.valueOf(LocalDateTime.now()));
         

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="parentPane" prefHeight="336.0" prefWidth="294.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.NewAttendyFormController">
+<AnchorPane id="AnchorPane" fx:id="parentPane" prefHeight="336.0" prefWidth="294.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jilgatekeeper.NewUserFormController">
    <children>
       <BorderPane prefHeight="299.0" prefWidth="294.0">
          <top>
@@ -40,7 +40,7 @@
             </Pane>
          </center>
       </BorderPane>
-      <Button fx:id="regButton" defaultButton="true" layoutX="162.0" layoutY="290.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="108.0" text="Register" />
-      <ComboBox fx:id="levelCombo" layoutX="20.0" layoutY="291.0" prefWidth="134.0" />
+      <Button fx:id="regButton" defaultButton="true" layoutX="162.0" layoutY="290.0" mnemonicParsing="false" onAction="#adduser" prefHeight="32.0" prefWidth="108.0" text="Register" />
+      <ComboBox fx:id="levelCombo" layoutX="20.0" layoutY="291.0" prefWidth="134.0" promptText="Role" />
    </children>
 </AnchorPane>

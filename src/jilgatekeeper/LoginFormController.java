@@ -1,26 +1,41 @@
 package jilgatekeeper;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import java.io.IOException;
+import com.nakpilse.sql.SQLTable;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
-import javafx.stage.Screen;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import static jilgatekeeper.JILGateKeeper.mainstage;
 
 
 public class LoginFormController implements Initializable {
+    UserModel usermodel = new UserModel();
 
+    public UserModel getUsermodel() {
+        return usermodel;
+    }
+
+    public void setUsermodel(UserModel usermodel) {
+        this.usermodel = usermodel;
+    }
+    
+    @FXML
+    private StackPane stackPane;
     @FXML
     private JFXPasswordField pwTextField;
 
@@ -41,31 +56,66 @@ public class LoginFormController implements Initializable {
     }    
     
     @FXML
-    public void loginForm(ActionEvent event) {
-        try{
-            FXMLLoader MAIN_LOADER = new FXMLLoader(this.getClass().getResource("MainScene.fxml"));
-            Scene mainsc = new Scene(MAIN_LOADER.load());
-            Screen screen = Screen.getPrimary();
-            Rectangle2D bounds = screen.getVisualBounds();
-            mainScene.setX(bounds.getMinX());
-            mainScene.setY(bounds.getMinY());
-            mainScene.setWidth(bounds.getWidth());
-            mainScene.setHeight(bounds.getHeight());
-            mainScene.setMinWidth(1130);
-            mainScene.setMinHeight(700);
-            //FOR MAXIMIZED WINDOW SIZE
-            mainScene.setMaximized(true);
-            mainScene.setTitle("JESUS IS LORD NOVELETA!");
-            mainScene.setScene(mainsc);
-            mainScene.show();
-            mainstage.close();}
-        catch(IOException ex){
-            Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void cancelButton(ActionEvent event) {
+        mainstage.close();
     }
     
     @FXML
-    public void cancelButton(ActionEvent evt){
-        mainstage.close();
+    public void loginForm(ActionEvent evt){
+    if(userTextField.getText() != null){
+        if(userTextField.getText().equals(usermodel.getName())){
+            if(pwTextField.getText().equals(usermodel.getPassword())){
+                MainSceneController.showForm();
+                mainstage.close();
+            }else{
+                    VBox contentBox = new VBox();
+                    contentBox.getChildren().add(new Label("Incorrect Username or Password"));
+                    contentBox.autosize();
+                    JFXDialogLayout content = new JFXDialogLayout();
+                    content.setHeading(new Text("Log In Error!"));
+                    content.setBody(contentBox);
+                    JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+                    JFXButton button = new JFXButton("Okay");
+                    button.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            dialog.close();
+                        }
+                    });
+            }
+        }else{
+                    VBox contentBox = new VBox();
+                    contentBox.getChildren().add(new Label("Incorrect Username or Password"));
+                    contentBox.autosize();
+                    JFXDialogLayout content = new JFXDialogLayout();
+                    content.setHeading(new Text("Log In Error!"));
+                    content.setBody(contentBox);
+                    JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+                    JFXButton button = new JFXButton("Okay");
+                    button.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            dialog.close();
+                        }
+                    });
+        }
+        }else{
+        VBox contentBox = new VBox();
+                    contentBox.getChildren().add(new Label("Incorrect Username or Password"));
+                    contentBox.autosize();
+                    JFXDialogLayout content = new JFXDialogLayout();
+                    content.setHeading(new Text("Log In Error!"));
+                    content.setBody(contentBox);
+                    JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+                    JFXButton button = new JFXButton("Okay");
+                    button.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            dialog.close();
+                        }
+                    });
     }
+    mainstage.close();
+    }
+    
 }

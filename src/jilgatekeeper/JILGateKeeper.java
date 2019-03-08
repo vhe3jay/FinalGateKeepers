@@ -10,23 +10,14 @@ import java.util.List;
 import java.util.Map;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import static javafx.application.Application.launch;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 public class JILGateKeeper extends Application {
 
     public static Map<String, FXMLLoader> LOADERS = new HashMap();
-    public static List<AttendyModels> createData = new ArrayList();
+    public static List<AttendyModel> createData = new ArrayList();
     public static ListofAttendiesController ListController = null;
     public static Stage listStage = new Stage();
     public static final SQLConnectionPool CONNECTION_POOL = new SQLConnectionPool("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/jilgatekeepers", "root", "dwr2rufd7ezj", 50);
@@ -52,10 +43,13 @@ public class JILGateKeeper extends Application {
         FXMLLoader LIST_LOADER = new FXMLLoader(this.getClass().getResource("ListofAttendies.fxml"));
         FXMLLoader NEW_LOADER = new FXMLLoader(this.getClass().getResource("NewAttendyForm.fxml"));
         FXMLLoader LOGIN_LOADER = new FXMLLoader(this.getClass().getResource("LoginForm.fxml"));
+        FXMLLoader NEWUSER_LOADER = new FXMLLoader(this.getClass().getResource("NewUserForm.fxml"));
+        
         LOADERS.put("MAIN", MAIN_LOADER);
         LOADERS.put("LIST", LIST_LOADER);
         LOADERS.put("NEW", NEW_LOADER);
         LOADERS.put("LOGIN", LOGIN_LOADER);
+        LOADERS.put("NEWUSER", NEWUSER_LOADER);
         
         Scene listsc = new Scene(LIST_LOADER.load());
         listStage.setTitle("List of Attendies!");

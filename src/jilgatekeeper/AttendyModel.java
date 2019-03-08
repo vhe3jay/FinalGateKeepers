@@ -13,20 +13,20 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public final class AttendyModels extends SQLTableController<AttendyModels>{
+public final class AttendyModel extends SQLTableController<AttendyModel>{
 
-    public AttendyModels() {
+    public AttendyModel() {
         this("","","",null);
     }
     
-    public AttendyModels(String Aname, String Lgroup, String Cnumber, Timestamp Tlog) {
+    public AttendyModel(String Aname, String Lgroup, String Cnumber, Timestamp Tlog) {
         this.setName(Aname);
         this.setLifegroup(Lgroup);
         this.setContactnumber(Cnumber);
         this.setTimelog(Tlog);
     }
     
-    public AttendyModels(String name, String lifegroup, int age, LocalDate dateofbirth, String contactnumber, String address, Timestamp latestlog) {
+    public AttendyModel(String name, String lifegroup, int age, LocalDate dateofbirth, String contactnumber, String address, Timestamp latestlog) {
         this.setName(name);
         this.setLifegroup(lifegroup);
         this.setAge(age);
