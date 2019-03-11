@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,8 +15,14 @@
          <children>
             <JFXPasswordField fx:id="pwTextField" focusTraversable="false" labelFloat="true" layoutX="83.0" layoutY="213.0" promptText="Password" />
             <JFXTextField fx:id="userTextField" focusTraversable="false" labelFloat="true" layoutX="83.0" layoutY="171.0" promptText="Username" />
-            <JFXButton fx:id="loginButton" defaultButton="true" layoutX="173.0" layoutY="262.0" onAction="#loginForm" prefHeight="25.0" prefWidth="90.0" style="-fx-border-color: black;" text="Log in" />
-            <JFXButton fx:id="cancelButton" cancelButton="true" layoutX="38.0" layoutY="262.0" onAction="#cancelButton" prefHeight="25.0" prefWidth="90.0" style="-fx-border-color: black;" text="Cancel" />
+            <JFXButton fx:id="loginButton" defaultButton="true" layoutX="173.0" layoutY="262.0" onAction="#loginForm" prefHeight="25.0" prefWidth="90.0" style="-fx-border-color: black;" text="Log in">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
+            <JFXButton fx:id="cancelButton" cancelButton="true" layoutX="38.0" layoutY="262.0" onAction="#cancelButton" prefHeight="25.0" prefWidth="90.0" style="-fx-border-color: black;" text="Cancel">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
             <ImageView fitHeight="159.0" fitWidth="300.0">
                <image>
                   <Image url="@Logo%20Portrait.jpg" />

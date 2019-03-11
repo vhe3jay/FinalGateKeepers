@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 public class NewUserFormController implements Initializable {
     
     UserModel usermodel = new UserModel();
+    public static Stage myStage = null;
 
     public UserModel getUsermodel() {
         return usermodel;
@@ -68,13 +69,13 @@ public class NewUserFormController implements Initializable {
         usermodel.usernameProperty().bind(userField.textProperty());
         usermodel.passwordProperty().bind(pwField.textProperty());
         usermodel.userlevelProperty().bind(levelCombo.valueProperty().asString());
-        
     }
     public void adduser(ActionEvent event){
         usermodel.setCreated_at(Timestamp.valueOf(LocalDateTime.now()));
         usermodel.save();
+        myStage.close();
+        
     }
-    public static Stage myStage = null;
     public static void showForm(){
         try {
             FXMLLoader NEWUSER_LOADER = new FXMLLoader(NewUserFormController.class.getResource("NewUserForm.fxml"));

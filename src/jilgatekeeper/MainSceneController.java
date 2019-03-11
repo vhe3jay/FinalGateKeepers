@@ -11,6 +11,8 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
 import com.nakpilse.sql.SQLTable;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -75,7 +77,7 @@ public class MainSceneController implements Initializable {
     private Button adduserButton;
 
     public static Stage newStage = new Stage();
-    public static Stage newuserStage = new Stage();
+    Stage imageStage = new Stage();
     AttendyModel atndy = new AttendyModel();
 
     private ObjectProperty<Predicate<AttendyModel>> nameFilter = new SimpleObjectProperty<>();
@@ -85,7 +87,7 @@ public class MainSceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         jilImage.setFitHeight(100);
-        jilImage.fitWidthProperty().bind(LoginFormController.mainScene.widthProperty());
+        jilImage.fitWidthProperty().bind(imageStage.widthProperty());
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         //SETTING THE COLUMN EDITABLE
         tb.setEditable(true);
@@ -319,14 +321,21 @@ public class MainSceneController implements Initializable {
             FXMLLoader MAIN_LOADER = new FXMLLoader(MainSceneController.class.getResource("MainScene.fxml"));
             Scene mainsc = new Scene(MAIN_LOADER.load());
             myStage = new Stage();
+            //myStage.initStyle(StageStyle.UNDECORATED);
             Screen screen = Screen.getPrimary();
+            GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
             Rectangle2D bounds = screen.getVisualBounds();
+            int width = gd.getDisplayMode().getWidth();
+            int height = gd.getDisplayMode().getHeight();
+            myStage.setWidth(width);
+            myStage.setHeight(height);
             myStage.setX(bounds.getMinX());
             myStage.setY(bounds.getMinY());
             myStage.setWidth(bounds.getWidth());
             myStage.setHeight(bounds.getHeight());
             myStage.setMinWidth(1130);
-            myStage.setMinHeight(700);
+            myStage.setMinHeight(600);
+            myStage.setMaxHeight(900);
             //FOR MAXIMIZED WINDOW SIZE
             myStage.setMaximized(true);
             myStage.setTitle("jESUS IS LORD NOVELETA");
