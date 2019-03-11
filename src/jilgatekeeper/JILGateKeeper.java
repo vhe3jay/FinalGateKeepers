@@ -13,11 +13,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import static javafx.application.Application.launch;
+import static javafx.application.Application.launch;
 
 public class JILGateKeeper extends Application {
 
     public static Map<String, FXMLLoader> LOADERS = new HashMap();
-    public static List<AttendyModel> createData = new ArrayList();
+    public static List<Attendy> createData = new ArrayList();
     public static ListofAttendiesController ListController = null;
     public static Stage listStage = new Stage();
     public static final SQLConnectionPool CONNECTION_POOL = new SQLConnectionPool("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/jilgatekeepers", "root", "dwr2rufd7ezj", 50);

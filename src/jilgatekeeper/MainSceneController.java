@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jilgatekeeper;
 
 import com.jfoenix.controls.JFXButton;
@@ -56,7 +51,7 @@ import static jilgatekeeper.JILGateKeeper.listStage;
 public class MainSceneController implements Initializable {
 
     @FXML
-    private JFXComboBox<AttendyModel.lgList> lgComboBox;
+    private JFXComboBox<Attendy.lgList> lgComboBox;
     @FXML
     private JFXTextField searchField;
     @FXML
@@ -70,31 +65,39 @@ public class MainSceneController implements Initializable {
     @FXML
     private Label dateLabel;
     @FXML
-    private ImageView jilImage;
+    private static ImageView jilImage;
     @FXML
     private StackPane stackPane;
     @FXML
     private Button adduserButton;
 
     public static Stage newStage = new Stage();
-    Stage imageStage = new Stage();
-    AttendyModel atndy = new AttendyModel();
+    public static Stage imageStage = new Stage();
+    Attendy atndy = new Attendy();
 
-    private ObjectProperty<Predicate<AttendyModel>> nameFilter = new SimpleObjectProperty<>();
-    private ObjectProperty<Predicate<AttendyModel>> lgFilter = new SimpleObjectProperty<>();
-    private FilteredList<AttendyModel> filteredItems = null;
+    private ObjectProperty<Predicate<Attendy>> nameFilter = new SimpleObjectProperty<>();
+    private ObjectProperty<Predicate<Attendy>> lgFilter = new SimpleObjectProperty<>();
+    private FilteredList<Attendy> filteredItems = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        jilImage.setFitHeight(100);
-        jilImage.fitWidthProperty().bind(imageStage.widthProperty());
+        
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         //SETTING THE COLUMN EDITABLE
+        
+
+        editcolum();
+        searchFilter();
+        addButtonToTable();
+        refreshTable();
+    }
+    
+    public void editcolum(){
         tb.setEditable(true);
-        TableColumn nameCol = column("Name", AttendyModel::nameProperty);
-        TableColumn lgCol = column("Lifegroup", AttendyModel::lifegroupProperty);
-        TableColumn contactCol = column("Contact Number", AttendyModel::contactnumberProperty);
-        TableColumn latestCol = column("Latest Log", AttendyModel::latestLogProperty);
+        TableColumn nameCol = column("Name", Attendy::nameProperty);
+        TableColumn lgCol = column("Lifegroup", Attendy::lifegroupProperty);
+        TableColumn contactCol = column("Contact Number", Attendy::contactnumberProperty);
+        TableColumn latestCol = column("Latest Log", Attendy::latestLogProperty);
 
         tb.setEditable(true);
         tb.getColumns().add(nameCol);
@@ -104,16 +107,15 @@ public class MainSceneController implements Initializable {
         tb.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         latestCol.setSortType(TableColumn.SortType.DESCENDING);
         
-
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         lgCol.setCellFactory(TextFieldTableCell.forTableColumn());
         contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
 
         nameCol.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<AttendyModel, String>>() {
+                new EventHandler<TableColumn.CellEditEvent<Attendy, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<AttendyModel, String> t) {
-                AttendyModel sel_attendy = (AttendyModel) t.getTableView().getItems().get(t.getTablePosition().getRow());
+            public void handle(TableColumn.CellEditEvent<Attendy, String> t) {
+                Attendy sel_attendy = (Attendy) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 sel_attendy.setName(t.getNewValue());
                 sel_attendy.update();
                 refreshTable();
@@ -121,10 +123,10 @@ public class MainSceneController implements Initializable {
         }
         );
         lgCol.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<AttendyModel, String>>() {
+                new EventHandler<TableColumn.CellEditEvent<Attendy, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<AttendyModel, String> t) {
-                AttendyModel lg = (AttendyModel) t.getTableView().getItems().get(t.getTablePosition().getRow());
+            public void handle(TableColumn.CellEditEvent<Attendy, String> t) {
+                Attendy lg = (Attendy) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 lg.setLifegroup(t.getNewValue());
                 lg.update();
                 refreshTable();
@@ -132,24 +134,21 @@ public class MainSceneController implements Initializable {
         }
         );
         contactCol.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<AttendyModel, String>>() {
+                new EventHandler<TableColumn.CellEditEvent<Attendy, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<AttendyModel, String> t) {
-                AttendyModel contact = (AttendyModel) t.getTableView().getItems().get(t.getTablePosition().getRow());
+            public void handle(TableColumn.CellEditEvent<Attendy, String> t) {
+                Attendy contact = (Attendy) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 contact.setContactnumber(t.getNewValue());
                 contact.update();
                 refreshTable();
             }
         }
         );
-        searchFilter();
-        addButtonToTable();
-        refreshTable();
     }
 
     @FXML
     public void searchFilter() {
-        lgComboBox.getItems().addAll(AttendyModel.lgList.values());
+        lgComboBox.getItems().addAll(Attendy.lgList.values());
 
         nameFilter.bind(Bindings.createObjectBinding(()
                 -> person -> person.getName().toLowerCase().contains(searchField.getText().toLowerCase()),
@@ -170,10 +169,10 @@ public class MainSceneController implements Initializable {
     }
 
     public void refreshTable() {
-        JILGateKeeper.createData = SQLTable.list(AttendyModel.class);
+        JILGateKeeper.createData = SQLTable.list(Attendy.class);
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
-        SortedList<AttendyModel> sortedlist = new SortedList<>(filteredItems);
+        SortedList<Attendy> sortedlist = new SortedList<>(filteredItems);
         tb.setItems(sortedlist);
         sortedlist.comparatorProperty().bind(tb.comparatorProperty());
         countLabel.setText(String.valueOf(JILGateKeeper.createData.size()));
@@ -211,7 +210,7 @@ public class MainSceneController implements Initializable {
         listStage.show();
     }
 
-    void changeSampleLabel(AttendyModel attendyModels) {
+    void changeSampleLabel(Attendy attendyModels) {
         //JILGateKeeper.createData.add(attendyModels);
         refreshTable();
     }
@@ -219,7 +218,7 @@ public class MainSceneController implements Initializable {
     @FXML
     private void deleteButton(ActionEvent evt) {
         /*
-        AttendyModel sel_item = (AttendyModel) tb.getSelectionModel().getSelectedItem();
+        Attendy sel_item = (Attendy) tb.getSelectionModel().getSelectedItem();
         JILGateKeeper.createData.remove(sel_item);
         sel_item.delete();
         refreshTable();
@@ -238,7 +237,7 @@ public class MainSceneController implements Initializable {
         okButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                AttendyModel sel_item = (AttendyModel) tb.getSelectionModel().getSelectedItem();
+                Attendy sel_item = (Attendy) tb.getSelectionModel().getSelectedItem();
                 JILGateKeeper.createData.remove(sel_item);
                 sel_item.delete();
                 refreshTable();
@@ -257,19 +256,19 @@ public class MainSceneController implements Initializable {
     }
 
     private void addButtonToTable() {
-        TableColumn<AttendyModel, Void> colBtn = new TableColumn("Time In");
+        TableColumn<Attendy, Void> colBtn = new TableColumn("Time In");
         colBtn.setMinWidth(20);
         colBtn.setMaxWidth(200);
 
-        Callback<TableColumn<AttendyModel, Void>, TableCell<AttendyModel, Void>> cellFactory = new Callback<TableColumn<AttendyModel, Void>, TableCell<AttendyModel, Void>>() {
+        Callback<TableColumn<Attendy, Void>, TableCell<Attendy, Void>> cellFactory = new Callback<TableColumn<Attendy, Void>, TableCell<Attendy, Void>>() {
             @Override
-            public TableCell<AttendyModel, Void> call(final TableColumn<AttendyModel, Void> param) {
-                final TableCell<AttendyModel, Void> cell = new TableCell<AttendyModel, Void>() {
+            public TableCell<Attendy, Void> call(final TableColumn<Attendy, Void> param) {
+                final TableCell<Attendy, Void> cell = new TableCell<Attendy, Void>() {
 
                     private final Button btn = new Button("Log In");
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            AttendyModel data = getTableView().getItems().get(getIndex());     
+                            Attendy data = getTableView().getItems().get(getIndex());     
                             java.sql.Timestamp d = Timestamp.valueOf(LocalDateTime.now());
                             data.setLatestLog(d);
                             data.update();
@@ -291,7 +290,7 @@ public class MainSceneController implements Initializable {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            AttendyModel data = getTableView().getItems().get(getIndex());
+                            Attendy data = getTableView().getItems().get(getIndex());
                             boolean hasLog = false;
                             if(data.getLatestLog() != null){
                                 if(data.getLatestLog().toLocalDateTime().toLocalDate().equals(LocalDate.now())){
@@ -318,6 +317,8 @@ public class MainSceneController implements Initializable {
     public static Stage myStage = null;
     public static void showForm(){
         try {
+            jilImage.setFitHeight(100);
+            jilImage.fitWidthProperty().bind(myStage.widthProperty());
             FXMLLoader MAIN_LOADER = new FXMLLoader(MainSceneController.class.getResource("MainScene.fxml"));
             Scene mainsc = new Scene(MAIN_LOADER.load());
             myStage = new Stage();
@@ -341,6 +342,7 @@ public class MainSceneController implements Initializable {
             myStage.setTitle("jESUS IS LORD NOVELETA");
             myStage.setScene(mainsc);
             myStage.show();
+            //imageStage.show();
         } catch (IOException ex) {
             Logger.getLogger(NewUserFormController.class.getName()).log(Level.SEVERE, null, ex);
         }

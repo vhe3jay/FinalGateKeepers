@@ -22,14 +22,14 @@ import javafx.stage.Stage;
 
 public class NewUserFormController implements Initializable {
     
-    UserModel usermodel = new UserModel();
+    User usermodel = new User();
     public static Stage myStage = null;
 
-    public UserModel getUsermodel() {
+    public User getUsermodel() {
         return usermodel;
     }
 
-    public void setUsermodel(UserModel usermodel) {
+    public void setUsermodel(User usermodel) {
         this.usermodel = usermodel;
     }
     
@@ -59,7 +59,7 @@ public class NewUserFormController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        levelCombo.getItems().addAll(UserModel.securitylevel.values());
+        levelCombo.getItems().addAll(User.securitylevel.values());
         bindcomponents();
     }    
     

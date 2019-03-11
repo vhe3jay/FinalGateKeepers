@@ -37,7 +37,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import jilgatekeeper.AttendyModel.sortby;
+import jilgatekeeper.Attendy.sortby;
 
 public class ListofAttendiesController implements Initializable {
 
@@ -50,39 +50,39 @@ public class ListofAttendiesController implements Initializable {
     @FXML
     private JFXTextField searchField;
     @FXML
-    public TableView<AttendyModel> tb;
+    public TableView<Attendy> tb;
     @FXML
     private StackPane stackPane;
     @FXML
     private JFXCheckBox cBox;
     
-    private ObjectProperty<Predicate<AttendyModel>> nameFilter = new SimpleObjectProperty<>();
-    private ObjectProperty<Predicate<AttendyModel>> lgFilter = new SimpleObjectProperty<>();
-    private FilteredList<AttendyModel> filteredItems = null;
+    private ObjectProperty<Predicate<Attendy>> nameFilter = new SimpleObjectProperty<>();
+    private ObjectProperty<Predicate<Attendy>> lgFilter = new SimpleObjectProperty<>();
+    private FilteredList<Attendy> filteredItems = null;
     
-    private List<AttendyModel> AttendyList = new ArrayList();
-    AttendyModel atndy = new AttendyModel();
+    private List<Attendy> AttendyList = new ArrayList();
+    Attendy atndy = new Attendy();
 
     /*
     ObservableList<String> lifegrouplist = FXCollections.observableArrayList("First Timers", "Guests", "Children","KKB","YAN","MEN", "WOMEN","Seniors");
     ObservableList<String> sort_list = FXCollections.observableArrayList("Today", "Last week", "Custom");
     
     private static final ObservableList<AttendyModels> completedata = FXCollections.observableArrayList(
-            new AttendyModel (1,"asdasd", AttendyModel.lgList.YAN, 18, LocalDate.now(), "nbn", "address",Timestamp.valueOf(LocalDateTime.now()))
+            new Attendy (1,"asdasd", Attendy.lgList.YAN, 18, LocalDate.now(), "nbn", "address",Timestamp.valueOf(LocalDateTime.now()))
     );
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         
-        TableColumn nameCol = column("Name", AttendyModel::nameProperty);
-        TableColumn lgCol = column("Lifegroup", AttendyModel::lifegroupProperty);
-        TableColumn ageCol = column("Age", AttendyModel::ageProperty);
-        TableColumn birthCol = column("Birthdate", AttendyModel::dateofbirthProperty);
-        TableColumn contactCol = column("Contact No.", AttendyModel::contactnumberProperty);
-        TableColumn addressCol = column("Address", AttendyModel::addressProperty);
-        TableColumn timelogCol = column("First Time Attended", AttendyModel::timelogProperty);
-        TableColumn latestCol = column("Latest Time Attended", AttendyModel::latestLogProperty);
+        TableColumn nameCol = column("Name", Attendy::nameProperty);
+        TableColumn lgCol = column("Lifegroup", Attendy::lifegroupProperty);
+        TableColumn ageCol = column("Age", Attendy::ageProperty);
+        TableColumn birthCol = column("Birthdate", Attendy::dateofbirthProperty);
+        TableColumn contactCol = column("Contact No.", Attendy::contactnumberProperty);
+        TableColumn addressCol = column("Address", Attendy::addressProperty);
+        TableColumn timelogCol = column("First Time Attended", Attendy::timelogProperty);
+        TableColumn latestCol = column("Latest Time Attended", Attendy::latestLogProperty);
 
         tb.getColumns().add(nameCol);
         tb.getColumns().add(lgCol);
@@ -100,8 +100,8 @@ public class ListofAttendiesController implements Initializable {
         ageCol.setStyle("-fx-alignment: CENTER;");
         birthCol.setStyle("-fx-alignment: CENTER;");
         
-        sort_attendy.getItems().addAll(AttendyModel.sortby.values());
-        lgcombo.getItems().addAll(AttendyModel.lgList.values());
+        sort_attendy.getItems().addAll(Attendy.sortby.values());
+        lgcombo.getItems().addAll(Attendy.lgList.values());
 
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -112,10 +112,10 @@ public class ListofAttendiesController implements Initializable {
         ageCol.setMaxWidth(90);
 
         nameCol.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<AttendyModel, String>>() {
+                new EventHandler<TableColumn.CellEditEvent<Attendy, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<AttendyModel, String> t) {
-                AttendyModel sel_attendy = (AttendyModel) t.getTableView().getItems().get(t.getTablePosition().getRow());
+            public void handle(TableColumn.CellEditEvent<Attendy, String> t) {
+                Attendy sel_attendy = (Attendy) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 sel_attendy.setName(t.getNewValue());
                 sel_attendy.update();
                 loadAttendies();
@@ -123,10 +123,10 @@ public class ListofAttendiesController implements Initializable {
         }
         );
         contactCol.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<AttendyModel, String>>() {
+                new EventHandler<TableColumn.CellEditEvent<Attendy, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<AttendyModel, String> t) {
-                AttendyModel contact = (AttendyModel) t.getTableView().getItems().get(t.getTablePosition().getRow());
+            public void handle(TableColumn.CellEditEvent<Attendy, String> t) {
+                Attendy contact = (Attendy) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 contact.setContactnumber(t.getNewValue());
                 contact.update();
                 loadAttendies();
@@ -134,10 +134,10 @@ public class ListofAttendiesController implements Initializable {
         }
         );
         addressCol.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<AttendyModel, String>>() {
+                new EventHandler<TableColumn.CellEditEvent<Attendy, String>>() {
             @Override
-            public void handle(TableColumn.CellEditEvent<AttendyModel, String> t) {
-                AttendyModel address = (AttendyModel) t.getTableView().getItems().get(t.getTablePosition().getRow());
+            public void handle(TableColumn.CellEditEvent<Attendy, String> t) {
+                Attendy address = (Attendy) t.getTableView().getItems().get(t.getTablePosition().getRow());
                 address.setAddress(t.getNewValue());
                 address.update();
                 loadAttendies();
@@ -180,7 +180,7 @@ public class ListofAttendiesController implements Initializable {
         return col;
     }
 
-    public void changeSampleLabel(AttendyModel attendyModels) {
+    public void changeSampleLabel(Attendy attendyModels) {
         //createData.add(attendyModels);
         ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).refreshTable();
     }
@@ -189,13 +189,13 @@ public class ListofAttendiesController implements Initializable {
         
         filteredItems = new FilteredList<>(FXCollections.observableList(AttendyList));
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
-        SortedList<AttendyModel> sortedlist = new SortedList<>(filteredItems);
+        SortedList<Attendy> sortedlist = new SortedList<>(filteredItems);
         tb.setItems(sortedlist);
         sortedlist.comparatorProperty().bind(tb.comparatorProperty());
     }
     
     public void loadAttendies(){
-        AttendyList = SQLTable.list(AttendyModel.class);
+        AttendyList = SQLTable.list(Attendy.class);
         refresh();
     }
     java.sql.Timestamp from = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)));
@@ -208,13 +208,13 @@ public class ListofAttendiesController implements Initializable {
              case TODAY:
                 from = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)));
                 to = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
-                AttendyList = SQLTable.list(AttendyModel.class,"latestlog",from,to);
+                AttendyList = SQLTable.list(Attendy.class,"latestlog",from,to);
                 refresh();
                 break;
             case LASTWEEK:
                 from = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now().minusDays(7), LocalTime.of(0, 0, 0)));
                 to = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
-                AttendyList = SQLTable.list(AttendyModel.class,"latestlog",from,to);
+                AttendyList = SQLTable.list(Attendy.class,"latestlog",from,to);
                 refresh();
                 break;
             case CUSTOM:
@@ -233,7 +233,7 @@ public class ListofAttendiesController implements Initializable {
                     public void handle(ActionEvent event) {
                         from = java.sql.Timestamp.valueOf(LocalDateTime.of(customFrom.getValue(), LocalTime.of(0, 0, 0)));
                         to = java.sql.Timestamp.valueOf(LocalDateTime.of(customTo.getValue(), LocalTime.of(23, 59, 59)));
-                        AttendyList = SQLTable.list(AttendyModel.class,"latestlog",from,to);
+                        AttendyList = SQLTable.list(Attendy.class,"latestlog",from,to);
                         refresh();
                         dialog.close();
                     }
@@ -242,7 +242,7 @@ public class ListofAttendiesController implements Initializable {
                 dialog.show();                
                 break;
             default:
-                AttendyList = SQLTable.list(AttendyModel.class);
+                AttendyList = SQLTable.list(Attendy.class);
                 refresh();
                 break;
         }
@@ -251,15 +251,15 @@ public class ListofAttendiesController implements Initializable {
     
     public void forFirstTimers(){
         if(cBox.isSelected()){
-            List<AttendyModel> firsttimers = new ArrayList();
-            for(AttendyModel attendy:AttendyList){
+            List<Attendy> firsttimers = new ArrayList();
+            for(Attendy attendy:AttendyList){
                 if((attendy.getTimelog().after(from) || attendy.getTimelog().equals(from)) && (attendy.getTimelog().before(to) || attendy.getTimelog().equals(to))){
                     firsttimers.add(attendy);
                 }
             }
             filteredItems = new FilteredList<>(FXCollections.observableList(firsttimers));
             filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
-            SortedList<AttendyModel> sortedlist = new SortedList<>(filteredItems);
+            SortedList<Attendy> sortedlist = new SortedList<>(filteredItems);
             tb.setItems(sortedlist);
             sortedlist.comparatorProperty().bind(tb.comparatorProperty());
         }else{
