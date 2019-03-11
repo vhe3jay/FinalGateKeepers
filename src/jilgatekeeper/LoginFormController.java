@@ -54,10 +54,7 @@ public class LoginFormController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         userList = SQLTable.list(User.class);
-        for(Object user:userList){
-            System.out.println(((User)user).getDebugInfo());
-        }
-        
+              
     }    
     
     @FXML
@@ -76,17 +73,17 @@ public class LoginFormController implements Initializable {
             if(userTextField.getText().equals(((User)user).getUsername())){
                 if(pwTextField.getText().equals(((User)user).getPassword())){
                     MainSceneController.showForm();
-                    mainstage.close();                    
+                    mainstage.close();
                 }
               }else{
                 VBox contentBox = new VBox();
-                //contentBox.autosize();
+                contentBox.autosize();
                 JFXDialogLayout content = new JFXDialogLayout();
                 content.setHeading(new Text("Log In Error!"));
                 content.setBody(contentBox);
                 JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
                 Button button = new Button("Okay");
-                button.setAlignment(Pos.BASELINE_RIGHT);
+                button.setAlignment(Pos.BASELINE_LEFT);
                 contentBox.getChildren().addAll(new Label("Incorrect Username/Password"),button);
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override

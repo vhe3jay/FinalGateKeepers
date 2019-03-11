@@ -179,7 +179,7 @@ public class User extends SQLTableController<User>{
     public SQLColumnData getJoinColumn() {
         return JOIN_COL;
     }
-    public enum securitylevel{
+    public static enum securitylevel{
                     USHER, HEAD
     }
     

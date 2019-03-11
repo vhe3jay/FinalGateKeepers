@@ -69,7 +69,7 @@ public class MainSceneController implements Initializable {
     @FXML
     private StackPane stackPane;
     @FXML
-    private Button adduserButton;
+    public static  Button adduserButton;
 
     public static Stage newStage = new Stage();
     public static Stage imageStage = new Stage();
@@ -84,8 +84,6 @@ public class MainSceneController implements Initializable {
         
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         //SETTING THE COLUMN EDITABLE
-        
-
         editcolum();
         searchFilter();
         addButtonToTable();
@@ -314,14 +312,19 @@ public class MainSceneController implements Initializable {
         NewUserFormController.showForm();
     }
     
+    public static void imageresize(){
+        myStage = new Stage();
+        jilImage.setFitHeight(100);
+        jilImage.fitWidthProperty().bind(myStage.widthProperty());
+    }
+    
     public static Stage myStage = null;
     public static void showForm(){
         try {
-            jilImage.setFitHeight(100);
-            jilImage.fitWidthProperty().bind(myStage.widthProperty());
             FXMLLoader MAIN_LOADER = new FXMLLoader(MainSceneController.class.getResource("MainScene.fxml"));
             Scene mainsc = new Scene(MAIN_LOADER.load());
             myStage = new Stage();
+            
             //myStage.initStyle(StageStyle.UNDECORATED);
             Screen screen = Screen.getPrimary();
             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -336,7 +339,6 @@ public class MainSceneController implements Initializable {
             myStage.setHeight(bounds.getHeight());
             myStage.setMinWidth(1130);
             myStage.setMinHeight(600);
-            myStage.setMaxHeight(900);
             //FOR MAXIMIZED WINDOW SIZE
             myStage.setMaximized(true);
             myStage.setTitle("jESUS IS LORD NOVELETA");

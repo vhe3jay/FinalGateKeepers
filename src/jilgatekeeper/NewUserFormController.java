@@ -1,5 +1,7 @@
 package jilgatekeeper;
 
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -8,15 +10,21 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -71,9 +79,30 @@ public class NewUserFormController implements Initializable {
         usermodel.userlevelProperty().bind(levelCombo.valueProperty().asString());
     }
     public void adduser(ActionEvent event){
-        usermodel.setCreated_at(Timestamp.valueOf(LocalDateTime.now()));
-        usermodel.save();
-        myStage.close();
+        if(pwField.getText().equals(verpwField.getText())){
+            usermodel.setCreated_at(Timestamp.valueOf(LocalDateTime.now()));
+            usermodel.save();
+            myStage.close();
+        }else{
+        VBox contentBox = new VBox();
+                contentBox.autosize();
+                JFXDialogLayout content = new JFXDialogLayout();
+                content.setHeading(new Text("Error!"));
+                content.setBody(contentBox);
+                StackPane stackpane = new StackPane();
+                JFXDialog dialog = new JFXDialog(stackpane, content, JFXDialog.DialogTransition.CENTER);
+                Button button = new Button("Okay");
+                button.setAlignment(Pos.BASELINE_LEFT);
+                contentBox.getChildren().addAll(new Label("Password Do Not Match!"),button);
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        dialog.close();
+                    }
+                });
+                dialog.show();
+                myStage.close();
+        }
         
     }
     public static void showForm(){
