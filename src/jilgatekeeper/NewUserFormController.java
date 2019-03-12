@@ -1,8 +1,5 @@
 package jilgatekeeper;
 
-import static O.QN.selection;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -11,26 +8,19 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 
 public class NewUserFormController implements Initializable {
@@ -83,18 +73,17 @@ public class NewUserFormController implements Initializable {
         usermodel.passwordProperty().bind(pwField.textProperty());
         usermodel.userlevelProperty().bind(levelCombo.valueProperty().asString());
     }
+    
     public void adduser(ActionEvent event){
         if(pwField.equals(verpwField)){
             usermodel.setCreated_at(Timestamp.valueOf(LocalDateTime.now()));
             usermodel.save();
             myStage.close();
         }else{
-            Alert alert = new Alert(AlertType.WARNING, "Password do not match",ButtonType.OK);
+            Alert alert = new Alert(AlertType.WARNING, "Password do not match",ButtonType.CLOSE);
             alert.showAndWait();
-//            if (alert.getResult() == ButtonType.YES) {
-//                //do stuff
+//           if (alert.getResult() == ButtonType.CLOSE) {
 //            }
-                myStage.close();
         }
         
     }

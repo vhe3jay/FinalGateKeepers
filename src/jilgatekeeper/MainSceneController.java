@@ -1,10 +1,7 @@
 package jilgatekeeper;
 
 import static O.QN.selection;
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
 import com.nakpilse.sql.SQLTable;
 import java.awt.GraphicsDevice;
@@ -44,8 +41,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -72,7 +67,7 @@ public class MainSceneController implements Initializable {
     @FXML
     private StackPane stackPane;
     @FXML
-    public static  Button adduserButton;
+    public static Button adduserButton;
 
     public static Stage newStage = new Stage();
     public static Stage imageStage = new Stage();
@@ -84,15 +79,14 @@ public class MainSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
-        //SETTING THE COLUMN EDITABLE
         editcolum();
         searchFilter();
         addButtonToTable();
         refreshTable();
     }
     
+    //SETTING THE COLUMN EDITABLE
     public void editcolum(){
         tb.setEditable(true);
         TableColumn nameCol = column("Name", Attendy::nameProperty);
@@ -218,12 +212,6 @@ public class MainSceneController implements Initializable {
 
     @FXML
     private void deleteButton(ActionEvent evt) {
-        /*
-        Attendy sel_item = (Attendy) tb.getSelectionModel().getSelectedItem();
-        JILGateKeeper.createData.remove(sel_item);
-        sel_item.delete();
-        refreshTable();
-        */
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete this " + selection + "?", ButtonType.YES, ButtonType.NO);
                 alert.showAndWait();
                     if (alert.getResult() == ButtonType.YES) {
@@ -324,7 +312,6 @@ public class MainSceneController implements Initializable {
             myStage.setTitle("jESUS IS LORD NOVELETA");
             myStage.setScene(mainsc);
             myStage.show();
-            //imageStage.show();
         } catch (IOException ex) {
             Logger.getLogger(NewUserFormController.class.getName()).log(Level.SEVERE, null, ex);
         }
