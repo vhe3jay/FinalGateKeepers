@@ -1,5 +1,6 @@
 package jilgatekeeper;
 
+import static O.QN.selection;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
@@ -33,7 +34,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -221,37 +224,15 @@ public class MainSceneController implements Initializable {
         sel_item.delete();
         refreshTable();
         */
-        VBox contentBox = new VBox();
-                
-        contentBox.getChildren().add(new Label("Do you want to delete this Information?"));
-        contentBox.autosize();
-        JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Confirmation Diaglog"));
-        content.setBody(contentBox);
-        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-        JFXButton okButton = new JFXButton("Delete");
-        JFXButton cancelButton = new JFXButton("Cancel");
-
-        okButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Attendy sel_item = (Attendy) tb.getSelectionModel().getSelectedItem();
-                JILGateKeeper.createData.remove(sel_item);
-                sel_item.delete();
-                refreshTable();
-                dialog.close();
-            }
-        });
-
-        cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                dialog.close();
-            }
-        });
-        content.setActions(okButton, cancelButton);
-        dialog.show();                
-    }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete this " + selection + "?", ButtonType.YES, ButtonType.NO);
+                alert.showAndWait();
+                    if (alert.getResult() == ButtonType.YES) {
+                        Attendy sel_item = (Attendy) tb.getSelectionModel().getSelectedItem();
+                        JILGateKeeper.createData.remove(sel_item);
+                        sel_item.delete();
+                        refreshTable();
+                    }
+                }              
 
     private void addButtonToTable() {
         TableColumn<Attendy, Void> colBtn = new TableColumn("Time In");
@@ -324,7 +305,6 @@ public class MainSceneController implements Initializable {
             FXMLLoader MAIN_LOADER = new FXMLLoader(MainSceneController.class.getResource("MainScene.fxml"));
             Scene mainsc = new Scene(MAIN_LOADER.load());
             myStage = new Stage();
-            
             //myStage.initStyle(StageStyle.UNDECORATED);
             Screen screen = Screen.getPrimary();
             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();

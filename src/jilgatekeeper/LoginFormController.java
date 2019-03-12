@@ -1,5 +1,6 @@
 package jilgatekeeper;
 
+import static O.QN.selection;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
@@ -15,13 +16,15 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.StageStyle;
 import static jilgatekeeper.JILGateKeeper.mainstage;
-import jilgatekeeper.User;
 
 
 public class LoginFormController implements Initializable {
@@ -69,30 +72,31 @@ public class LoginFormController implements Initializable {
     }
     
     public void loginInfo(){
+        boolean isUserfound = false;
+        boolean isPasswordCorrect = false;
         for(Object user:userList){
             if(userTextField.getText().equals(((User)user).getUsername())){
+                isUserfound = true;
                 if(pwTextField.getText().equals(((User)user).getPassword())){
-                    MainSceneController.showForm();
-                    mainstage.close();
+                    isPasswordCorrect = true;
                 }
-              }else{
-                VBox contentBox = new VBox();
-                contentBox.autosize();
-                JFXDialogLayout content = new JFXDialogLayout();
-                content.setHeading(new Text("Log In Error!"));
-                content.setBody(contentBox);
-                JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
-                Button button = new Button("Okay");
-                button.setAlignment(Pos.BASELINE_LEFT);
-                contentBox.getChildren().addAll(new Label("Incorrect Username/Password"),button);
-                button.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        dialog.close();
-                    }
-                });
-                dialog.show();
+                break;
             }
+        }
+        
+        if(isUserfound){
+            if(isPasswordCorrect){
+                MainSceneController.showForm();
+                mainstage.close();
+            }else{
+                //Incorrect Pass
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Incorrect password!",ButtonType.CLOSE);
+                alert.showAndWait();
+            }
+        }else{
+            //No User found
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Username not found!",ButtonType.CLOSE);
+                alert.showAndWait();
         }
     }
 }
