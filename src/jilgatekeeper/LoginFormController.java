@@ -4,28 +4,18 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.nakpilse.sql.SQLTable;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.io.IOException;
+import java.awt.Component;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import static jilgatekeeper.JILGateKeeper.loginStage;
-import static jilgatekeeper.MainSceneController.adduserButton;
 
 
 public class LoginFormController implements Initializable {
@@ -52,9 +42,7 @@ public class LoginFormController implements Initializable {
 
     @FXML
     private JFXButton cancelButton;
-    
-    public static Stage mainStage = new Stage();
-    
+
     List userList = new ArrayList();
     
     public void initialize(URL url, ResourceBundle rb) {
@@ -77,15 +65,17 @@ public class LoginFormController implements Initializable {
         
         boolean isUserfound = false;
         boolean isPasswordCorrect = false;
-        boolean head = false;
+        boolean usher = false;
+        User tmp = null;
         for(Object user:userList){
             if(userTextField.getText().equals(((User)user).getUsername())){
                 isUserfound = true;
                 if(pwTextField.getText().equals(((User)user).getPassword())){
                     isPasswordCorrect = true;
                     if(((User)user).getUserlevel().equals("USHER")){
-                        head = true;
+                        usher = true;
                     }
+                    tmp = (User)user;
                     break;
                 }
             }
@@ -93,18 +83,13 @@ public class LoginFormController implements Initializable {
         
         if(isUserfound){
             if(isPasswordCorrect){
-                if(!head){
-                    adduserButton.setDisable(true);
-                    showmainForm();
+                if(tmp.getUserlevel().equals("USHER")){
+                    ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).showmainForm(tmp);
                     loginStage.close();
-                    System.out.println("head");
+                    //System.out.println("usher");
                 }else{
-                    //Button bn = MainSceneController.adduserButton;
-                    //adduserButton.disableProperty().setValue(true);
-                    //MainSceneController.adduserButton.disableProperty().setValue(true);
-                    //bn.setDisable(true);
-                    System.out.println("usher");
-                    showmainForm();
+                    //System.out.println("head");
+                    ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).showmainForm(tmp);
                     loginStage.close();
                 }
             }else{
@@ -118,31 +103,19 @@ public class LoginFormController implements Initializable {
                 alert.showAndWait();
         }
     }
-    
-    public void showmainForm(){
-        try {
-        FXMLLoader MAIN_LOADER = new FXMLLoader(MainSceneController.class.getResource("MainScene.fxml"));
-        Scene mainsc = new Scene(MAIN_LOADER.load());
-        Screen screen = Screen.getPrimary();
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        Rectangle2D bounds = screen.getVisualBounds();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        mainStage.setWidth(width);
-        mainStage.setHeight(height);
-        mainStage.setX(bounds.getMinX());
-        mainStage.setY(bounds.getMinY());
-        mainStage.setWidth(bounds.getWidth());
-        mainStage.setHeight(bounds.getHeight());
-        mainStage.setMinWidth(1130);
-        mainStage.setMinHeight(600);
-        //FOR MAXIMIZED WINDOW SIZE
-        mainStage.setMaximized(true);
-        mainStage.setTitle("jESUS IS LORD NOVELETA");
-        mainStage.setScene(mainsc);
-        mainStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(NewUserFormController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    /*
+    public static Component findNextFocus() {
+    Component c = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+    Container root = c.getFocusCycleRootAncestor();
+
+    FocusTraversalPolicy policy = root.getFocusTraversalPolicy();
+    Component nextFocus = policy.getComponentAfter(root, c);
+    if (nextFocus == null) {
+      nextFocus = policy.getDefaultComponent(root);
     }
+    return nextFocus;
+  }
+*/
+    
+    
 }

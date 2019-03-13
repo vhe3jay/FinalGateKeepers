@@ -13,7 +13,7 @@
    <children>
       <AnchorPane id="AnchorPane" prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: white;">
          <children>
-            <JFXPasswordField fx:id="pwTextField" labelFloat="true" layoutX="83.0" layoutY="213.0" pickOnBounds="false" promptText="Password" />
+            <JFXPasswordField fx:id="pwTextField" focusTraversable="false" labelFloat="true" layoutX="83.0" layoutY="213.0" promptText="Password" />
             <JFXTextField fx:id="userTextField" labelFloat="true" layoutX="83.0" layoutY="171.0" promptText="Username" />
             <JFXButton fx:id="loginButton" defaultButton="true" focusTraversable="false" layoutX="173.0" layoutY="262.0" onAction="#loginForm" prefHeight="25.0" prefWidth="90.0" style="-fx-border-color: black;" text="Log in">
                <cursor>

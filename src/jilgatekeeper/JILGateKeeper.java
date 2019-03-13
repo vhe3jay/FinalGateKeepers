@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import static javafx.application.Application.launch;
+import javafx.stage.StageStyle;
 
 public class JILGateKeeper extends Application {
 
@@ -21,6 +22,7 @@ public class JILGateKeeper extends Application {
     public static ListofAttendiesController ListController = null;
     public static final SQLConnectionPool CONNECTION_POOL = new SQLConnectionPool("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/jilgatekeepers", "root", "dwr2rufd7ezj", 50);
     public static Stage listStage = new Stage();
+    public static Stage mainStage = new Stage();
     Scene listsc;
     public static Stage loginStage = null;
     public static Scene loginsc;
@@ -54,13 +56,16 @@ public class JILGateKeeper extends Application {
         LOADERS.put("NEWUSER", NEWUSER_LOADER);
         
         listsc = new Scene(LIST_LOADER.load());
+        Scene mainScene = new Scene(MAIN_LOADER.load());
         listStage.setTitle("List of Attendies!");
         listStage.setScene(listsc);
         listStage.setMinWidth(900);
         listStage.setMinHeight(600);
+        mainStage.setScene(mainScene);
 
         //VBox MAIN_ROOT = LOGIN_LOADER.load();
-         loginsc = new Scene(LOGIN_LOADER.load());
+        loginsc = new Scene(LOGIN_LOADER.load());
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Jesus Is Lord Noveleta");    
         primaryStage.setScene(loginsc);
         primaryStage.show();

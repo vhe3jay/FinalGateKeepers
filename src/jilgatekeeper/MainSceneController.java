@@ -4,6 +4,8 @@ import static O.QN.selection;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.nakpilse.sql.SQLTable;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -27,6 +29,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -38,13 +41,25 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import static jilgatekeeper.JILGateKeeper.listStage;
+import static jilgatekeeper.JILGateKeeper.loginStage;
+import static jilgatekeeper.JILGateKeeper.mainStage;
 
 public class MainSceneController implements Initializable {
+    public static User user = new User();
 
+    public static  User getUser() {
+        return user;
+    }
+
+    public static void setUser(User user) {
+        MainSceneController.user = user;
+    }
+    
     @FXML
     private JFXComboBox<Attendy.lgList> lgComboBox;
     @FXML
@@ -64,7 +79,7 @@ public class MainSceneController implements Initializable {
     @FXML
     private StackPane stackPane;
     @FXML
-    public static Button adduserButton;
+    public Button adduserButton;
 
     public static Stage newStage = new Stage();
     Attendy atndy = new Attendy();
@@ -77,9 +92,7 @@ public class MainSceneController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 //            jilImage.setFitHeight(100);
 //            jilImage.fitWidthProperty().bind(LoginFormController.mainStage.getScene().widthProperty());
-        
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
-        imageresize();
         editcolum();
         searchFilter();
         addButtonToTable();
@@ -206,7 +219,6 @@ public class MainSceneController implements Initializable {
     }
 
     void changeSampleLabel(Attendy attendyModels) {
-        //JILGateKeeper.createData.add(attendyModels);
         refreshTable();
     }
 
@@ -277,12 +289,41 @@ public class MainSceneController implements Initializable {
     }
     
     @FXML
-    void launchNewUserForm(ActionEvent event)  {
+    void launchNewUserForm(ActionEvent event){
         NewUserFormController.showForm();
     }
     
-    public static void imageresize(){
-        
+    public void showmainForm(User user){
+        Screen screen = Screen.getPrimary();
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        Rectangle2D bounds = screen.getVisualBounds();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
+        mainStage.initStyle(StageStyle.UTILITY);
+        mainStage.setWidth(width);
+        mainStage.setHeight(height);
+        mainStage.setX(bounds.getMinX());
+        mainStage.setY(bounds.getMinY());
+        mainStage.setWidth(bounds.getWidth());
+        mainStage.setHeight(bounds.getHeight());
+        mainStage.setMinWidth(1150);
+        mainStage.setMinHeight(600);
+        mainStage.setMaximized(true);
+        mainStage.setTitle("JESUS IS LORD NOVELETA");
+        setUser(user);
+        disablebuttonforusher();
+        mainStage.show();
+    }
+    public void disablebuttonforusher(){
+        String userlevel = user.getUserlevel();
+        if(userlevel.equals("USHER")){
+            adduserButton.disableProperty().setValue(true);
+            System.out.println("usher");
+            loginStage.close();
+        }else{
+            loginStage.close();
+            System.out.println("head");
+        }
     }
     
 }
