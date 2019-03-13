@@ -14,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import static jilgatekeeper.JILGateKeeper.loginStage;
 
@@ -104,18 +106,11 @@ public class LoginFormController implements Initializable {
         }
     }
     /*
-    public static Component findNextFocus() {
-    Component c = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-    Container root = c.getFocusCycleRootAncestor();
-
-    FocusTraversalPolicy policy = root.getFocusTraversalPolicy();
-    Component nextFocus = policy.getComponentAfter(root, c);
-    if (nextFocus == null) {
-      nextFocus = policy.getDefaultComponent(root);
+    @FXML
+    void nextFocus(KeyEvent event) {
+        if(event.getCode() == KeyCode.TAB){
+            pwTextField.requestFocus();
+        }
     }
-    return nextFocus;
-  }
-*/
-    
-    
+    */
 }
