@@ -4,8 +4,6 @@ import static O.QN.selection;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.nakpilse.sql.SQLTable;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -29,7 +27,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -41,7 +38,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Screen;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import static jilgatekeeper.JILGateKeeper.listStage;
@@ -63,14 +60,13 @@ public class MainSceneController implements Initializable {
     @FXML
     private Label dateLabel;
     @FXML
-    private static ImageView jilImage;
+    static ImageView jilImage;
     @FXML
     private StackPane stackPane;
     @FXML
     public static Button adduserButton;
 
     public static Stage newStage = new Stage();
-    public static Stage imageStage = new Stage();
     Attendy atndy = new Attendy();
 
     private ObjectProperty<Predicate<Attendy>> nameFilter = new SimpleObjectProperty<>();
@@ -79,7 +75,11 @@ public class MainSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+//            jilImage.setFitHeight(100);
+//            jilImage.fitWidthProperty().bind(LoginFormController.mainStage.getScene().widthProperty());
+        
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
+        imageresize();
         editcolum();
         searchFilter();
         addButtonToTable();
@@ -282,38 +282,7 @@ public class MainSceneController implements Initializable {
     }
     
     public static void imageresize(){
-        myStage = new Stage();
-        jilImage.setFitHeight(100);
-        jilImage.fitWidthProperty().bind(myStage.widthProperty());
+        
     }
     
-    public static Stage myStage = null;
-    public static void showForm(){
-        try {
-            FXMLLoader MAIN_LOADER = new FXMLLoader(MainSceneController.class.getResource("MainScene.fxml"));
-            Scene mainsc = new Scene(MAIN_LOADER.load());
-            myStage = new Stage();
-            //myStage.initStyle(StageStyle.UNDECORATED);
-            Screen screen = Screen.getPrimary();
-            GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-            Rectangle2D bounds = screen.getVisualBounds();
-            int width = gd.getDisplayMode().getWidth();
-            int height = gd.getDisplayMode().getHeight();
-            myStage.setWidth(width);
-            myStage.setHeight(height);
-            myStage.setX(bounds.getMinX());
-            myStage.setY(bounds.getMinY());
-            myStage.setWidth(bounds.getWidth());
-            myStage.setHeight(bounds.getHeight());
-            myStage.setMinWidth(1130);
-            myStage.setMinHeight(600);
-            //FOR MAXIMIZED WINDOW SIZE
-            myStage.setMaximized(true);
-            myStage.setTitle("jESUS IS LORD NOVELETA");
-            myStage.setScene(mainsc);
-            myStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(NewUserFormController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 }

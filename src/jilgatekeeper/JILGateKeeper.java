@@ -13,16 +13,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import static javafx.application.Application.launch;
-import static javafx.application.Application.launch;
 
 public class JILGateKeeper extends Application {
 
     public static Map<String, FXMLLoader> LOADERS = new HashMap();
     public static List<Attendy> createData = new ArrayList();
     public static ListofAttendiesController ListController = null;
-    public static Stage listStage = new Stage();
     public static final SQLConnectionPool CONNECTION_POOL = new SQLConnectionPool("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/jilgatekeepers", "root", "dwr2rufd7ezj", 50);
-    public static Stage mainstage = null;
+    public static Stage listStage = new Stage();
+    Scene listsc;
+    public static Stage loginStage = null;
+    public static Scene loginsc;
     public static ListofAttendiesController getListController() {
         return ListController;
     }
@@ -33,7 +34,7 @@ public class JILGateKeeper extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        mainstage = primaryStage;
+        loginStage = primaryStage;
         //FOR SQL CONNECTION 
         //NOTE: MUST CONNECT FIRST BEFORE LOAD OF FORMS
         SQLConnectionFactory.setConnectionPool(CONNECTION_POOL);
@@ -52,29 +53,18 @@ public class JILGateKeeper extends Application {
         LOADERS.put("LOGIN", LOGIN_LOADER);
         LOADERS.put("NEWUSER", NEWUSER_LOADER);
         
-        Scene listsc = new Scene(LIST_LOADER.load());
+        listsc = new Scene(LIST_LOADER.load());
         listStage.setTitle("List of Attendies!");
         listStage.setScene(listsc);
         listStage.setMinWidth(900);
         listStage.setMinHeight(600);
 
         //VBox MAIN_ROOT = LOGIN_LOADER.load();
-        Scene mainsc = new Scene(LOGIN_LOADER.load());
-        primaryStage.setTitle("Jesus Is Lord Noveleta");
-        primaryStage.setScene(mainsc);
+         loginsc = new Scene(LOGIN_LOADER.load());
+        primaryStage.setTitle("Jesus Is Lord Noveleta");    
+        primaryStage.setScene(loginsc);
         primaryStage.show();
-        /*
-        Screen screen = Screen.getPrimary();
-        Rectangle2D bounds = screen.getVisualBounds();
-        primaryStage.setX(bounds.getMinX());
-        primaryStage.setY(bounds.getMinY());
-        primaryStage.setWidth(bounds.getWidth());
-        primaryStage.setHeight(bounds.getHeight());
-        primaryStage.setMinWidth(1130);
-        primaryStage.setMinHeight(700);
-        //FOR MAXIMIZED WINDOW SIZE
-        primaryStage.setMaximized(true);
-        */
+        
         
     }
 
