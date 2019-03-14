@@ -1,10 +1,8 @@
 package jilgatekeeper;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.nakpilse.sql.SQLTable;
-import java.awt.Component;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
 import static jilgatekeeper.JILGateKeeper.loginStage;
-
 
 public class LoginFormController implements Initializable {
     User usermodel = new User();
@@ -30,32 +24,22 @@ public class LoginFormController implements Initializable {
     public void setUsermodel(User usermodel) {
         this.usermodel = usermodel;
     }
-    
-    @FXML
-    private StackPane stackPane;
+
     @FXML
     private JFXPasswordField pwTextField;
 
     @FXML
     private JFXTextField userTextField;
 
-    @FXML
-    private JFXButton loginButton;
-
-    @FXML
-    private JFXButton cancelButton;
-
     List userList = new ArrayList();
     
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         userList = SQLTable.list(User.class);
     }    
     
     @FXML
     public void cancelButton(ActionEvent event) {
         loginStage.close();
-        
     }
     
     @FXML
@@ -64,7 +48,6 @@ public class LoginFormController implements Initializable {
     }
     
     public void loginInfo(){
-        
         boolean isUserfound = false;
         boolean isPasswordCorrect = false;
         boolean usher = false;
@@ -105,12 +88,4 @@ public class LoginFormController implements Initializable {
                 alert.showAndWait();
         }
     }
-    /*
-    @FXML
-    void nextFocus(KeyEvent event) {
-        if(event.getCode() == KeyCode.TAB){
-            pwTextField.requestFocus();
-        }
-    }
-    */
 }

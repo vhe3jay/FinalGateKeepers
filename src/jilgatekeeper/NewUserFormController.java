@@ -14,14 +14,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
+import javafx.stage.StageStyle;
 
 public class NewUserFormController implements Initializable {
     
@@ -35,9 +33,6 @@ public class NewUserFormController implements Initializable {
     public void setUsermodel(User usermodel) {
         this.usermodel = usermodel;
     }
-    
-    @FXML
-    private AnchorPane parentPane;
 
     @FXML
     private TextField nameField;
@@ -53,9 +48,6 @@ public class NewUserFormController implements Initializable {
 
     @FXML
     private PasswordField verpwField;
-
-    @FXML
-    private Button regButton;
 
     @FXML
     private ComboBox levelCombo;
@@ -82,16 +74,15 @@ public class NewUserFormController implements Initializable {
         }else{
             Alert alert = new Alert(AlertType.WARNING, "Password do not match",ButtonType.CLOSE);
             alert.showAndWait();
-//           if (alert.getResult() == ButtonType.CLOSE) {
-//            }
         }
-        
     }
+    
     public static void showForm(){
         try {
             FXMLLoader NEWUSER_LOADER = new FXMLLoader(NewUserFormController.class.getResource("NewUserForm.fxml"));
             Scene newusersc = new Scene(NEWUSER_LOADER.load());
             myStage = new Stage();
+            myStage.initStyle(StageStyle.UTILITY);
             myStage.setTitle("Create New User");
             myStage.setScene(newusersc);
             myStage.show();

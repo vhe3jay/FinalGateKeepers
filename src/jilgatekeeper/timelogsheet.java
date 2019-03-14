@@ -96,5 +96,4 @@ public class timelogsheet extends SQLTableController<timelogsheet>{
     public SQLColumnData getJoinColumn() {
         return JOIN_COL;
     }
-
 }

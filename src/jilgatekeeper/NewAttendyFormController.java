@@ -40,12 +40,9 @@ public class NewAttendyFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         lgbox.getItems().addAll(Attendy.lgList.values());
         loadcomponent();
         bdatePicker.setValue(LocalDate.now());
-        //SETTING THE RANGE OR SPINNER
-        //ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
     }
 
     @FXML
@@ -55,8 +52,10 @@ public class NewAttendyFormController implements Initializable {
         attendy.lifegroupProperty().bind(lgbox.valueProperty().asString());
         attendy.contactnumberProperty().bind(contactField.textProperty());
         attendy.addressProperty().bind(addressField.textProperty());
-
+    }
         /*
+        //SETTING THE RANGE OR SPINNER
+        ageSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 100, 1));
         //CONVERTER OF FOR THE VALUE ON SPINNER
         ageSpinner.focusedProperty().addListener((observable, oldValue, newValue) -> {
             SpinnerValueFactory<Integer> ageValFac = ageSpinner.getValueFactory();
@@ -70,26 +69,13 @@ public class NewAttendyFormController implements Initializable {
             }
         });
          */
-    }
-
     @FXML
     void doSomething(ActionEvent event) {
-        //attendy.setName(nameField.getText());
-        //attendy.setLifegroup((Attendy.lgList) lgbox.getValue());
         attendy.setAge(Period.between(attendy.getDateofbirth(), LocalDate.now()).getYears());
         attendy.setTimelog(Timestamp.valueOf(LocalDateTime.now()));
-        
 
         ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).changeSampleLabel(attendy);
         ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).changeSampleLabel(attendy);
-
-        System.out.println(attendy.getName());
-        System.out.println(attendy.getLifegroup());
-        System.out.println(attendy.getAge());
-        System.out.println(attendy.getSQLDateofbirth());
-        System.out.println(attendy.getContactnumber());
-        System.out.println(attendy.getAddress());
-        System.out.println(Timestamp.valueOf(LocalDateTime.now()));
         attendy.save();
         MainSceneController.newStage.close();
         ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).refreshTable();

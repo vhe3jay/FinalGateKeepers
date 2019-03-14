@@ -35,7 +35,6 @@ public class User extends SQLTableController<User>{
     private final SQLColumnFX<Integer> JOIN_COL = new SQLColumnFX("securitydatatable_Id",id,"",int.class);
     public static final String TableName = "securitydatatable";
     
-
     public String getUserlevel() {
         return userlevel.get();
     }
@@ -119,7 +118,6 @@ public class User extends SQLTableController<User>{
         return name;
     }
     
-
     public int getId() {
         return id.get();
     }

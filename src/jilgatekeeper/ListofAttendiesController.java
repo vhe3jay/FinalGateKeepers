@@ -74,7 +74,13 @@ public class ListofAttendiesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
-        
+        sort_attendy.getItems().addAll(Attendy.sortby.values());
+        lgcombo.getItems().addAll(Attendy.lgList.values());
+        editcellvalue();
+        searchFilter();
+    }
+    //COLUMN DECLARATION AND EDITING
+    public void editcellvalue(){
         TableColumn nameCol = column("Name", Attendy::nameProperty);
         TableColumn lgCol = column("Lifegroup", Attendy::lifegroupProperty);
         TableColumn ageCol = column("Age", Attendy::ageProperty);
@@ -100,9 +106,6 @@ public class ListofAttendiesController implements Initializable {
         ageCol.setStyle("-fx-alignment: CENTER;");
         birthCol.setStyle("-fx-alignment: CENTER;");
         
-        sort_attendy.getItems().addAll(Attendy.sortby.values());
-        lgcombo.getItems().addAll(Attendy.lgList.values());
-
         nameCol.setCellFactory(TextFieldTableCell.forTableColumn());
         contactCol.setCellFactory(TextFieldTableCell.forTableColumn());
         addressCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -144,9 +147,9 @@ public class ListofAttendiesController implements Initializable {
             }
         }
         );
-        searchFilter();
     }
-
+    
+    //FILTER (COMBOBOX && TEXTFIELD)
     @FXML
     public void searchFilter() {
         nameFilter.bind(Bindings.createObjectBinding(()
@@ -165,11 +168,9 @@ public class ListofAttendiesController implements Initializable {
         });
 
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
-
     }
 
-    private static <S, T> TableColumn<S, T> column(String title, Function<S, ObservableValue<T>> property//,boolean editable,
-    //StringConverter<T> converter
+    private static <S, T> TableColumn<S, T> column(String title, Function<S, ObservableValue<T>> property
     ) {
         TableColumn<S, T> col = new TableColumn<>(title);
         col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
@@ -181,12 +182,10 @@ public class ListofAttendiesController implements Initializable {
     }
 
     public void changeSampleLabel(Attendy attendyModels) {
-        //createData.add(attendyModels);
         ((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).refreshTable();
     }
+    
     public void refresh(){
-        //((MainSceneController) JILGateKeeper.LOADERS.get("MAIN").getController()).refreshTable();
-        
         filteredItems = new FilteredList<>(FXCollections.observableList(AttendyList));
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
         SortedList<Attendy> sortedlist = new SortedList<>(filteredItems);
@@ -198,6 +197,7 @@ public class ListofAttendiesController implements Initializable {
         AttendyList = SQLTable.list(Attendy.class);
         refresh();
     }
+    
     java.sql.Timestamp from = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0, 0)));
     java.sql.Timestamp to = java.sql.Timestamp.valueOf(LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59)));
     
@@ -246,7 +246,6 @@ public class ListofAttendiesController implements Initializable {
                 refresh();
                 break;
         }
-        
     }
     
     public void forFirstTimers(){
@@ -266,5 +265,4 @@ public class ListofAttendiesController implements Initializable {
             refresh();
         }
     }
-
 }

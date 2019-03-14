@@ -40,7 +40,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -69,15 +68,11 @@ public class MainSceneController implements Initializable {
     @FXML
     private TableView tb;
     @FXML
-    private Button deleteButton;
-    @FXML
     private Label countLabel;
     @FXML
     private Label dateLabel;
     @FXML
     static ImageView jilImage;
-    @FXML
-    private StackPane stackPane;
     @FXML
     public Button adduserButton;
 
@@ -90,8 +85,6 @@ public class MainSceneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//            jilImage.setFitHeight(100);
-//            jilImage.fitWidthProperty().bind(LoginFormController.mainStage.getScene().widthProperty());
         filteredItems = new FilteredList<>(FXCollections.observableList(JILGateKeeper.createData));
         editcolum();
         searchFilter();
@@ -171,9 +164,7 @@ public class MainSceneController implements Initializable {
             lgComboBox.setValue(null);
             searchField.clear();
         });
-
         filteredItems.predicateProperty().bind(Bindings.createObjectBinding(() -> nameFilter.get().and(lgFilter.get()), nameFilter, lgFilter));
-
     }
 
     public void refreshTable() {
@@ -189,7 +180,6 @@ public class MainSceneController implements Initializable {
 
     private static <S, T> TableColumn<S, T> column(String title, Function<S, ObservableValue<T>> property) {
         TableColumn<S, T> col = new TableColumn<>(title);
- 
         col.setCellValueFactory(cellData -> property.apply(cellData.getValue()));
         col.setEditable(true);
         col.setMinWidth(20);
@@ -203,6 +193,7 @@ public class MainSceneController implements Initializable {
         try {
             FXMLLoader COMPANYFORM_LOADER = new FXMLLoader(this.getClass().getResource("NewAttendyForm.fxml"));
             Scene newsc = new Scene(COMPANYFORM_LOADER.load());
+            newStage.initStyle(StageStyle.UTILITY);
             newStage.setTitle("Add New Attendy!");
             newStage.setScene(newsc);
             newStage.show();
@@ -214,7 +205,6 @@ public class MainSceneController implements Initializable {
     @FXML
     public void launchAttendyListForm(ActionEvent event) {
         ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).loadAttendies();
-        
         listStage.show();
     }
 
@@ -243,7 +233,6 @@ public class MainSceneController implements Initializable {
             @Override
             public TableCell<Attendy, Void> call(final TableColumn<Attendy, Void> param) {
                 final TableCell<Attendy, Void> cell = new TableCell<Attendy, Void>() {
-
                     private final Button btn = new Button("Log In");
                     {
                         btn.setOnAction((ActionEvent event) -> {
@@ -257,12 +246,9 @@ public class MainSceneController implements Initializable {
                             timelog.setTimelog(d);
                             timelog.save();
                             btn.disableProperty().setValue(true);
-                        //btn.setStyle("-fx-background-color: Red");
-                        
                             refreshTable();
                         });
                     }
-
                     @Override
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
@@ -284,7 +270,6 @@ public class MainSceneController implements Initializable {
             }
         };
         colBtn.setCellFactory(cellFactory);
-
         tb.getColumns().add(colBtn);
     }
     
@@ -306,7 +291,7 @@ public class MainSceneController implements Initializable {
         mainStage.setY(bounds.getMinY());
         mainStage.setWidth(bounds.getWidth());
         mainStage.setHeight(bounds.getHeight());
-        mainStage.setMinWidth(1150);
+        mainStage.setMinWidth(1180);
         mainStage.setMinHeight(600);
         mainStage.setMaximized(true);
         mainStage.setTitle("JESUS IS LORD NOVELETA");
@@ -314,6 +299,7 @@ public class MainSceneController implements Initializable {
         disablebuttonforusher();
         mainStage.show();
     }
+    
     public void disablebuttonforusher(){
         String userlevel = user.getUserlevel();
         if(userlevel.equals("USHER")){
