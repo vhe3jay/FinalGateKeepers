@@ -182,8 +182,9 @@ public class MainSceneController implements Initializable {
         SortedList<Attendy> sortedlist = new SortedList<>(filteredItems);
         tb.setItems(sortedlist);
         sortedlist.comparatorProperty().bind(tb.comparatorProperty());
-        //countLabel.setText(String.valueOf(JILGateKeeper.createData.size()));
         dateLabel.setText(String.valueOf(LocalDate.now().format(DateTimeFormatter.ofPattern("MMM dd, YYYY"))));
+        dailyattendycounter();
+        countLabel.setText(String.valueOf(JILGateKeeper.createData.size()));
     }
 
     private static <S, T> TableColumn<S, T> column(String title, Function<S, ObservableValue<T>> property) {
@@ -211,7 +212,7 @@ public class MainSceneController implements Initializable {
     }
 
     @FXML
-    public void launchAttendyListForm(ActionEvent event) {
+    public void launchattendyListForm(ActionEvent event) {
         ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).loadAttendies();
         listStage.show();
     }
@@ -316,5 +317,13 @@ public class MainSceneController implements Initializable {
             loginStage.close();
             System.out.println("head");
         }
+    }
+    
+    public void dailyattendycounter(){
+//        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.toLocalDate.now());
+//        for(int i = 0; i < atndy.latestLog.toString().length(); i++){
+//            if(i == timestamp){
+//            }
+//        }
     }
 }
