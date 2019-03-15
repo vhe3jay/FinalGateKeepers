@@ -50,6 +50,15 @@ import static jilgatekeeper.JILGateKeeper.mainStage;
 
 public class MainSceneController implements Initializable {
     public static User user = new User();
+    Attendy atndy = new Attendy();
+
+    public Attendy getAtndy() {
+        return atndy;
+    }
+
+    public void setAtndy(Attendy atndy) {
+        this.atndy = atndy;
+    }
 
     public static  User getUser() {
         return user;
@@ -77,7 +86,6 @@ public class MainSceneController implements Initializable {
     public Button adduserButton;
 
     public static Stage newStage = new Stage();
-    Attendy atndy = new Attendy();
 
     private ObjectProperty<Predicate<Attendy>> nameFilter = new SimpleObjectProperty<>();
     private ObjectProperty<Predicate<Attendy>> lgFilter = new SimpleObjectProperty<>();
@@ -174,7 +182,7 @@ public class MainSceneController implements Initializable {
         SortedList<Attendy> sortedlist = new SortedList<>(filteredItems);
         tb.setItems(sortedlist);
         sortedlist.comparatorProperty().bind(tb.comparatorProperty());
-        countLabel.setText(String.valueOf(JILGateKeeper.createData.size()));
+        //countLabel.setText(String.valueOf(JILGateKeeper.createData.size()));
         dateLabel.setText(String.valueOf(LocalDate.now().format(DateTimeFormatter.ofPattern("MMM dd, YYYY"))));
     }
 
@@ -206,6 +214,31 @@ public class MainSceneController implements Initializable {
     public void launchAttendyListForm(ActionEvent event) {
         ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).loadAttendies();
         listStage.show();
+    }
+    
+    public void showmainForm(User user){
+        Screen screen = Screen.getPrimary();
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        Rectangle2D bounds = screen.getVisualBounds();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
+        mainStage.setWidth(width);
+        mainStage.setHeight(height);
+        mainStage.initStyle(StageStyle.UTILITY);
+        mainStage.setX(bounds.getMinX());
+        mainStage.setY(bounds.getMinY());
+        mainStage.setMinWidth(1180);
+        mainStage.setMinHeight(600);
+        mainStage.setMaximized(true);
+        mainStage.setTitle("JESUS IS LORD NOVELETA");
+        setUser(user);
+        disablebuttonforusher();
+        mainStage.show();
+    }
+    
+    @FXML
+    void launchNewUserForm(ActionEvent event){
+        NewUserFormController.showForm();
     }
 
     void changeSampleLabel(Attendy attendyModels) {
@@ -273,33 +306,6 @@ public class MainSceneController implements Initializable {
         tb.getColumns().add(colBtn);
     }
     
-    @FXML
-    void launchNewUserForm(ActionEvent event){
-        NewUserFormController.showForm();
-    }
-    
-    public void showmainForm(User user){
-        Screen screen = Screen.getPrimary();
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        Rectangle2D bounds = screen.getVisualBounds();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        mainStage.initStyle(StageStyle.UTILITY);
-        mainStage.setWidth(width);
-        mainStage.setHeight(height);
-        mainStage.setX(bounds.getMinX());
-        mainStage.setY(bounds.getMinY());
-        mainStage.setWidth(bounds.getWidth());
-        mainStage.setHeight(bounds.getHeight());
-        mainStage.setMinWidth(1180);
-        mainStage.setMinHeight(600);
-        mainStage.setMaximized(true);
-        mainStage.setTitle("JESUS IS LORD NOVELETA");
-        setUser(user);
-        disablebuttonforusher();
-        mainStage.show();
-    }
-    
     public void disablebuttonforusher(){
         String userlevel = user.getUserlevel();
         if(userlevel.equals("USHER")){
@@ -311,5 +317,4 @@ public class MainSceneController implements Initializable {
             System.out.println("head");
         }
     }
-    
 }
