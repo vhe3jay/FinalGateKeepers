@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -184,7 +185,7 @@ public class MainSceneController implements Initializable {
         sortedlist.comparatorProperty().bind(tb.comparatorProperty());
         dateLabel.setText(String.valueOf(LocalDate.now().format(DateTimeFormatter.ofPattern("MMM dd, YYYY"))));
         dailyattendycounter();
-        countLabel.setText(String.valueOf(JILGateKeeper.createData.size()));
+        //countLabel.setText(String.valueOf(JILGateKeeper.createData.size()));
     }
 
     private static <S, T> TableColumn<S, T> column(String title, Function<S, ObservableValue<T>> property) {
@@ -212,7 +213,7 @@ public class MainSceneController implements Initializable {
     }
 
     @FXML
-    public void launchattendyListForm(ActionEvent event) {
+    public void launchAttendyListForm(ActionEvent event) {
         ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).loadAttendies();
         listStage.show();
     }
@@ -320,10 +321,16 @@ public class MainSceneController implements Initializable {
     }
     
     public void dailyattendycounter(){
-//        Timestamp timestamp = Timestamp.valueOf(LocalDateTime.toLocalDate.now());
-//        for(int i = 0; i < atndy.latestLog.toString().length(); i++){
-//            if(i == timestamp){
-//            }
-//        }
+        LocalDate dNow = LocalDate.now();
+        List records = JILGateKeeper.createData;
+        int current_attendies = 0;
+        
+        for(int i = 0; i < records.size(); i++){
+            if(((Attendy)records.get(i)).getLatestLog() != null && ((Attendy)records.get(i)).getLatestLog().toLocalDateTime().toLocalDate().equals(dNow)){
+                current_attendies++;
+            }
+            
+        }
+        countLabel.setText(String.valueOf(current_attendies));
     }
 }

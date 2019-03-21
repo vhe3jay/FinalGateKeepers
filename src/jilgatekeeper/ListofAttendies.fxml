@@ -46,7 +46,13 @@
                            </cursor>
                         </JFXComboBox>
                         <Button fx:id="clearButton" mnemonicParsing="false" text="Clear Filters" GridPane.columnIndex="1" />
-                        <JFXTextField fx:id="searchField" />
+                        <JFXTextField fx:id="searchField" prefWidth="102.0">
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                           <padding>
+                              <Insets left="5.0" right="5.0" />
+                           </padding></JFXTextField>
                         <JFXCheckBox fx:id="cBox" onAction="#forFirstTimers" text="First Timers" GridPane.columnIndex="4" />
                         <Button focusTraversable="false" mnemonicParsing="false" prefHeight="27.0" prefWidth="72.0" style="-fx-border-color: green;" text="Report" GridPane.columnIndex="5" />
                      </children>
