@@ -62,15 +62,19 @@
                               <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
-                        <VBox fx:id="vbox" GridPane.hgrow="ALWAYS">
+                        <StackPane GridPane.hgrow="ALWAYS">
                            <children>
-                              <ImageView fx:id="jilImage" disable="true" fitHeight="60.0" fitWidth="1425.0" VBox.vgrow="ALWAYS">
-                                 <image>
-                                    <Image url="@rescaled.jpg" />
-                                 </image>
-                              </ImageView>
+                              <VBox fx:id="vbox">
+                                 <children>
+                                    <ImageView fx:id="jilImage" disable="true" fitHeight="60.0" fitWidth="1425.0" VBox.vgrow="ALWAYS">
+                                       <image>
+                                          <Image url="@rescaled.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </StackPane>
                      </children>
                   </GridPane>
                </top>

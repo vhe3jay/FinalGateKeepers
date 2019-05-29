@@ -1,0 +1,190 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 02 17, 19, 4:35:40 PM
+    Author     : Duskmourne
+*/
+*{
+    accent-color : #00648f;
+    secondary-color : #007da8;
+    subaccent-color : #a7a7a7;
+    label-fg : darkgray;
+    mutted : lightgray;
+}
+
+
+
+.spanel {
+    -fx-effect: dropshadow(gaussian,derive(gray, -20%),10,0,0,0);
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    
+}
+
+.spanel-title {
+    -fx-font-size: 32px;
+    -fx-text-fill : label-fg;
+    -fx-text-alignment: center;
+    -fx-alignment: CENTER;
+}
+
+.spanel-img-left {
+    -fx-background-radius: 4px 4px 0px 0px;
+    -fx-border-radius: 4px;
+    -fx-image-borders: white;
+}
+
+/* NAVBAR */
+.nav-label-primary {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight:bold;
+    -fx-text-alignment: left;
+    -fx-alignment: BOTTOM_LEFT;
+}
+
+.nav-label-secondary {
+    -fx-text-fill: lightgray;
+    -fx-font-size: 11px;
+    -fx-text-alignment: left;
+    -fx-alignment: TOP_LEFT;
+}
+
+/* Buttons */
+.nav-buttons {
+    -fx-background-radius: 0;
+    -fx-font-size: 14px;
+    -fx-font-weight:bold;
+    -fx-background-color:transparent;
+    -fx-text-fill: white;
+    -fx-text-alignment: left;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.round-button {
+    -fx-background-radius: 100%;
+    -fx-font-size: 14px;
+    -fx-font-weight:bold;
+    -fx-background-color:accent-color;
+    -fx-text-fill: white;
+}
+
+.btn-mutted {
+    -fx-background-radius: 0;
+    -fx-font-size: 12px;
+    -fx-font-style : italic;
+    -fx-background-color:transparent;
+    -fx-text-fill: mutted;
+    -fx-text-alignment: left;
+    -fx-alignment: CENTER_LEFT;
+}
+
+
+.btn-mutted:hover {
+    -fx-text-fill: accent-color;
+    -fx-cursor: hand;
+}
+
+/* BG COLORS */
+.bg-primary {
+    -fx-background-color: accent-color;
+}
+
+.bg-secondary {
+    -fx-background-color: secondary-color;
+}
+
+/* text-fg */
+.text-mutted {
+    -fx-text-fill: mutted;
+}
+
+.text-white {
+    -fx-text-fill: white;
+}
+
+.text-italic {
+    -fx-font-style : italic;
+}
+
+/*Components*/
+JFXTextField, JFXPasswordField,JFXDatePicker {
+    -jfx-focus-color: accent-color;
+    -jfx-unfocus-color: subaccent-color;    
+    -jfx-label-float: true;
+    -fx-prompt-text-fill: gray;
+}
+
+JFXDialog {
+    -fx-padding: 0 ;
+    -fx-background-color: transparent;
+}
+
+JFXDialog .content {
+    -fx-padding: 0 ;
+    -fx-background-color: transparent;
+}
+
+.input-line{
+    -fx-pref-height:1.5;
+    -fx-background-color: gray;
+}
+
+.btn-raised{
+    -fx-font-size: 14px;
+    -fx-font-weight:bold;
+    -jfx-button-type: RAISED;
+    -fx-background-color:accent-color;
+    -fx-text-fill: white;
+}
+
+.btn-normal {
+    -fx-font-size: 14px;
+    -fx-font-weight:bold;
+    -fx-background-color:accent-color;
+    -fx-text-fill: white;
+}
+
+.popup {
+    -fx-background-color: cornsilk;
+    -fx-padding: 10;
+    -fx-border-color: black; 
+    -fx-border-width: 5;
+    -fx-font-size: 16;
+}
+
+.jfx-text-field .error-label, .jfx-password-field .error-label, .jfx-text-area .error-label {
+    -fx-text-fill: #D34336;
+    -fx-font-size: 0.75em;
+}
+
+.jfx-text-field .error-icon, .jfx-password-field .error-icon, .jfx-text-area .error-icon {
+    -fx-text-fill: #D34336;
+    -fx-font-size: 0.75em;
+}
+
+
+.jfx-date-picker {
+    -jfx-default-color:accent-color;
+    -jfx-focus-color: accent-color;
+    -jfx-unfocus-color: subaccent-color;    
+    -jfx-label-float: true;
+    -fx-prompt-text-fill: accent-color;
+}
+
+.jfx-date-picker .jfx-text-field{
+    -jfx-focus-color: accent-color;
+    -jfx-unfocus-color: subaccent-color;    
+    -jfx-label-float: true;
+    -fx-prompt-text-fill: accent-color;
+}
+
+.lb-title {
+    -fx-text-fill: white;
+    -fx-background-color: accent-color;
+    -fx-font-size: 2em;
+    -fx-font-weight:bold;
+}

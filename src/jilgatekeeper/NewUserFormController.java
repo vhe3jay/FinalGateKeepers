@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -78,17 +79,20 @@ public class NewUserFormController implements Initializable {
     }
     
     public static void showForm(){
-        try {
-            FXMLLoader NEWUSER_LOADER = new FXMLLoader(NewUserFormController.class.getResource("NewUserForm.fxml"));
-            Scene newusersc = new Scene(NEWUSER_LOADER.load());
-            myStage = new Stage();
-            myStage.initStyle(StageStyle.UTILITY);
-            myStage.setTitle("Create New User");
-            myStage.setScene(newusersc);
-            myStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(NewUserFormController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Platform.runLater(()->{
+                    try {
+                        FXMLLoader NEWUSER_LOADER = new FXMLLoader(NewUserFormController.class.getResource("NewUserForm.fxml"));
+                        Scene newusersc = new Scene(NEWUSER_LOADER.load());
+                        myStage = new Stage();
+                        myStage.initStyle(StageStyle.UTILITY);
+                        myStage.setTitle("Create New User");
+                        myStage.setScene(newusersc);
+                        myStage.show();
+                    } catch (IOException ex) {
+                        Logger.getLogger(NewUserFormController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+        });
     }
+        
     
 }

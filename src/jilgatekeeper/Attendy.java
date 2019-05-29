@@ -227,10 +227,10 @@ public final class Attendy extends SQLTableController<Attendy>{
       return JOIN_COL;
     }
     
-    
     public enum lgList {
                    GUEST, CHILDREN, KKB, YAN, MEN, WOMEN, SENIORS
         }
+    
     public enum sortby{
                     TODAY, LASTWEEK, CUSTOM, ALL
     }

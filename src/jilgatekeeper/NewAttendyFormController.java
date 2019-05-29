@@ -2,6 +2,7 @@ package jilgatekeeper;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -9,11 +10,18 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.InputMethodEvent;
+import javafx.stage.StageStyle;
+import static jilgatekeeper.MainSceneController.newStage;
 
 public class NewAttendyFormController implements Initializable {
 
@@ -89,5 +97,21 @@ public class NewAttendyFormController implements Initializable {
             bdatePicker.setValue(d);
         } catch (Exception er) {
         }
+    }
+    
+    @FXML
+    public static void showForm() {
+        Platform.runLater(()->{
+        try {
+            FXMLLoader COMPANY_LOADER = new FXMLLoader(NewAttendyFormController.class.getResource("NewAttendyForm.fxml"));
+            Scene newsc = new Scene(COMPANY_LOADER.load());
+            newStage.initStyle(StageStyle.UTILITY);
+            newStage.setTitle("Add New Attendy!");
+            newStage.setScene(newsc);
+            newStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        });
     }
 }

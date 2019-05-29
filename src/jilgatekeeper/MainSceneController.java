@@ -18,6 +18,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -41,9 +42,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Popup;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import static jilgatekeeper.JILGateKeeper.listStage;
 import static jilgatekeeper.JILGateKeeper.loginStage;
@@ -200,22 +204,16 @@ public class MainSceneController implements Initializable {
 
     @FXML
     public void launchnewForm(ActionEvent event) {
-        try {
-            FXMLLoader COMPANYFORM_LOADER = new FXMLLoader(this.getClass().getResource("NewAttendyForm.fxml"));
-            Scene newsc = new Scene(COMPANYFORM_LOADER.load());
-            newStage.initStyle(StageStyle.UTILITY);
-            newStage.setTitle("Add New Attendy!");
-            newStage.setScene(newsc);
-            newStage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(MainSceneController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Platform.runLater(()->{
+            NewAttendyFormController.showForm();
+        });
     }
 
     @FXML
     public void launchAttendyListForm(ActionEvent event) {
-        ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).loadAttendies();
-        listStage.show();
+            ((ListofAttendiesController) JILGateKeeper.LOADERS.get("LIST").getController()).loadAttendies();
+            listStage.show();
+        
     }
     
     public void showmainForm(User user){
@@ -249,14 +247,19 @@ public class MainSceneController implements Initializable {
 
     @FXML
     private void deleteButton(ActionEvent evt) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete this " + selection + "?", ButtonType.YES, ButtonType.NO);
-                alert.showAndWait();
-                    if (alert.getResult() == ButtonType.YES) {
-                        Attendy sel_item = (Attendy) tb.getSelectionModel().getSelectedItem();
-                        JILGateKeeper.createData.remove(sel_item);
-                        sel_item.delete();
-                        refreshTable();
-                    }
+        Platform.runLater(()->{
+            Attendy sel_item = (Attendy) tb.getSelectionModel().getSelectedItem();
+        if (sel_item != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete this selection?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.YES) {
+                JILGateKeeper.createData.remove(sel_item);
+                int id = sel_item.delete();
+                refreshTable();
+                showPopupMessage("Deleted successfully");
+            }
+        }
+        });
                 }              
 
     private void addButtonToTable() {
@@ -333,4 +336,34 @@ public class MainSceneController implements Initializable {
         }
         countLabel.setText(String.valueOf(current_attendies));
     }
+    
+    public static Popup createPopup(final String message) {
+    final Popup popup = new Popup();
+    popup.setAutoFix(true);
+    popup.setAutoHide(true);
+    popup.setHideOnEscape(true);
+    Label label = new Label(message);
+    label.setOnMouseReleased(new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent e) {
+            popup.hide();
+        }
+    });
+    label.getStylesheets().add("jilgatekeeper/style.css");
+    label.getStyleClass().add("popup");
+    popup.getContent().add(label);
+    return popup;
+}
+    
+    public static void showPopupMessage(final String message) {
+    final Popup popup = createPopup(message);
+    popup.setOnShown(new EventHandler<WindowEvent>() {
+        @Override
+        public void handle(WindowEvent e) {
+            popup.setX(JILGateKeeper.mainStage.getX() + JILGateKeeper.mainStage.getWidth()/2 - popup.getWidth()/2);
+            popup.setY(JILGateKeeper.mainStage.getY() + JILGateKeeper.mainStage.getHeight()/2 - popup.getHeight()/2);
+        }
+    });        
+    popup.show(JILGateKeeper.mainStage);
+}
 }
